@@ -11,7 +11,8 @@ namespace AI.BehaviourTrees.BaseTypes
         private bool isRunning;
         
         //Store a struct of infomation that tells the BT editor about this nodes GUID and location in the graph
-        public BehaviourTreeGraphInfo GraphInfo;
+        public string guid;
+        public Vector2 position;
 
         protected Node(Agent owner)
         {

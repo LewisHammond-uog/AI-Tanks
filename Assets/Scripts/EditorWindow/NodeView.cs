@@ -23,10 +23,10 @@ public sealed class NodeView : GraphNode
     {
         this.node = node;
         this.title = node.name;
-        this.viewDataKey = node.GraphInfo.guid;
+        this.viewDataKey = node.guid;
 
-        style.left = node.GraphInfo.position.x;
-        style.top = node.GraphInfo.position.y;
+        style.left = node.position.x;
+        style.top = node.position.y;
 
         CreateInputPorts();
         CreateOutputPorts();
@@ -69,8 +69,8 @@ public sealed class NodeView : GraphNode
         base.SetPosition(newPos);
         if (node)
         {
-            node.GraphInfo.position.x = newPos.xMin;
-            node.GraphInfo.position.y = newPos.yMin;
+            node.position.x = newPos.xMin;
+            node.position.y = newPos.yMin;
         }
     }
 

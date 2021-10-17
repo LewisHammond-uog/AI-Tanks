@@ -38,7 +38,7 @@ namespace AI.BehaviourTrees.BaseTypes
             
             //Set the node properties and give it a GUID to be a unique indenifier
             node.name = nodeType.Name;
-            node.GraphInfo.guid = GUID.Generate().ToString();
+            node.guid = GUID.Generate().ToString();
             Nodes.Add(node);
 
             //Add this as a sub asset of the tree asset

@@ -179,6 +179,6 @@ public class BehaviourTreeView : GraphView
     /// <returns>Node View of the given behaviour tree node</returns>
     private NodeView FindNodeView(BTNode btNode)
     {
-        return GetNodeByGuid(btNode.GraphInfo.guid) as NodeView;
+        return GetNodeByGuid(btNode.guid) as NodeView;
     }
 }
