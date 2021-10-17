@@ -6,7 +6,8 @@ namespace AI.BehaviourTrees.BaseTypes
 {
     public class SequenceNode : CompositeNode
     {
-        private LinkedListNode<Node> currentNode;
+        private Node currentNode;
+        private int currentNodeIndex;
         
         public SequenceNode(Agent owner) : base(owner)
         {
@@ -14,21 +15,23 @@ namespace AI.BehaviourTrees.BaseTypes
 
         protected override void OnEnterNode()
         {
-            currentNode = children.First;
+            currentNodeIndex = 0;
+            currentNode = children[currentNodeIndex];
         }
 
         protected override NodeStatus Update_Internal()
         {
             //todo - just make a while loop?
             //Execute Child report back it's status
-            NodeStatus nodeResult = currentNode.Value.Update();
+            NodeStatus nodeResult = currentNode.Update();
             switch (nodeResult)
             {
                 case NodeStatus.Running:
                     return NodeStatus.Running;
                 case NodeStatus.Success:
                     //Move to the next child for the next update loop
-                    currentNode = currentNode.Next;
+                    ++currentNodeIndex;
+                    currentNode = children[currentNodeIndex];
                     break;
                 case NodeStatus.Fail:
                     //Fall through

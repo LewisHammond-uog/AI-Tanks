@@ -9,6 +9,9 @@ namespace AI.BehaviourTrees.BaseTypes
     {
         protected Agent owner;
         private bool isRunning;
+        
+        //Store a struct of infomation that tells the BT editor about this nodes GUID and location in the graph
+        public BehaviourTreeGraphInfo GraphInfo;
 
         protected Node(Agent owner)
         {

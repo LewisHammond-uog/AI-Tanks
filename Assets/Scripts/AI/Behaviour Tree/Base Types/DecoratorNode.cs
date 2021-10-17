@@ -1,12 +1,15 @@
-﻿namespace AI.BehaviourTrees.BaseTypes
+﻿using JetBrains.Annotations;
+
+namespace AI.BehaviourTrees.BaseTypes
 {
     public abstract class DecoratorNode : Node
     {
-        protected Node child;
-        
+        public Node Child { get; set; }
+
+
         protected DecoratorNode(Agent owner) : base(owner)
         {
-            child = null;
+            Child = null;
         }
     }
 }
