@@ -6,7 +6,8 @@ namespace AI.BehaviourTrees.BaseTypes
     [CreateAssetMenu()]
     public class BehaviourTree : ScriptableObject
     {
-        private Node rootNode;
+        //todo private this
+        public Node rootNode;
         public NodeStatus treeState;
 
         private void Awake()

@@ -10,5 +10,14 @@ namespace AI.BehaviourTrees.BaseTypes
         {
             children = new LinkedList<Node>();
         }
+        
+        /// <summary>
+        /// Add a child to the composite node at the end of the list
+        /// </summary>
+        /// <param name="node">Node to add to children</param>
+        public void AddChild(Node node)
+        {
+            children.AddLast(node);
+        }
     }
 }

@@ -2,7 +2,6 @@
 {
     public enum NodeStatus
     {
-        Ready,
         Running,
         Success,
         Fail
