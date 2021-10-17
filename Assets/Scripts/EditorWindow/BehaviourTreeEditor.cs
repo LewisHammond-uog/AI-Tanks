@@ -9,7 +9,7 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
 {
     private BehaviourTreeView treeView;
     private InspectorView inspectorView;
-    
+
     [MenuItem("BehaviourTreeEditor/Editor ...")]
     public static void OpenWindow()
     {
@@ -35,11 +35,15 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
         treeView = root.Q<BehaviourTreeView>();
         inspectorView = root.Q<InspectorView>();
         
+        //Subscribe to when the node selection changes
+        treeView.OnNodeSelected += OnNodeSelectionChanged;
+        
         //Manully call OnSelectionChange so we refresh the view after recompile
         OnSelectionChange();
     }
 
 
+    //Called when the asset selection in the editor is changed
     private void OnSelectionChange()
     {
         //Check if the current object that the user has highliged is a behaviour tree
@@ -48,5 +52,12 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
         {
             treeView.PopulateView(tree);
         }
+    }
+
+    //Called when the selected node in the TreeView is changed
+    private void OnNodeSelectionChanged(NodeView nodeView)
+    {
+        //Update the inspector view to show properties 
+        inspectorView.UpdateSelection(nodeView);
     }
 }

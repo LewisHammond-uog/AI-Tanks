@@ -1,4 +1,5 @@
-﻿using AI.BehaviourTrees.BaseTypes;
+﻿using System;
+using AI.BehaviourTrees.BaseTypes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using GraphNode = UnityEditor.Experimental.GraphView.Node;
@@ -8,10 +9,15 @@ using BTNode = AI.BehaviourTrees.BaseTypes.Node;
 //Visual represnetation of a Behaviour Tree node in the BehaviourTreeView
 public sealed class NodeView : GraphNode
 {
+    //The Behaviour Tree node that this node view is displaying
     public readonly BTNode node;
-
+    
+    //Input and output ports of this node
     public Port InputPort { private set; get; }
     public Port OutputPort { private set; get; }
+    
+    //Event for when this node is selected
+    public Action<NodeView> OnNodeSelected;
     
     public NodeView(BTNode node)
     {
@@ -66,5 +72,11 @@ public sealed class NodeView : GraphNode
             node.GraphInfo.position.x = newPos.xMin;
             node.GraphInfo.position.y = newPos.yMin;
         }
+    }
+
+    public override void OnSelected()
+    {
+        base.OnSelected();
+        OnNodeSelected?.Invoke(this);
     }
 }

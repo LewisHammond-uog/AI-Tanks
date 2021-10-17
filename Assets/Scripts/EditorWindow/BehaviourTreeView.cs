@@ -11,6 +11,9 @@ using BTNode = AI.BehaviourTrees.BaseTypes.Node;
 
 public class BehaviourTreeView : GraphView
 {
+    //Action for when a node in the graph is selected
+    public Action<NodeView> OnNodeSelected;
+    
     public new class  UxmlFactory : UxmlFactory<BehaviourTreeView, GraphView.UxmlTraits> {}
 
     private BehaviourTree currentTree;
@@ -50,7 +53,8 @@ public class BehaviourTreeView : GraphView
         //Create Nodes for all of the nodes in the tree
         foreach (BTNode node in currentTree.Nodes)
         {
-            CreateNodeView(node);
+            CreateNodeView(node);     
+            
         }
         
         //Create Edges by getting the children of each node and connecting their children
@@ -61,7 +65,7 @@ public class BehaviourTreeView : GraphView
             foreach (BTNode child in children)
             {
                 NodeView childView = FindNodeView(child);
-
+ 
                 Edge connection = parentView.OutputPort.ConnectTo(childView.InputPort);
                 AddElement(connection);
             }
@@ -164,6 +168,7 @@ public class BehaviourTreeView : GraphView
     private void CreateNodeView(BTNode node)
     {
         NodeView nodeVisualRep = new NodeView(node);
+        nodeVisualRep.OnNodeSelected += OnNodeSelected;
         AddElement(nodeVisualRep);
     }   
 
