@@ -2,6 +2,7 @@
 using AI.BehaviourTrees.BaseTypes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 using GraphNode = UnityEditor.Experimental.GraphView.Node;
 using BTNode = AI.BehaviourTrees.BaseTypes.Node;
 
@@ -19,7 +20,8 @@ public sealed class NodeView : GraphNode
     //Event for when this node is selected
     public Action<NodeView> OnNodeSelected;
     
-    public NodeView(BTNode node)
+    
+    public NodeView(BTNode node) : base("Assets/Scripts/EditorWindow/NodeView.uxml") //Set the uxml for the node layout
     {
         this.node = node;
         this.title = node.name;
@@ -30,7 +32,36 @@ public sealed class NodeView : GraphNode
 
         CreateInputPorts();
         CreateOutputPorts();
+        SetupClasses();
     }
+
+    /// <summary>
+    /// Sets up the UXML class from the class of this node
+    /// </summary>
+    private void SetupClasses()
+    {
+        switch (node)
+        {
+            case ActionNode _:
+                AddToClassList("action-node");
+                break;
+            case CompositeNode _:
+                AddToClassList("composite-node");
+                break;
+            case DecoratorNode _:
+                AddToClassList("decorator-node");
+                break;
+            case RootNode _:
+                AddToClassList("root-node");
+                break;
+        }
+    }
+
+    public NodeView()
+    {
+        
+    }
+
     private void CreateInputPorts()
     {
         //Root nodes do not have input ports
@@ -40,8 +71,9 @@ public sealed class NodeView : GraphNode
         }
         
         //Create input node - all types have the same number of inputs allowed - 1
-        InputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
+        InputPort = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
         InputPort.portName = "";
+        InputPort.style.flexDirection = FlexDirection.Column;
         inputContainer.Add(InputPort);
     }
     
@@ -61,8 +93,9 @@ public sealed class NodeView : GraphNode
                 break;
         }
         
-        OutputPort = InstantiatePort(Orientation.Horizontal, Direction.Output, outputPortCapacity, typeof(bool));
+        OutputPort = InstantiatePort(Orientation.Vertical, Direction.Output, outputPortCapacity, typeof(bool));
         OutputPort.portName = "";
+        OutputPort.style.flexDirection = FlexDirection.ColumnReverse;
         outputContainer.Add(OutputPort);
     }
 

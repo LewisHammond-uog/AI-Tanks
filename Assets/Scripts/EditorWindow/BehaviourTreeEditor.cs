@@ -3,6 +3,7 @@ using AI.BehaviourTrees.BaseTypes;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor.Callbacks;
 
 
 public class BehaviourTreeEditor : UnityEditor.EditorWindow
@@ -41,6 +42,16 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
         //Manully call OnSelectionChange so we refresh the view after recompile
         OnSelectionChange();
     }
+
+    //Intercept when an asset is opened so that double clicking on a behaviour tree opens the editor
+    [OnOpenAsset]
+    public static bool OnOpenAsset(int instanceID, int line)
+    {
+        if (!(Selection.activeObject is BehaviourTree)) return false;
+        OpenWindow();
+        return true;
+
+    } 
 
 
     //Called when the asset selection in the editor is changed
