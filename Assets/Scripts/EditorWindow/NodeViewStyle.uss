@@ -1,5 +1,5 @@
 #node-border {
-    background-color: rgba(58, 58, 58, 255);
+    background-color: rgb(58, 58, 58);
     opacity: 1;
     border-left-width: 2px;
     border-right-width: 2px;
@@ -9,10 +9,10 @@
     border-bottom-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
-    border-left-color: rgba(55, 55, 55, 255);
-    border-right-color: rgba(55, 55, 55, 255);
-    border-top-color: rgba(55, 55, 55, 255);
-    border-bottom-color: rgba(55, 55, 55, 255);
+    border-left-color: rgb(55, 55, 55);
+    border-right-color: rgb(55, 55, 55);
+    border-top-color: rgb(55, 55, 55);
+    border-bottom-color: rgb(55, 55, 55);
 }
 
 #input {
@@ -96,12 +96,12 @@
 }
 
 .action-node #node-border {
-    border-left-color: rgba(0, 236, 134, 255);
+    border-left-color: rgb(0, 236, 134);
     border-left-width: 2px;
     border-right-width: 2px;
     border-top-width: 2px;
     border-bottom-width: 2px;
-    border-right-color: rgba(0, 236, 134, 255);
+    border-right-color: rgb(0, 236, 134);
 }
 
 .decorator-node #node-border {
@@ -111,4 +111,22 @@
     border-top-width: 2px;
     border-bottom-width: 2px;
     border-right-color: rgb(236, 167, 44);
+}
+
+.root-node #node-border {
+    border-left-color: rgb(16, 152, 247);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-right-color: rgb(16, 152, 247);
+}
+
+.composite-node #node-border {
+    border-left-color: rgb(238, 86, 34);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-right-color: rgb(238, 86, 34);
 }

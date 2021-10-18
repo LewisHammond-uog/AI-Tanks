@@ -79,6 +79,12 @@ public sealed class NodeView : GraphNode
     
     private void CreateOutputPorts()
     {
+        //Action nodes do not have outputs
+        if (node is ActionNode)
+        {
+            return;
+        }
+        
         Port.Capacity outputPortCapacity = Port.Capacity.Single;
 
         switch (node)
@@ -115,5 +121,31 @@ public sealed class NodeView : GraphNode
     {
         base.OnSelected();
         OnNodeSelected?.Invoke(this);
+    }
+
+    /// <summary>
+    /// Sort the children of the node view by their horizontal position
+    /// This edits the children of the BT node
+    /// </summary>
+    public void SortChildren()
+    {
+        //Sort nodes by their horizontal position if they are composite nodes
+        if(node is CompositeNode compositeNode)
+        {
+            compositeNode.SortChildren(SortByHorizontalPosition);
+        }
+    }
+
+    /// <summary>
+    /// Sort nodes by horizonal position - returns -1 if the right if further to the left
+    /// and 1 if the oposite is true
+    /// </summary>
+    /// <remarks>Used to sort nodes in the tree by horziontal value</remarks>
+    /// <param name="nodeA"></param>
+    /// <param name="nodeB"></param>
+    /// <returns></returns>
+    private static int SortByHorizontalPosition(BTNode nodeA, BTNode nodeB)
+    {
+        return nodeA.position.x < nodeB.position.x ? -1 : 1;
     }
 }

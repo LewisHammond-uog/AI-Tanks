@@ -8,19 +8,19 @@ namespace AI.BehaviourTrees
     public class Agent : MonoBehaviour
     {
         [SerializeField] private BehaviourTree treePrefab;
-        private BehaviourTree runningTree;
+        public BehaviourTree RunningTree { get; private set; }
 
         private void Start()
         {
             //Clone the tree perfab so we have an unique instance that we can run
-            runningTree = treePrefab.Clone();
+            RunningTree = treePrefab.Clone();
         }
 
         private void Update()
         {
-            if (runningTree)
+            if (RunningTree)
             {
-                runningTree.Update();
+                RunningTree.Update();
             }
         }
     }

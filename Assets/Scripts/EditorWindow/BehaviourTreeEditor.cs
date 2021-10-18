@@ -1,4 +1,5 @@
 using System;
+using AI.BehaviourTrees;
 using AI.BehaviourTrees.BaseTypes;
 using UnityEditor;
 using UnityEngine;
@@ -16,6 +17,38 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
     {
         BehaviourTreeEditor wnd = GetWindow<BehaviourTreeEditor>();
         wnd.titleContent = new GUIContent("BehaviourTreeEditor");
+    }
+    
+    private void OnEnable()
+    {
+        //Intercept when the playmode state changes
+        EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+    }
+
+    private void OnDisable()
+    {
+        EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+    }
+
+    //Called when the editor changes playmode state
+    private void OnPlayModeStateChanged(PlayModeStateChange obj)
+    {
+        //When we enter play/edit mode update the selection so that we cannot
+        //show runtime graphs when we are not in play mode... we can enter really
+        //invalid states if that happens (i.e editing graphs that are no longer in memory)
+        switch(obj)
+        {
+            case PlayModeStateChange.EnteredEditMode:
+                OnSelectionChange();
+                break;
+            case PlayModeStateChange.EnteredPlayMode:
+                OnSelectionChange();
+                break;
+            case PlayModeStateChange.ExitingEditMode:
+            case PlayModeStateChange.ExitingPlayMode:
+            default:
+                break;
+        }
     }
 
     public void CreateGUI()
@@ -59,9 +92,29 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
     {
         //Check if the current object that the user has highliged is a behaviour tree
         BehaviourTree tree = Selection.activeObject as BehaviourTree;
-        if (tree && AssetDatabase.CanOpenAssetInEditor(tree.GetInstanceID()))
+        
+        //If a tree was not selected see if we selected a gameObject that has a Agent attached and is running at BT
+        if (!tree)
+        {
+            GameObject selectedObject = Selection.activeGameObject;
+            if (selectedObject)
+            {
+                Agent aiAgent = selectedObject.GetComponent<Agent>();
+                if (aiAgent)
+                {
+                    tree = aiAgent.RunningTree;
+                }
+            }
+        }
+
+        //If we have a valid tree then populate the tree, only allow the asset to be opened if it is ready or the game is playing
+        if (tree && (AssetDatabase.CanOpenAssetInEditor(tree.GetInstanceID()) || Application.isPlaying))
         {
             treeView.PopulateView(tree);
+        }
+        else
+        {
+            treeView.ClearGraph();
         }
     }
 

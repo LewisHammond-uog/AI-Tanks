@@ -5,7 +5,6 @@
     </uie:Toolbar>
     <SplitView fixed-pane-initial-dimension="300">
         <ui:VisualElement name="LeftPanel">
-            <ui:Label text="Inspector" display-tooltip-when-elided="true" name="InspectorLabel" style="font-size: 12px; color: rgb(255, 255, 255); -unity-font: url(&apos;Library/unity default resources&apos;); -unity-font-style: normal; background-color: rgb(32, 32, 32);" />
             <InspectorView />
         </ui:VisualElement>
         <ui:VisualElement name="RightPanel">

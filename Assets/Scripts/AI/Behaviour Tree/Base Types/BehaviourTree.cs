@@ -27,6 +27,25 @@ namespace AI.BehaviourTrees.BaseTypes
         {
             return rootNode.Update();
         }
+        
+        
+        /// <summary>
+        /// Do a depth first traversal of the tree, triggering an event each time we reach a new node
+        /// </summary>
+        /// <param name="node">Start Node</param>
+        /// <param name="visitor">Event Triggered when we find a node</param>
+        private void DepthFirstTraverse(Node node, System.Action<Node> visitor)
+        {
+            if (node)
+            {
+                visitor.Invoke(node);
+                List<Node> children = GetChildren(node);
+                foreach (Node child in children)
+                {
+                    DepthFirstTraverse(child, visitor);
+                }
+            }
+        }
 
         /// <summary>
         /// Get a clone of this behaviour tree
@@ -36,6 +55,9 @@ namespace AI.BehaviourTrees.BaseTypes
         {
             BehaviourTree tree = Instantiate(this);
             tree.rootNode = (RootNode) tree.rootNode.Clone();
+            tree.Nodes = new List<Node>();
+            //Traverse the tree to find all of the children of the root node and add to the list of nodes
+            DepthFirstTraverse(tree.rootNode, (n) =>{ tree.Nodes.Add(n);});
             return tree;
         }
 
@@ -54,9 +76,12 @@ namespace AI.BehaviourTrees.BaseTypes
             Nodes.Add(node);
 
             //Add this as a sub asset of the tree asset
-            AssetDatabase.AddObjectToAsset(node, this);
-            AssetDatabase.SaveAssets();
-            
+            if (!Application.isPlaying)
+            {
+                AssetDatabase.AddObjectToAsset(node, this);
+                AssetDatabase.SaveAssets();
+            }
+
             return node;
         }
 

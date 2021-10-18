@@ -9,7 +9,7 @@ namespace AI.BehaviourTrees.BaseTypes
 
         protected CompositeNode(Agent owner) : base(owner)
         {
-
+            
         }
 
         /// <summary>
@@ -41,6 +41,15 @@ namespace AI.BehaviourTrees.BaseTypes
         {
             children ??= new List<Node>();
             return children;
+        }
+
+        /// <summary>
+        /// Sort children by a given comparision
+        /// </summary>
+        /// <param name="comparison">Comparision to use</param>
+        public void SortChildren(Comparison<Node> comparison)
+        {
+            children.Sort(comparison);
         }
         
         /// <summary>

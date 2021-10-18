@@ -7,7 +7,7 @@
                 <ui:VisualElement name="input" style="flex-direction: column; justify-content: center; flex-shrink: 1;" />
                 <ui:VisualElement name="divider" class="vertical" />
                 <ui:VisualElement name="title">
-                    <ui:Label name="title-label" text="DebugLogNode" class="unity-text-element unity-label" />
+                    <ui:Label name="title-label" text="DebugLogNode" class="unity-text-element unity-label" style="-unity-font: url(&apos;/Assets/Fonts/Bowlby_One/ArialUnicodeMS.ttf&apos;); -unity-font-style: normal;" />
                     <ui:VisualElement name="title-button-container">
                         <ui:VisualElement name="collapse-button">
                             <ui:VisualElement name="icon" />

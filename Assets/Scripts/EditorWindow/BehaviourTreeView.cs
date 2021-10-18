@@ -8,6 +8,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using BTNode = AI.BehaviourTrees.BaseTypes.Node;
+using GraphNode = UnityEditor.Experimental.GraphView.Node;
 
 public class BehaviourTreeView : GraphView
 {
@@ -38,6 +39,19 @@ public class BehaviourTreeView : GraphView
     }
 
     /// <summary>
+    /// Clear the tree of all nodes
+    /// </summary>
+    public void ClearGraph()
+    {
+        //Delete anything from an old population of the BT view
+        //ignore changed elements while we do this or we will delete from the 
+        //actual BT
+        graphViewChanged -= OnGraphViewChanged;
+        DeleteElements(graphElements);
+        graphViewChanged += OnGraphViewChanged;
+    }
+
+    /// <summary>
     /// Populate the behaviour tree view with the nodes from a behaviour tree
     /// </summary>
     /// <param name="tree">Tree to populate the view with</param>
@@ -45,10 +59,7 @@ public class BehaviourTreeView : GraphView
     {
         this.currentTree = tree;
         
-        //Delete anything from an old population of the BT view
-        graphViewChanged -= OnGraphViewChanged;
-        DeleteElements(graphElements);
-        graphViewChanged += OnGraphViewChanged;
+        ClearGraph();
         
         //Create a root node if one does not already exist
         if (tree.rootNode == null)
@@ -88,8 +99,7 @@ public class BehaviourTreeView : GraphView
             foreach (GraphElement graphElement in graphViewChange.elementsToRemove)
             {
                 //Remove nodes when they are deleted
-                NodeView nodeView = graphElement as NodeView;
-                if (nodeView != null)
+                if (graphElement is NodeView nodeView)
                 {
                     currentTree.DeleteNode(nodeView.node);
                 }
@@ -115,6 +125,16 @@ public class BehaviourTreeView : GraphView
                 {
                     currentTree.AddChild(parentView.node, childView.node);
                 }
+            }
+        }
+        
+        //Check if we moved elements if we did then reorder children so thier execuation order matches those on the graph
+        if (graphViewChange.movedElements != null)
+        {
+            foreach (GraphNode node in nodes)
+            {
+                NodeView nodeView = node as NodeView;
+                nodeView?.SortChildren();
             }
         }
         
