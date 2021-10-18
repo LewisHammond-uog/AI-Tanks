@@ -42,5 +42,16 @@ namespace AI.BehaviourTrees.BaseTypes
             children ??= new List<Node>();
             return children;
         }
+        
+        /// <summary>
+        /// Create a clone of this node and it's children
+        /// </summary>
+        /// <returns></returns>
+        public override Node Clone()
+        {
+            CompositeNode node = Instantiate(this);
+            node.children = children.ConvertAll(child => child.Clone());
+            return node;
+        }
     }
 }

@@ -32,5 +32,16 @@
         {
             child = newChild;
         }
+
+        /// <summary>
+        /// Get a clone of this node and children
+        /// </summary>
+        /// <returns></returns>
+        public override Node Clone()
+        {
+            RootNode node = Instantiate(this);
+            node.child = child.Clone();
+            return node;
+        }
     }
 }

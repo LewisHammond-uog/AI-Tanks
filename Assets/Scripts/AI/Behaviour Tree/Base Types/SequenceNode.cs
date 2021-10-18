@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AI.BehaviourTrees.BaseTypes;
 using UnityEngine;
 
@@ -32,7 +33,7 @@ namespace AI.BehaviourTrees.BaseTypes
                 case NodeStatus.Success:
                     //Move to the next child for the next update loop
                     ++currentNodeIndex;
-                    currentNode = children[currentNodeIndex];
+                    currentNode = currentNodeIndex < children.Count ? children[currentNodeIndex] : null;
                     break;
                 case NodeStatus.Fail:
                     //Fall through

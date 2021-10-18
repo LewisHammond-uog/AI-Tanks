@@ -28,6 +28,17 @@ namespace AI.BehaviourTrees.BaseTypes
             return rootNode.Update();
         }
 
+        /// <summary>
+        /// Get a clone of this behaviour tree
+        /// </summary>
+        /// <returns></returns>
+        public BehaviourTree Clone()
+        {
+            BehaviourTree tree = Instantiate(this);
+            tree.rootNode = (RootNode) tree.rootNode.Clone();
+            return tree;
+        }
+
         public Node CreateNode(System.Type nodeType)
         {
             //Create an instance of the node

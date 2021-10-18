@@ -45,6 +45,15 @@ namespace AI.BehaviourTrees.BaseTypes
             return status;
         }
 
+        /// <summary>
+        /// Get a clone of this node
+        /// </summary>
+        /// <returns></returns>
+        public virtual Node Clone()
+        {
+            return Instantiate(this);
+        }
+
         protected abstract void OnEnterNode();
         protected abstract NodeStatus Update_Internal();
         protected abstract void OnExitNode();

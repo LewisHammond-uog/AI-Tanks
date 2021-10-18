@@ -20,5 +20,16 @@ namespace AI.BehaviourTrees.BaseTypes
         {
             this.child = newChild;
         }
+
+        /// <summary>
+        /// Create a clone of this node and it's child
+        /// </summary>
+        /// <returns></returns>
+        public override Node Clone()
+        {
+            DecoratorNode node = Instantiate(this);
+            node.child = child.Clone();
+            return node;
+        }
     }
 }
