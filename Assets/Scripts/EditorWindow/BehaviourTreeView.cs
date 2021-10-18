@@ -50,11 +50,18 @@ public class BehaviourTreeView : GraphView
         DeleteElements(graphElements);
         graphViewChanged += OnGraphViewChanged;
         
+        //Create a root node if one does not already exist
+        if (tree.rootNode == null)
+        {
+            tree.rootNode = (RootNode) tree.CreateNode(typeof(RootNode));
+            EditorUtility.SetDirty(tree);
+            AssetDatabase.SaveAssets();
+        }
+        
         //Create Nodes for all of the nodes in the tree
         foreach (BTNode node in currentTree.Nodes)
         {
-            CreateNodeView(node);     
-            
+            CreateNodeView(node);
         }
         
         //Create Edges by getting the children of each node and connecting their children

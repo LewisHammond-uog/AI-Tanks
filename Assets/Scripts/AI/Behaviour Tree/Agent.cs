@@ -11,11 +11,6 @@ namespace AI.BehaviourTrees
 
         private void Start()
         {
-            tree = ScriptableObject.CreateInstance<BehaviourTree>();
-            var log = ScriptableObject.CreateInstance<DebugLogNode>();
-            log.message = "test";
-
-            tree.rootNode = log;
         }
 
         private void Update()

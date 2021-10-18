@@ -2,14 +2,23 @@
 
 namespace AI.BehaviourTrees.BaseTypes
 {
-    public abstract class DecoratorNode : Node
+    public abstract class DecoratorNode : Node, IHasChild
     {
-        public Node Child { get; set; }
-
-
+        protected Node child;
+        
         protected DecoratorNode(Agent owner) : base(owner)
         {
-            Child = null;
+            child = null;
+        }
+
+        public Node GetChild()
+        {
+            return child;
+        }
+
+        public void SetChild(Node newChild)
+        {
+            this.child = newChild;
         }
     }
 }

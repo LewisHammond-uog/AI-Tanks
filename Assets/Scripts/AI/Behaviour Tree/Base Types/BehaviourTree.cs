@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,16 +10,16 @@ namespace AI.BehaviourTrees.BaseTypes
     public class BehaviourTree : ScriptableObject
     {
         //todo private this
-        public Node rootNode;
+        public RootNode rootNode;
         public NodeStatus treeState;
 
         //All of the nodes in the tree - including those that are not connected to
         //the root
-        public List<Node> Nodes { private set; get; }
+        public List<Node> Nodes { private set; get; } = new List<Node>();
 
         public BehaviourTree()
         {
-            Nodes = new List<Node>();
+            //Nodes = new List<Node>();
             treeState = NodeStatus.Running;
         }
         
@@ -48,6 +49,10 @@ namespace AI.BehaviourTrees.BaseTypes
             return node;
         }
 
+        /// <summary>
+        /// Delete a node from the tree
+        /// </summary>
+        /// <param name="node"></param>
         public void DeleteNode(Node node)
         {
             //Null check node
@@ -62,71 +67,75 @@ namespace AI.BehaviourTrees.BaseTypes
             AssetDatabase.SaveAssets();
         }
 
+        /// <summary>
+        /// Add a child to a given parent node
+        /// </summary>
+        /// <param name="parentNode"></param>
+        /// <param name="childNode"></param>
         public void AddChild(Node parentNode, Node childNode)
         {
             if (parentNode == null || childNode == null)
             {
                 return;
             }
-            
-            //Change the decorators single child
-            DecoratorNode decoratorNode = parentNode as DecoratorNode;
-            if (decoratorNode != null)
+
+            switch (parentNode)
             {
-                decoratorNode.Child = childNode;
-                return;
-            }
-            
-            //Add to the composite nodes children
-            CompositeNode compositeNode = parentNode as CompositeNode;
-            if (compositeNode)
-            {
-                compositeNode.AddChild(childNode);
-                return;
+                //Change node with single children
+                case IHasChild nodeWithSingleChild:
+                    nodeWithSingleChild.SetChild(childNode);
+                    break;
+                //Change nodes with multiple children
+                case IHasChildren nodeWithMultipleChildren:
+                    nodeWithMultipleChildren.AddChild(childNode);
+                    break;
             }
         }
 
+        /// <summary>
+        /// Remove a child from a given parent node
+        /// </summary>
+        /// <param name="parentNode"></param>
+        /// <param name="childNode"></param>
         public void RemoveChild(Node parentNode, Node childNode)
         {   
             if (parentNode == null || childNode == null)
             {
                 return;
             }
-            
-            //Remove the single child from the decorator node - only if the supplied child is the actual child
-            DecoratorNode decoratorNode = parentNode as DecoratorNode;
-            if (decoratorNode != null)
+
+            switch (parentNode)
             {
-                if (decoratorNode.Child == childNode)
-                {
-                    decoratorNode.Child = null;
+                //Remove the single child from the decorator node - only if the supplied child is the actual child
+                case IHasChild nodeWithSingleChild:
+                    nodeWithSingleChild.SetChild(null);
                     return;
-                }
-            }
-            
-            //Remove child from the list of children in the Composite Node
-            CompositeNode compositeNode = parentNode as CompositeNode;
-            if (compositeNode != null)
-            {
-                compositeNode.RemoveChild(compositeNode);
-                return;
+                //Remove child from the list of children in the Composite Node
+                case IHasChildren nodeWithMultipleChildren:
+                    nodeWithMultipleChildren.RemoveChild(childNode);
+                    return;
             }
         }
 
+        /// <summary>
+        /// Get all of the children of a given node
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <returns></returns>
         public List<Node> GetChildren(Node parent)
         {
             List<Node> children = new List<Node>();
 
-            DecoratorNode decoratorNode = parent as DecoratorNode;
-            if (decoratorNode && decoratorNode.Child != null)
+            switch (parent)
             {
-                children.Add(decoratorNode.Child);
-            }
-            
-            CompositeNode compositeNode = parent as CompositeNode;
-            if (compositeNode)
-            {
-                children = (List<Node>) compositeNode.GetChildren();
+                //Add the single child to the list as we only have one child
+                case IHasChild nodeWithSingleChild when nodeWithSingleChild.GetChild() != null:
+                    children.Add(nodeWithSingleChild.GetChild());
+                    break;
+                //Set the list to be all of the nodes children
+                case IHasChildren nodeWithMultipleChildren:
+                    children = nodeWithMultipleChildren.GetChildren().ToList();
+                    break;
             }
 
             return children;

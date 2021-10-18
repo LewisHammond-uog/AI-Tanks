@@ -33,6 +33,12 @@ public sealed class NodeView : GraphNode
     }
     private void CreateInputPorts()
     {
+        //Root nodes do not have input ports
+        if (node is RootNode)
+        {
+            return;
+        }
+        
         //Create input node - all types have the same number of inputs allowed - 1
         InputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
         InputPort.portName = "";
@@ -45,15 +51,12 @@ public sealed class NodeView : GraphNode
 
         switch (node)
         {
-            //Action Nodes have no output
-            case ActionNode _:
-                return;
-            case CompositeNode _:
-                //Composite Nodes have multiple outputs
+            case IHasChildren _:
+                //Mutli Children = Multiple Outputs
                 outputPortCapacity = Port.Capacity.Multi;
                 break;
-            case DecoratorNode _:
-                //Decorator Nodes can only have 1 output
+            case IHasChild _:
+                //One Nodes can only have 1 output
                 outputPortCapacity = Port.Capacity.Single;
                 break;
         }
@@ -66,6 +69,7 @@ public sealed class NodeView : GraphNode
     //Override position setting so that we can store it in the node
     public override void SetPosition(Rect newPos)
     {
+        
         base.SetPosition(newPos);
         if (node)
         {

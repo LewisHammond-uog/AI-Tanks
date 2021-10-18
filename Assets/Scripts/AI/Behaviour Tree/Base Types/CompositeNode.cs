@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AI.BehaviourTrees.BaseTypes
 {
-    public abstract class CompositeNode : Node
+    public abstract class CompositeNode : Node, IHasChildren
     {
         protected List<Node> children = new List<Node>();
 

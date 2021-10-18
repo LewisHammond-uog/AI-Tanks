@@ -15,7 +15,7 @@ namespace AI.BehaviourTrees.TestNodes
         protected override NodeStatus Update_Internal()
         {
             //todo customize behaviour
-            Child.Update();
+            child.Update();
             return NodeStatus.Running;
         }
 

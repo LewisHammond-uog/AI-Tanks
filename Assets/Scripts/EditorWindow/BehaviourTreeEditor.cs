@@ -48,7 +48,7 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
     {
         //Check if the current object that the user has highliged is a behaviour tree
         BehaviourTree tree = Selection.activeObject as BehaviourTree;
-        if (tree)
+        if (tree && AssetDatabase.CanOpenAssetInEditor(tree.GetInstanceID()))
         {
             treeView.PopulateView(tree);
         }
