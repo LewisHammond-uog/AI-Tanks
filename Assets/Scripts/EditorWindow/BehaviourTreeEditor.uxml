@@ -11,6 +11,7 @@
                     <InspectorView />
                 </ui:VisualElement>
                 <ui:VisualElement name="backboard-container">
+                    <ui:Label text="Blackboard Inspector" display-tooltip-when-elided="true" name="blackboard-title" style="-unity-font: url(&apos;/Assets/Fonts/Bowlby_One/ArialUnicodeMS.ttf&apos;);" />
                     <ui:IMGUIContainer />
                 </ui:VisualElement>
             </SplitView>
