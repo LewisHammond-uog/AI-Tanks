@@ -21,7 +21,7 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
     public static void OpenWindow()
     {
         BehaviourTreeEditor wnd = GetWindow<BehaviourTreeEditor>();
-        wnd.titleContent = new GUIContent("BehaviourTreeEditor");
+        wnd.titleContent = new GUIContent("Behaviour Tree Editor");
     }
     
     private void OnEnable()
@@ -142,6 +142,11 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
             const string blackboardPropertyName = "selfBlackboard";
             treeAsSerializedObject = new SerializedObject(tree);
             blackboardProperty = treeAsSerializedObject.FindProperty(blackboardPropertyName);
+        }
+        else
+        {
+            treeAsSerializedObject = null;
+            blackboardProperty = null;
         }
     }
 

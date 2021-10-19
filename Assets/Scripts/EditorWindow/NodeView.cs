@@ -97,7 +97,7 @@ public sealed class NodeView : GraphNode
                 outputPortCapacity = Port.Capacity.Multi;
                 break;
             case IHasChild _:
-                //One Nodes can only have 1 output
+                //One AllTreeNodes can only have 1 output
                 outputPortCapacity = Port.Capacity.Single;
                 break;
         }

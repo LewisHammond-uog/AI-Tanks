@@ -1,8 +1,11 @@
-﻿namespace AI.BehaviourTrees.BaseTypes
+﻿using UnityEditor;
+using UnityEngine;
+
+namespace AI.BehaviourTrees.BaseTypes
 {
     public class RootNode : Node, IHasChild
     {
-        private Node child;
+        [SerializeField] private Node child;
 
         protected override void OnEnterNode()
         {

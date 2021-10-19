@@ -1,10 +1,11 @@
 ﻿using JetBrains.Annotations;
+using UnityEngine;
 
 namespace AI.BehaviourTrees.BaseTypes
 {
     public abstract class DecoratorNode : Node, IHasChild
     {
-        protected Node child;
+        [SerializeField] protected Node child;
         
         public Node GetChild()
         {

@@ -69,14 +69,14 @@ public class BehaviourTreeView : GraphView
             AssetDatabase.SaveAssets();
         }
         
-        //Create Nodes for all of the nodes in the tree
-        foreach (BTNode node in currentTree.Nodes)
+        //Create AllTreeNodes for all of the nodes in the tree
+        foreach (BTNode node in currentTree.AllTreeNodes)
         {
             CreateNodeView(node);
         }
         
         //Create Edges by getting the children of each node and connecting their children
-        foreach (BTNode currentTreeNode in currentTree.Nodes)
+        foreach (BTNode currentTreeNode in currentTree.AllTreeNodes)
         {
             List<BTNode> children = tree.GetChildren(currentTreeNode);
             NodeView parentView = FindNodeView(currentTreeNode);
@@ -137,6 +137,9 @@ public class BehaviourTreeView : GraphView
                 nodeView?.SortChildren();
             }
         }
+        
+        EditorUtility.SetDirty(currentTree);
+        
         
         return graphViewChange;
     }

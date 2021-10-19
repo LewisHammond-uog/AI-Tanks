@@ -21,7 +21,12 @@ namespace AI.BehaviourTrees.BaseTypes
 
         //All of the nodes in the tree - including those that are not connected to
         //the root
-        public List<Node> Nodes { private set; get; } = new List<Node>();
+        [SerializeField] private List<Node> nodes;
+        public List<Node> AllTreeNodes
+        {
+            set => nodes = value;
+            get => nodes;
+        } 
 
         public BehaviourTree()
         {
@@ -64,9 +69,9 @@ namespace AI.BehaviourTrees.BaseTypes
         {
             BehaviourTree tree = Instantiate(this);
             tree.rootNode = (RootNode) tree.rootNode.Clone();
-            tree.Nodes = new List<Node>();
+            tree.AllTreeNodes = new List<Node>();
             //Traverse the tree to find all of the children of the root node and add to the list of nodes
-            TraverseChildNodes(tree.rootNode, (n) =>{ tree.Nodes.Add(n);});
+            TraverseChildNodes(tree.rootNode, (n) =>{ tree.AllTreeNodes.Add(n);});
             return tree;
         }
 
@@ -92,7 +97,7 @@ namespace AI.BehaviourTrees.BaseTypes
             //Set the node properties and give it a GUID to be a unique indenifier
             node.name = nodeType.Name;
             node.guid = GUID.Generate().ToString();
-            Nodes.Add(node);
+            AllTreeNodes.Add(node);
 
             //Add this as a sub asset of the tree asset
             if (!Application.isPlaying)
@@ -117,7 +122,7 @@ namespace AI.BehaviourTrees.BaseTypes
             }
             
             //Remove node from our refrence list and remove it as sub asset
-            Nodes.Remove(node);
+            AllTreeNodes.Remove(node);
             AssetDatabase.RemoveObjectFromAsset(node);
             AssetDatabase.SaveAssets();
         }

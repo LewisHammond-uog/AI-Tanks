@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 
 namespace AI.BehaviourTrees.BaseTypes
 {
     public abstract class CompositeNode : Node, IHasChildren
     {
-        protected List<Node> children = new List<Node>();
+        
+        //todo move back to protected
+        [SerializeField] protected List<Node> children = new List<Node>();
 
 
         /// <summary>
@@ -15,7 +19,6 @@ namespace AI.BehaviourTrees.BaseTypes
         public void AddChild(Node node)
         {
             children ??= new List<Node>();
-
             children.Add(node);
         }
 
