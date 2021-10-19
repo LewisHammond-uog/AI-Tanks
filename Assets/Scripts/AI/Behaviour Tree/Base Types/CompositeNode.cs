@@ -49,7 +49,7 @@ namespace AI.BehaviourTrees.BaseTypes
         /// <param name="comparison">Comparision to use</param>
         public void SortChildren(Comparison<Node> comparison)
         {
-            children.Sort(comparison);
+            children?.Sort(comparison);
         }
         
         /// <summary>

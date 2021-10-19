@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using AI.BehaviourTrees.BaseTypes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -20,7 +21,6 @@ public sealed class NodeView : GraphNode
     //Event for when this node is selected
     public Action<NodeView> OnNodeSelected;
     
-    
     public NodeView(BTNode node) : base("Assets/Scripts/EditorWindow/NodeView.uxml") //Set the uxml for the node layout
     {
         this.node = node;
@@ -30,15 +30,18 @@ public sealed class NodeView : GraphNode
         style.left = node.position.x;
         style.top = node.position.y;
 
+        //Subscribe to when the BT node updates so we can update our visual state
+        node.OnNodeUpdate += OnBTNodeUpdate;
+        
         CreateInputPorts();
         CreateOutputPorts();
-        SetupClasses();
+        SetupUXMLClasses();
     }
 
     /// <summary>
     /// Sets up the UXML class from the class of this node
     /// </summary>
-    private void SetupClasses()
+    private void SetupUXMLClasses()
     {
         switch (node)
         {
@@ -148,4 +151,50 @@ public sealed class NodeView : GraphNode
     {
         return nodeA.position.x < nodeB.position.x ? -1 : 1;
     }
+    
+    //Function triggered when the BT Node updates
+    private void OnBTNodeUpdate(in NodeStatus currentStatus)
+    {
+        UpdateVisualState(currentStatus);
+    }
+
+    /// <summary>
+    /// Update the visual state of the node base on the current BT node state
+    /// </summary>
+    private void UpdateVisualState(in NodeStatus currentStatus)
+    {
+        //Define the names of classes that are used in UXML to edit the nodes
+        //visuals based on state
+        const string runningUXMLClass = "state-running";
+        const string successUXMLClass = "state-success";
+        const string failureUXMLClass = "state-failure";
+        
+        //Remove classes from previous update 
+        RemoveFromClassList(runningUXMLClass);
+        RemoveFromClassList(successUXMLClass);
+        RemoveFromClassList(failureUXMLClass);
+        
+        
+        if (Application.isPlaying)
+        {
+            switch (currentStatus)
+            {
+                case NodeStatus.Running:
+                    if (node.isRunning)
+                    {
+                        AddToClassList(runningUXMLClass);
+                    }
+                    break;
+                case NodeStatus.Success:
+                    AddToClassList(successUXMLClass);
+                    break;
+                case NodeStatus.Fail:
+                    AddToClassList(failureUXMLClass);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(currentStatus), currentStatus, null);
+            }
+        }
+    }
+
 }

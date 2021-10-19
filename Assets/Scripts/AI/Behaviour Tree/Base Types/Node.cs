@@ -8,7 +8,14 @@ namespace AI.BehaviourTrees.BaseTypes
     public abstract class Node : ScriptableObject
     {
         protected Agent owner;
-        private bool isRunning;
+        public bool isRunning { get; private set; }
+
+
+        //Event for node status update
+        public delegate void NodeUpdateEvent(in NodeStatus currentStatus);
+        
+        public event NodeUpdateEvent OnNodeUpdate;
+
         
         //Store a struct of infomation that tells the BT editor about this nodes GUID and location in the graph
         public string guid;
@@ -34,6 +41,7 @@ namespace AI.BehaviourTrees.BaseTypes
             
             //Do the update logic of this node
             NodeStatus status = Update_Internal();
+            OnNodeUpdate?.Invoke(in status);
             
             //If not running then we exit the node
             if (status != NodeStatus.Running)
