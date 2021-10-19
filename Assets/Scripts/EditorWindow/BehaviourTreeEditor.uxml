@@ -10,7 +10,9 @@
                     <ui:Label text="Node Inspector" display-tooltip-when-elided="true" name="inspector-title" style="-unity-font: url(&apos;/Assets/Fonts/Bowlby_One/ArialUnicodeMS.ttf&apos;);" />
                     <InspectorView />
                 </ui:VisualElement>
-                <ui:VisualElement name="backboard-container" />
+                <ui:VisualElement name="backboard-container">
+                    <ui:IMGUIContainer />
+                </ui:VisualElement>
             </SplitView>
         </ui:VisualElement>
         <ui:VisualElement name="RightPanel">
