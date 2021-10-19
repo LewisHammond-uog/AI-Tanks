@@ -6,6 +6,11 @@ namespace AI.BehaviourTrees.BaseTypes
     {
         protected Node child;
         
+        protected DecoratorNode(Agent owner) : base(owner)
+        {
+            child = null;
+        }
+
         public Node GetChild()
         {
             return child;

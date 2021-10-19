@@ -7,11 +7,10 @@ namespace AI.BehaviourTrees.BaseTypes
 {
     public abstract class Node : ScriptableObject
     {
-        public Agent Owner { get; set; }
-        public Blackboard Blackboard { get; set; }
+        protected Agent owner;
+        public bool isRunning { get; private set; }
 
-        public bool IsRunning { get; private set; }
-        
+
         //Event for node status update
         public delegate void NodeUpdateEvent(in NodeStatus currentStatus);
         
@@ -21,6 +20,12 @@ namespace AI.BehaviourTrees.BaseTypes
         //Store a struct of infomation that tells the BT editor about this nodes GUID and location in the graph
         public string guid;
         public Vector2 position;
+
+        protected Node(Agent owner)
+        {
+            isRunning = false;
+            this.owner = owner;
+        }
         
         /// <summary>
         /// Update this node - running its logic
@@ -28,10 +33,10 @@ namespace AI.BehaviourTrees.BaseTypes
         /// <returns>The status of this node on at the end of its execution</returns>
         public NodeStatus Update()
         {
-            if (!IsRunning)
+            if (!isRunning)
             {
                 OnEnterNode();
-                IsRunning = true;
+                isRunning = true;
             }
             
             //Do the update logic of this node
@@ -42,7 +47,7 @@ namespace AI.BehaviourTrees.BaseTypes
             if (status != NodeStatus.Running)
             {
                 OnExitNode();
-                IsRunning = false;
+                isRunning = false;
             }
 
             return status;

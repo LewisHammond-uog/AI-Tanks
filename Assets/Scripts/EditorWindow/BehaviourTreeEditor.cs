@@ -11,11 +11,6 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
 {
     private BehaviourTreeView treeView;
     private InspectorView inspectorView;
-    private IMGUIContainer blackboardView;
-    
-    //Serizlized objects used to store the seralized proerpties of the blackboard
-    private SerializedObject treeAsSerializedObject;
-    private SerializedProperty blackboardProperty;
 
     [MenuItem("BehaviourTreeEditor/Editor ...")]
     public static void OpenWindow()
@@ -70,29 +65,15 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
         StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/EditorWindow/BehaviourTreeEditor.uss");
         root.styleSheets.Add(styleSheet);
         
-        //Get the behaviour tree view, inspector view and blackboard view from the Editor Window
+        //Get the behaviour tree view and inspector view from the Editor Window
         treeView = root.Q<BehaviourTreeView>();
         inspectorView = root.Q<InspectorView>();
-        blackboardView = root.Q<IMGUIContainer>();
-        
-        //Set the blackboard to use function to update itself
-        blackboardView.onGUIHandler += HandleBackboardGUI;
         
         //Subscribe to when the node selection changes
         treeView.OnNodeSelected += OnNodeSelectionChanged;
         
         //Manully call OnSelectionChange so we refresh the view after recompile
         OnSelectionChange();
-    }
-
-    //Handle the update of the blackboard view
-    private void HandleBackboardGUI()
-    {
-        if (treeAsSerializedObject == null || blackboardProperty == null) return;
-        //Add the blackboard property as a field
-        treeAsSerializedObject.Update(); //Update in case there are any changed
-        EditorGUILayout.PropertyField(blackboardProperty);
-        treeAsSerializedObject.ApplyModifiedProperties(); //Apply any properties modified in the editor
     }
 
     //Intercept when an asset is opened so that double clicking on a behaviour tree opens the editor
@@ -134,14 +115,6 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
         else
         {
             treeView.ClearGraph();
-        }
-        
-        //Update the blackboard display by getting the blackboard as a serialzed object
-        if (tree)
-        {
-            const string blackboardPropertyName = "selfBlackboard";
-            treeAsSerializedObject = new SerializedObject(tree);
-            blackboardProperty = treeAsSerializedObject.FindProperty(blackboardPropertyName);
         }
     }
 

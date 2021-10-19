@@ -5,13 +5,7 @@
     </uie:Toolbar>
     <SplitView fixed-pane-initial-dimension="300">
         <ui:VisualElement name="LeftPanel">
-            <SplitView orientation="Vertical" fixed-pane-initial-dimension="300">
-                <ui:VisualElement name="inspector-contatiner">
-                    <ui:Label text="Node Inspector" display-tooltip-when-elided="true" name="inspector-title" style="-unity-font: url(&apos;/Assets/Fonts/Bowlby_One/ArialUnicodeMS.ttf&apos;);" />
-                    <InspectorView />
-                </ui:VisualElement>
-                <ui:VisualElement name="backboard-container" />
-            </SplitView>
+            <InspectorView />
         </ui:VisualElement>
         <ui:VisualElement name="RightPanel">
             <BehaviourTreeView focusable="true" style="flex-grow: 1;" />

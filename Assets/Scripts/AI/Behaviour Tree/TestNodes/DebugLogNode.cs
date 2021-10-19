@@ -7,6 +7,11 @@ namespace AI.BehaviourTrees.TestNodes
     {
         public string message;
         
+        public DebugLogNode(Agent owner) : base(owner)
+        {
+            //Debug.Log($"OnStart {message}");
+        }
+
         protected override void OnEnterNode()
         {
             Debug.Log($"OnStart {message}");

@@ -7,6 +7,10 @@ namespace AI.BehaviourTrees.BaseTypes
     {
         protected List<Node> children = new List<Node>();
 
+        protected CompositeNode(Agent owner) : base(owner)
+        {
+            
+        }
 
         /// <summary>
         /// Add a child to the composite node at the end of the list
