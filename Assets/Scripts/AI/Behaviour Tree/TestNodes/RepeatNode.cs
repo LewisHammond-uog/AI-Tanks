@@ -4,10 +4,6 @@ namespace AI.BehaviourTrees.TestNodes
 {
     public class RepeatNode : DecoratorNode
     {
-        public RepeatNode(Agent owner) : base(owner)
-        {
-        }
-
         protected override void OnEnterNode()
         {
         }

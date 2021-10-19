@@ -2,8 +2,5 @@
 {
     public abstract class ActionNode : Node
     {
-        protected ActionNode(Agent owner) : base(owner)
-        {
-        }
     }
 }

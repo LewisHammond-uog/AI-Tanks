@@ -9,6 +9,12 @@ namespace AI.BehaviourTrees.BaseTypes
     [CreateAssetMenu()]
     public class BehaviourTree : ScriptableObject
     {
+        //Owner (runner) of the tree
+        private Agent owner;
+        
+        //Blackboard used for this tree instance
+        public Blackboard selfBlackboard;
+
         //todo private this
         public RootNode rootNode;
         public NodeStatus treeState;
@@ -19,8 +25,12 @@ namespace AI.BehaviourTrees.BaseTypes
 
         public BehaviourTree()
         {
-            //Nodes = new List<Node>();
             treeState = NodeStatus.Running;
+            
+            
+            //Create a blackboard and set it in the child nodes
+            selfBlackboard = new Blackboard();
+            TraverseChildNodes(rootNode, node => { node.Blackboard = selfBlackboard; });
         }
         
         public NodeStatus Update()
@@ -28,13 +38,12 @@ namespace AI.BehaviourTrees.BaseTypes
             return rootNode.Update();
         }
         
-        
         /// <summary>
         /// Do a depth first traversal of the tree, triggering an event each time we reach a new node
         /// </summary>
         /// <param name="node">Start Node</param>
         /// <param name="visitor">Event Triggered when we find a node</param>
-        private void DepthFirstTraverse(Node node, System.Action<Node> visitor)
+        private void TraverseChildNodes(Node node, System.Action<Node> visitor)
         {
             if (node)
             {
@@ -42,7 +51,7 @@ namespace AI.BehaviourTrees.BaseTypes
                 List<Node> children = GetChildren(node);
                 foreach (Node child in children)
                 {
-                    DepthFirstTraverse(child, visitor);
+                    TraverseChildNodes(child, visitor);
                 }
             }
         }
@@ -57,8 +66,18 @@ namespace AI.BehaviourTrees.BaseTypes
             tree.rootNode = (RootNode) tree.rootNode.Clone();
             tree.Nodes = new List<Node>();
             //Traverse the tree to find all of the children of the root node and add to the list of nodes
-            DepthFirstTraverse(tree.rootNode, (n) =>{ tree.Nodes.Add(n);});
+            TraverseChildNodes(tree.rootNode, (n) =>{ tree.Nodes.Add(n);});
             return tree;
+        }
+
+        /// <summary>
+        /// Set the owner of this behaviour tree
+        /// </summary>
+        /// <param name="newOwner"></param>
+        public void SetOwner(Agent newOwner)
+        {
+            //Set the newOwner of all the child nodes
+            TraverseChildNodes(rootNode, node => { node.Owner = newOwner; });
         }
 
         public Node CreateNode(System.Type nodeType)

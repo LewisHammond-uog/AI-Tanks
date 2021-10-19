@@ -180,7 +180,7 @@ public sealed class NodeView : GraphNode
             switch (currentStatus)
             {
                 case NodeStatus.Running:
-                    if (node.isRunning)
+                    if (node.IsRunning)
                     {
                         AddToClassList(runningUXMLClass);
                     }
