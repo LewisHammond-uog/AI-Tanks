@@ -4,10 +4,6 @@
     {
         private Node child;
 
-        public RootNode(Agent owner) : base(owner)
-        {
-        }
-
         protected override void OnEnterNode()
         {
 

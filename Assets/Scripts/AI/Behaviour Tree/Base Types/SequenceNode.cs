@@ -11,10 +11,6 @@ namespace AI.BehaviourTrees.BaseTypes
         private Node currentNode;
         private int currentNodeIndex;
         
-        public SequenceNode(Agent owner) : base(owner)
-        {
-        }
-
         protected override void OnEnterNode()
         {
             currentNodeIndex = 0;
