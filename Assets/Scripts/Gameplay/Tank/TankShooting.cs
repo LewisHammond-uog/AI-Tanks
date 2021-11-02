@@ -11,9 +11,7 @@ public class TankShooting : MonoBehaviour
     [SerializeField] private AudioSource m_ShootingAudio;         // Reference to the audio source used to play the shooting audio. NB: different to the movement audio source.
     [SerializeField] private AudioClip m_ChargingClip;            // Audio that plays when each shot is charging up.
     [SerializeField] private AudioClip m_FireClip;                // Audio that plays when each shot is fired.
-
-    [Header("Turret")]
-    [SerializeField] private float turretRotationSpeed; //Speed that the turret rotates at per frame
+    
     private TurretMovement turret; //Child that controls the movement of the turret
 
     [Header("Timing")] 
@@ -29,12 +27,6 @@ public class TankShooting : MonoBehaviour
     {
         //Allow fire straight away
         lastFireTime = Time.timeSinceLevelLoad - timeBetweenShots;
-
-        //Set Turret values
-        if (turret)
-        {
-            turret.TurretRotationSpeed = turretRotationSpeed;
-        }
     }
     
     /// <summary>

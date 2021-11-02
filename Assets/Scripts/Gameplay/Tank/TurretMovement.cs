@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TurretMovement : MonoBehaviour
 {
-    private float turretRotationSpeed;
+    [SerializeField] private float turretRotationSpeed = 1f;
     public float TurretRotationSpeed {
         get => turretRotationSpeed;
         set => turretRotationSpeed = Mathf.Max(value, 0f);
