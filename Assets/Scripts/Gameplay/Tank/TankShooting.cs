@@ -11,7 +11,12 @@ public class TankShooting : MonoBehaviour
     [SerializeField] private AudioSource m_ShootingAudio;         // Reference to the audio source used to play the shooting audio. NB: different to the movement audio source.
     [SerializeField] private AudioClip m_ChargingClip;            // Audio that plays when each shot is charging up.
     [SerializeField] private AudioClip m_FireClip;                // Audio that plays when each shot is fired.
-    
+
+    [Header("Turret")]
+    [SerializeField] private float turretRotationSpeed; //Speed that the turret rotates at per frame
+    private TurretMovement turret; //Child that controls the movement of the turret
+
+
     [Header("Launch Values")]
     [SerializeField] private float m_MinLaunchForce = 15f;        // The force given to the shell if the fire button is not held.
     [SerializeField] private float m_MaxLaunchForce = 30f;        // The force given to the shell if the fire button is held for the max charge time.
@@ -20,13 +25,22 @@ public class TankShooting : MonoBehaviour
     [Header("Timing")] 
     [SerializeField] private float timeBetweenShots; //The min time allowed between shots
     private float lastFireTime; //Time when the last fire was
-    
+
+    private void Awake()
+    {
+        turret = GetComponentInChildren<TurretMovement>();
+    }
 
     private void Start ()
     {
         //Allow fire straight away
         lastFireTime = Time.timeSinceLevelLoad - timeBetweenShots;
-        Fire(25f);
+
+        //Set Turret values
+        if (turret)
+        {
+            turret.TurretRotationSpeed = turretRotationSpeed;
+        }
     }
     
     /// <summary>
@@ -37,7 +51,6 @@ public class TankShooting : MonoBehaviour
     {
         return lastFireTime <= (Time.timeSinceLevelLoad - timeBetweenShots);
     }
-
     
     /// <summary>
     /// Fire a shell from the tank
