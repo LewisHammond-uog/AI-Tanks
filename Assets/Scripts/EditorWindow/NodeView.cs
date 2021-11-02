@@ -21,7 +21,7 @@ public sealed class NodeView : GraphNode
     //Event for when this node is selected
     public Action<NodeView> OnNodeSelected;
     
-    public NodeView(BTNode node) : base("Assets/Scripts/EditorWindow/NodeView.uxml") //Set the uxml for the node layout
+    public NodeView(BTNode node) : base("Assets/Scripts/EditorWindow/StyleSheets/NodeView.uxml") //Set the uxml for the node layout
     {
         this.node = node;
         this.title = node.name;

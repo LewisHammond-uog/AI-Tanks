@@ -34,7 +34,7 @@ public class BehaviourTreeView : GraphView
         graphViewChanged += OnGraphViewChanged;
         
         // Add stylesheet to give elements their style - similar to CSS
-        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/EditorWindow/BehaviourTreeEditor.uss");
+        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/EditorWindow/StyleSheets/BehaviourTreeEditor.uss");
         styleSheets.Add(styleSheet);
     }
 
