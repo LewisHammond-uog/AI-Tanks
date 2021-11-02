@@ -1,13 +1,10 @@
 {
-    "name": "BehaviourTreeEditorWindow",
+    "name": "AI.Core",
     "rootNamespace": "",
     "references": [
-        "AI.BehaviourTree",
-        "AI.Core"
+        "GUID:284a9a2795d49f045a8d08111c4df4cb"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

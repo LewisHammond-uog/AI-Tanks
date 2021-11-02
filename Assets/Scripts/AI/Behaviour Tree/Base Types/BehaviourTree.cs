@@ -10,7 +10,7 @@ namespace AI.BehaviourTrees.BaseTypes
     public class BehaviourTree : ScriptableObject
     {
         //Owner (runner) of the tree
-        private Agent owner;
+        private BTAgent owner;
         
         //Blackboard used for this tree instance
         public Blackboard selfBlackboard;
@@ -79,7 +79,7 @@ namespace AI.BehaviourTrees.BaseTypes
         /// Set the owner of this behaviour tree
         /// </summary>
         /// <param name="newOwner"></param>
-        public void SetOwner(Agent newOwner)
+        public void SetOwner(BTAgent newOwner)
         {
             //Set the newOwner of all the child nodes
             TraverseChildNodes(rootNode, node => { node.Owner = newOwner; });

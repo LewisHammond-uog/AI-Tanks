@@ -7,7 +7,7 @@ namespace AI.BehaviourTrees.BaseTypes
 {
     public abstract class Node : ScriptableObject
     {
-        public Agent Owner { get; set; }
+        public BTAgent Owner { get; set; }
         public Blackboard Blackboard { get; set; }
 
         public bool IsRunning { get; private set; }
