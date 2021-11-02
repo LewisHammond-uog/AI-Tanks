@@ -26,9 +26,6 @@ public class TurretMovement : MonoBehaviour
     private void Start()
     {
         turretLookPoint = transform.forward;
-        
-        //todo remove - testing
-        TurretLookAtPoint = new Vector3(20, 20, 20);
     }
     
     private void Update()

@@ -16,12 +16,6 @@ public class TankShooting : MonoBehaviour
     [SerializeField] private float turretRotationSpeed; //Speed that the turret rotates at per frame
     private TurretMovement turret; //Child that controls the movement of the turret
 
-
-    [Header("Launch Values")]
-    [SerializeField] private float m_MinLaunchForce = 15f;        // The force given to the shell if the fire button is not held.
-    [SerializeField] private float m_MaxLaunchForce = 30f;        // The force given to the shell if the fire button is held for the max charge time.
-    [SerializeField] private float m_MaxChargeTime = 0.75f;       // How long the shell can charge for before it is fired at max force.
-
     [Header("Timing")] 
     [SerializeField] private float timeBetweenShots; //The min time allowed between shots
     private float lastFireTime; //Time when the last fire was
@@ -47,7 +41,7 @@ public class TankShooting : MonoBehaviour
     /// Is this tank allowed to fire?
     /// </summary>
     /// <returns></returns>
-    public bool IsFireAllowed()
+    public bool CheckIfFireAllowed()
     {
         return lastFireTime <= (Time.timeSinceLevelLoad - timeBetweenShots);
     }
@@ -60,7 +54,7 @@ public class TankShooting : MonoBehaviour
     public void Fire (float launchForce, bool overrideTimeCheck = false)
     {
         //Check that we are allowed to fire
-        if (!IsFireAllowed() && !overrideTimeCheck)
+        if (!CheckIfFireAllowed() && !overrideTimeCheck)
         {
             return;
         }
