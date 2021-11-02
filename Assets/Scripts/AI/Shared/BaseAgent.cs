@@ -1,4 +1,5 @@
 ﻿using System;
+using Codice.CM.Client.Differences;
 using UnityEngine;
 
 namespace AI
@@ -8,9 +9,12 @@ namespace AI
     /// </summary>
     public class BaseAgent : MonoBehaviour
     {
-        private void Start()
+        //Components
+        public TankMovement movementCompoent { get; private set; }
+
+        private void Awake()
         {
-            Debug.Log("Test");
+            movementCompoent = GetComponent<TankMovement>();
         }
     }
 }

@@ -1,3 +1,16 @@
 {
-	"name": "AI.Core"
+    "name": "AI.Core",
+    "rootNamespace": "",
+    "references": [
+        "GUID:284a9a2795d49f045a8d08111c4df4cb"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
