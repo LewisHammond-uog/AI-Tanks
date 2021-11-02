@@ -2,7 +2,8 @@
     "name": "BehaviourTreeEditorWindow",
     "rootNamespace": "",
     "references": [
-        "AI.BehaviourTree"
+        "AI.BehaviourTree",
+        "AI.Core"
     ],
     "includePlatforms": [
         "Editor"
