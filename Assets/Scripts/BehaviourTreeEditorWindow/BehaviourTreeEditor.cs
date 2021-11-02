@@ -119,7 +119,7 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
             GameObject selectedObject = Selection.activeGameObject;
             if (selectedObject)
             {
-                Agent aiAgent = selectedObject.GetComponent<Agent>();
+                BTAgent aiAgent = selectedObject.GetComponent<BTAgent>();
                 if (aiAgent)
                 {
                     tree = aiAgent.RunningTree;
