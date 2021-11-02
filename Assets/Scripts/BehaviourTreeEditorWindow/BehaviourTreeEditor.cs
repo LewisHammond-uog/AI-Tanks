@@ -1,6 +1,7 @@
 using System;
 using AI.BehaviourTrees;
 using AI.BehaviourTrees.BaseTypes;
+using BehaviourTreeEditorWindow;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -62,12 +63,12 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
         VisualElement root = rootVisualElement;
 
         // Import UXML
-        VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Scripts/EditorWindow/StyleSheets/BehaviourTreeEditor.uxml");
+        VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>($"{BTEditorWindowLocations.styleSheetLocation}BehaviourTreeEditor.uxml");
         visualTree.CloneTree(root);
 
         // A stylesheet can be added to a VisualElement.
         // The style will be applied to the VisualElement and all of its children.
-        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/EditorWindow/StyleSheets/BehaviourTreeEditor.uss");
+        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>($"{BTEditorWindowLocations.styleSheetLocation}BehaviourTreeEditor.uss");
         root.styleSheets.Add(styleSheet);
         
         //Get the behaviour tree view, inspector view and blackboard view from the Editor Window

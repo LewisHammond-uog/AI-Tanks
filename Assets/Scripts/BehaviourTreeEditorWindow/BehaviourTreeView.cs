@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AI.BehaviourTrees.BaseTypes;
+using BehaviourTreeEditorWindow;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
 using UnityEngine.UIElements;
 using BTNode = AI.BehaviourTrees.BaseTypes.Node;
 using GraphNode = UnityEditor.Experimental.GraphView.Node;
@@ -34,7 +33,7 @@ public class BehaviourTreeView : GraphView
         graphViewChanged += OnGraphViewChanged;
         
         // Add stylesheet to give elements their style - similar to CSS
-        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/EditorWindow/StyleSheets/BehaviourTreeEditor.uss");
+        StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>($"{BTEditorWindowLocations.styleSheetLocation}BehaviourTreeEditor.uss");
         styleSheets.Add(styleSheet);
     }
 

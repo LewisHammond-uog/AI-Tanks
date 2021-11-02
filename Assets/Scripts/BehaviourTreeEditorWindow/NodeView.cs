@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using AI.BehaviourTrees.BaseTypes;
+using BehaviourTreeEditorWindow;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -21,7 +22,7 @@ public sealed class NodeView : GraphNode
     //Event for when this node is selected
     public Action<NodeView> OnNodeSelected;
     
-    public NodeView(BTNode node) : base("Assets/Scripts/EditorWindow/StyleSheets/NodeView.uxml") //Set the uxml for the node layout
+    public NodeView(BTNode node) : base($"{BTEditorWindowLocations.styleSheetLocation}NodeView.uxml") //Set the uxml for the node layout
     {
         this.node = node;
         this.title = node.name;
