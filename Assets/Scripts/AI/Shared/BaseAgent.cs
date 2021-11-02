@@ -11,15 +11,15 @@ namespace AI
     public class BaseAgent : MonoBehaviour
     {
         //Components
-        public TankMovement movementCompoent { get; private set; }
-        public TankShooting shootingComponent { get; private set; }
-        public TurretMovement turretComponent { get; private set; }
+        public TankMovement MovementCompoent { get; private set; }
+        public TankShooting ShootingComponent { get; private set; }
+        public TurretMovement TurretComponent { get; private set; }
 
         private void Awake()
         {
-            movementCompoent = GetComponent<TankMovement>();
-            shootingComponent = GetComponent<TankShooting>();
-            turretComponent = GetComponentInChildren<TurretMovement>();
+            MovementCompoent = GetComponent<TankMovement>();
+            ShootingComponent = GetComponent<TankShooting>();
+            TurretComponent = GetComponentInChildren<TurretMovement>();
         }
     }
 }
