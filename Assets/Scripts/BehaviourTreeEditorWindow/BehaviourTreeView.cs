@@ -183,6 +183,11 @@ public class BehaviourTreeView : GraphView
     /// <param name="type"></param>
     private void CreateNode(System.Type type)
     {
+        if (!currentTree)
+        {
+            return;
+        }
+
         BTNode createdNode = currentTree.CreateNode(type);
         if (createdNode)
         {

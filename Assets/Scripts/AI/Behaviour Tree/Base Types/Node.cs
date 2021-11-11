@@ -19,8 +19,8 @@ namespace AI.BehaviourTrees.BaseTypes
 
         
         //Store a struct of infomation that tells the BT editor about this nodes GUID and location in the graph
-        public string guid;
-        public Vector2 position;
+        [HideInInspector] public string guid;
+        [HideInInspector] public Vector2 position;
         
         /// <summary>
         /// Update this node - running its logic
