@@ -90,6 +90,7 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
     private void HandleBackboardGUI()
     {
         if (treeAsSerializedObject == null || blackboardProperty == null) return;
+        if (treeAsSerializedObject.targetObject == null || blackboardProperty.serializedObject == null) return;
         //Add the blackboard property as a field
         treeAsSerializedObject.Update(); //Update in case there are any changed
         EditorGUILayout.PropertyField(blackboardProperty);
@@ -130,11 +131,11 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
         //If we have a valid tree then populate the tree, only allow the asset to be opened if it is ready or the game is playing
         if (tree && (AssetDatabase.CanOpenAssetInEditor(tree.GetInstanceID()) || Application.isPlaying))
         {
-            treeView.PopulateView(tree);
+            treeView?.PopulateView(tree);
         }
         else
         {
-            treeView.ClearGraph();
+            treeView?.ClearGraph();
         }
         
         //Update the blackboard display by getting the blackboard as a serialzed object
