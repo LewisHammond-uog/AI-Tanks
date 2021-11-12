@@ -16,7 +16,7 @@ namespace Sensors.Editor
         private SerializedObject targetObjectAsSerializedObject;
 
         private bool showCone = true;
-        private bool showRadius = true;
+        private bool showRadius = false;
         private bool showTraceToVisibleTargets = true;
 
         private VisionKnowledge visionComponent;
@@ -25,10 +25,17 @@ namespace Sensors.Editor
         {
             visionComponent = target as VisionKnowledge;
             visionObject = visionComponent.gameObject;
-            
-            foreach (VisionConeSettings visionComponentVisionConeSetting in visionComponent.VisionConeSettings)
+            if (!visionComponent || !visionObject)
             {
-                DrawVisionCone(visionObject, visionComponentVisionConeSetting);
+                return;
+            }
+            
+            if (visionComponent.VisionConeSettings != null)
+            {
+                foreach (VisionConeSettings visionComponentVisionConeSetting in visionComponent.VisionConeSettings)
+                {
+                    DrawVisionCone(visionObject, visionComponentVisionConeSetting);
+                }
             }
         }
 
