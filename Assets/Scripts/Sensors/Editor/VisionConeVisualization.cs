@@ -21,20 +21,15 @@ namespace Sensors.Editor
 
         private VisionKnowledge visionComponent;
         private GameObject visionObject;
-
-        private void Reset()
+        private void OnSceneGUI()
         {
             visionComponent = target as VisionKnowledge;
             visionObject = visionComponent.gameObject;
-        }
-
-        private void OnSceneGUI()
-        {
+            
             foreach (VisionConeSettings visionComponentVisionConeSetting in visionComponent.VisionConeSettings)
             {
                 DrawVisionCone(visionObject, visionComponentVisionConeSetting);
             }
-
         }
 
         /// <summary>
@@ -62,19 +57,7 @@ namespace Sensors.Editor
                 Handles.DrawWireDisc(targetPosition, Vector3.up, cone.ViewRadius);
             }
 
-            /*
-            Handles.color = Color.green;
-            if (showTraceToVisibleTargets && targetConeComp.VisibleAgents != null)
-            {
-                //Draw lines to visible targets
-                foreach (BaseAgent agent in targetConeComp.VisibleAgents)
-                {
-                    Handles.DrawLine(targetConeComp.transform.position, agent.transform.position);
-                }
-            }
-            */
-
             Handles.color = Color.white;
         }
-        }
+    }
 }

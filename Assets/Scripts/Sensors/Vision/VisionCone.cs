@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using AI;
-using Sensors.Vision;
 using UnityEngine;
 
-namespace Sensors
+namespace Sensors.Vision
 {
     /// <summary>
     /// Represents a single vision cone in the world a stores a list of objects that are in the vision cone
@@ -21,7 +19,8 @@ namespace Sensors
 
         //List of all visible targets from the last target pass
         private List<BaseAgent> visibleAgents;
-        
+        public IEnumerable<BaseAgent> VisibleAgents => visibleAgents;
+
         private void Start()
         {
             visibleAgents = new List<BaseAgent>();

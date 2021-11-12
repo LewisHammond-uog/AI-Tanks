@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AI;
 using Sensors;
 using Sensors.Vision;
 using UnityEngine;
@@ -13,21 +14,20 @@ public class VisionKnowledge : MonoBehaviour
 {
     //Array of vision cone settings to use to create vision cones
     [SerializeField] private VisionConeSettings[] visionConesSettings;
-    public VisionConeSettings[] VisionConeSettings => visionConesSettings;
+    public IEnumerable<VisionConeSettings> VisionConeSettings => visionConesSettings;
     
     //Array of vision cones - created from settings
     private VisionCone[] visionCones;
         
+    //Dictonary of objects seen by the vision cones and their awareness level
+                        //Object, Awareness
+    private Dictionary<BaseAgent, float> knownAgentAwarenessMap;
+
     // Start is called before the first frame update
     void Start()
     {
+        knownAgentAwarenessMap = new Dictionary<BaseAgent, float>();
         InitializeVisionCones();  
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     /// <summary>
@@ -36,12 +36,54 @@ public class VisionKnowledge : MonoBehaviour
     private void InitializeVisionCones()
     {
         visionCones = new VisionCone[visionConesSettings.Length];
-        foreach (VisionConeSettings conesSetting in visionConesSettings)
+        for (int i = 0; i < visionConesSettings.Length; i++)
         {
+            VisionConeSettings conesSetting = visionConesSettings[i];
             VisionCone cone = gameObject.AddComponent<VisionCone>();
             cone.VisionConeSettings = conesSetting;
+            visionCones[i] = cone;
         }
     }
-    
+
+    private void Update()
+    {
+        UpdateVisionCones();
+    }
+
+    /// <summary>
+    /// Get Updated Data from all of the vision cones that this knowledge owns
+    /// </summary>
+    private void UpdateVisionCones()
+    {
+        knownAgentAwarenessMap.Clear();
+        
+        //Update each vision cone and then collect it's targets
+        foreach (VisionCone visionCone in visionCones)
+        {
+            if (visionCone == null)
+            {
+                return;
+            }
+            
+            visionCone.CalculateVisibleTargets();
+
+            foreach (BaseAgent agent in visionCone.VisibleAgents)
+            {
+                //Check if agent already exists in map then choose the higher awareness level - deals with
+                //if we are in multiple vision cones at once
+                if (knownAgentAwarenessMap.ContainsKey(agent))
+                {
+                    float higherAwareness = Mathf.Max(knownAgentAwarenessMap[agent], visionCone.coneSettings.Weight);
+                    knownAgentAwarenessMap[agent] = higherAwareness;
+                }
+                else
+                {
+                    //Otherwise add to the map with the awareness weight
+                    knownAgentAwarenessMap.Add(agent, visionCone.coneSettings.Weight);
+                }
+            }
+            
+        }
+    }
 }
 
