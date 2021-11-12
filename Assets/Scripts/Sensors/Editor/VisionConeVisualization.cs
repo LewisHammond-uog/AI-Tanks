@@ -9,7 +9,7 @@ namespace Sensors.Editor
     /// <summary>
     /// Custom Editor of Vision Cone so we we can do debug visalizations
     /// </summary>
-    [CustomEditor(typeof(VisionCone))]
+    [CustomEditor(typeof(VisionKnowledge))]
     public class VisionConeVisualization : UnityEditor.Editor
     {
         //Store refrences to seralized properties in the Vision Cone component
@@ -17,17 +17,24 @@ namespace Sensors.Editor
 
         private bool showCone = true;
         private bool showRadius = true;
-        private bool showTraceToVisibleTargets = true; 
+        private bool showTraceToVisibleTargets = true;
 
-        private void OnEnable()
+        private VisionKnowledge visionComponent;
+        private GameObject visionObject;
+
+        private void Reset()
         {
-            
+            visionComponent = target as VisionKnowledge;
+            visionObject = visionComponent.gameObject;
         }
 
         private void OnSceneGUI()
         {
-            VisionCone cone = target as VisionCone;
-            DrawVisionCone(cone.gameObject, cone.VisionConeSettings);
+            foreach (VisionConeSettings visionComponentVisionConeSetting in visionComponent.VisionConeSettings)
+            {
+                DrawVisionCone(visionObject, visionComponentVisionConeSetting);
+            }
+
         }
 
         /// <summary>
@@ -41,7 +48,7 @@ namespace Sensors.Editor
             Vector3 targetPosition = fromObject.transform.position;
             if (showCone)
             {
-                Handles.color = Color.blue;
+                Handles.color = cone.drawColour;
                 Vector3 negHalfViewAngle = VisionCone.DirectionFromAngle(-cone.ViewAngle / 2, fromObject.transform.eulerAngles.y);
 
                 Handles.DrawSolidArc(targetPosition, Vector3.up, negHalfViewAngle, cone.ViewAngle,
@@ -51,7 +58,7 @@ namespace Sensors.Editor
             if (showRadius)
             {
                 //Draw a disc to show the vision radius
-                Handles.color = Color.blue;
+                Handles.color = cone.drawColour;
                 Handles.DrawWireDisc(targetPosition, Vector3.up, cone.ViewRadius);
             }
 

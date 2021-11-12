@@ -11,8 +11,13 @@ namespace Sensors
     /// </summary>
     public class VisionCone : MonoBehaviour
     {
-        [SerializeField] private VisionConeSettings coneSettings;
-        public VisionConeSettings VisionConeSettings => coneSettings;
+        [SerializeField] public VisionConeSettings coneSettings;
+
+        public VisionConeSettings VisionConeSettings
+        {
+            get => coneSettings;
+            set => coneSettings = value;
+        }
 
         //List of all visible targets from the last target pass
         private List<BaseAgent> visibleAgents;

@@ -15,6 +15,11 @@ namespace Sensors.Vision
         [Range(0, 360)] [SerializeField] private float viewAngle;
         //The layer mask to use when looking for targets
         [SerializeField] private LayerMask targetLayerMask;
+        
+        //Editor Only - Colour to display in the editor
+        #if UNITY_EDITOR
+        [SerializeField] public Color drawColour;
+        #endif
 
         //The Radius of the vision cone sight
         public float ViewRadius
