@@ -85,5 +85,30 @@ public class VisionKnowledge : MonoBehaviour
             
         }
     }
+
+    /// <summary>
+    /// Get all of the visible agents over a given threshold
+    /// </summary>
+    /// <param name="threshold">Vision threshold</param>
+    public IEnumerable<BaseAgent> GetVisibleAgents(float threshold = 0)
+    {
+        //If we want to see all agents then just return the map
+        if (threshold <= 0)
+        {
+            return knownAgentAwarenessMap.Keys;
+        }
+
+        //Loop all of the agents and check how visible they are
+        List<BaseAgent> visibleAgentsOverThreshold = new List<BaseAgent>();
+        foreach(var agentVisibilityPair in knownAgentAwarenessMap)
+        {
+            if(agentVisibilityPair.Value > threshold)
+            {
+                visibleAgentsOverThreshold.Add(agentVisibilityPair.Key);
+            }
+        }
+
+        return visibleAgentsOverThreshold;
+    }
 }
 

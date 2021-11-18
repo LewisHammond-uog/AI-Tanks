@@ -57,8 +57,15 @@ namespace AI.BehaviourTrees.BaseTypes
             return Instantiate(this);
         }
 
-        protected abstract void OnEnterNode();
+        protected virtual void OnEnterNode()
+        {
+
+        }
         protected abstract NodeStatus Update_Internal();
-        protected abstract void OnExitNode();
+
+        protected virtual void OnExitNode()
+        {
+
+        }
     }
 }
