@@ -8,7 +8,7 @@ namespace AI.BehaviourTrees.BaseTypes
     public abstract class CompositeNode : Node, IHasChildren
     {
         
-        //todo move back to protected
+        //Connected Children of this node
         [SerializeField] protected List<Node> children = new List<Node>();
 
 
