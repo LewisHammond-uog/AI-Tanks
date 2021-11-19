@@ -11,7 +11,10 @@ namespace AI.BehaviourTrees.BaseTypes {
         protected override void OnEnterNode()
         {
             currentNodeIndex = 0;
-            currentNode = children[currentNodeIndex];
+            if (children.Count > 0)
+            {
+                currentNode = children[currentNodeIndex];
+            }
         }
 
         protected override void OnExitNode()
@@ -20,6 +23,11 @@ namespace AI.BehaviourTrees.BaseTypes {
 
         protected override NodeStatus Update_Internal()
         {
+            if (currentNode == null)
+            {
+                return NodeStatus.Fail;
+            }
+            
             //Execute the current node and report back it's status
             NodeStatus nodeResult = children[currentNodeIndex].Update();
             switch (nodeResult)

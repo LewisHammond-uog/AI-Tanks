@@ -12,7 +12,11 @@ namespace AI.BehaviourTrees
         private void Start()
         {
             //Clone the tree prefab so we have an unique instance that we can run
-            RunningTree = treePrefab.Clone();
+            if (treePrefab != null)
+            {
+                RunningTree = treePrefab.Clone();
+                RunningTree.SetOwner(this);
+            }
         }
 
         private void Update()

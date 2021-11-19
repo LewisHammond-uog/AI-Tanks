@@ -11,9 +11,9 @@ public class TankMovement : MonoBehaviour
     
     private NavMeshAgent movementAgent; //Navmesh Agent used for Navigation
 
-    public float Speed => movementAgent.velocity.magnitude;
-    
-    
+    public float Speed => movementAgent ? movementAgent.velocity.magnitude : 0f;
+
+
     private void Awake ()
     {
         m_Rigidbody = GetComponent<Rigidbody> ();

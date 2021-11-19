@@ -32,7 +32,6 @@ namespace AI.BehaviourTrees.BaseTypes
         {
             treeState = NodeStatus.Running;
             
-            
             //Create a blackboard and set it in the child nodes
             selfBlackboard = new Blackboard();
             TraverseChildNodes(rootNode, node => { node.Blackboard = selfBlackboard; });
@@ -42,7 +41,7 @@ namespace AI.BehaviourTrees.BaseTypes
         {
             return rootNode.Update();
         }
-        
+
         /// <summary>
         /// Do a depth first traversal of the tree, triggering an event each time we reach a new node
         /// </summary>

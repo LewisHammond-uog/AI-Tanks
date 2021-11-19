@@ -21,7 +21,7 @@ namespace Sensors.Vision
         private List<BaseAgent> visibleAgents;
         public IEnumerable<BaseAgent> VisibleAgents => visibleAgents;
 
-        private void Start()
+        private void Awake()
         {
             visibleAgents = new List<BaseAgent>();
         }
@@ -33,8 +33,9 @@ namespace Sensors.Vision
         {
             visibleAgents.Clear();
         
+            //todo layermask is wrong
             //Get all of the agents within a sphere
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, coneSettings.ViewAngle, coneSettings.LayerMask);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, coneSettings.ViewRadius, coneSettings.LayerMask);
             if (hitColliders.Length == 0)
             {
                 return;
@@ -53,11 +54,13 @@ namespace Sensors.Vision
 
                 //Check we are inside view cone - angle to target it within viewAngle/2
                 Vector3 directionToTarget = (hitGO.transform.position - transform.position).normalized;
-                float halfViewAngle = coneSettings.LayerMask * 0.5f;
-                if (Vector3.Angle(transform.forward, directionToTarget) < halfViewAngle)
+                float halfViewAngle = coneSettings.ViewAngle * 0.5f;
+                float angleToObject = Vector3.Angle(transform.forward, directionToTarget);
+                if (angleToObject < halfViewAngle)
                 {
                     //Check that there is nothing obscuring out view
-                    if (!Physics.Linecast(transform.position, hitGO.transform.position, ~coneSettings.LayerMask))
+                    RaycastHit hit;
+                    if (!Physics.Linecast(transform.position, hitGO.transform.position, out hit, ~coneSettings.LayerMask))
                     {
                         if (hitGO.TryGetComponent<BaseAgent>(out BaseAgent agent))
                         {
