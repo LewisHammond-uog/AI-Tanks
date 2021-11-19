@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Complete;
 using UnityEngine;
 
 namespace AI
@@ -17,7 +18,7 @@ namespace AI
     public class BaseAgent : MonoBehaviour
     {
         //My Team
-        public AiTeam myTeam { private set; get; }
+        private AiTeam myTeam { set; get; }
 
         //List of all AI spawned
         private static List<BaseAgent> allAgents = new List<BaseAgent>();
@@ -27,6 +28,7 @@ namespace AI
         public TankShooting ShootingComponent { get; private set; }
         public TurretMovement TurretComponent { get; private set; }
         public VisionKnowledge VisionKnowledgeComponent { get; private set; }
+        public TankHealth HealthComponent { get; private set; }
 
 
         private void Awake()
@@ -35,6 +37,7 @@ namespace AI
             ShootingComponent = GetComponent<TankShooting>();
             TurretComponent = GetComponentInChildren<TurretMovement>();
             VisionKnowledgeComponent = GetComponent<VisionKnowledge>();
+            HealthComponent = GetComponent<TankHealth>();
         }
 
         private void Start()

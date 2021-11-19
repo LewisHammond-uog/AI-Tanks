@@ -71,6 +71,9 @@ namespace AI.BehaviourTrees.BaseTypes
             tree.AllTreeNodes = new List<Node>();
             //Traverse the tree to find all of the children of the root node and add to the list of nodes
             TraverseChildNodes(tree.rootNode, (n) =>{ tree.AllTreeNodes.Add(n);});
+            
+            selfBlackboard = new Blackboard();
+
             return tree;
         }
 
@@ -82,8 +85,9 @@ namespace AI.BehaviourTrees.BaseTypes
         {
             //Set the newOwner of all the child nodes
             TraverseChildNodes(rootNode, node => { node.Owner = newOwner; });
+            TraverseChildNodes(rootNode, node => { node.Blackboard = selfBlackboard; });
         }
-
+        
         public Node CreateNode(System.Type nodeType)
         {
             //Create an instance of the node

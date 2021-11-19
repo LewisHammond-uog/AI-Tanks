@@ -5,6 +5,7 @@ using UnityEngine;
 using AI.BehaviourTrees.BaseTypes;
 using AI;
 
+//Condition to Check if this agent can be seen
 public class Condition_CanBeSeen : ActionNode
 {
     private VisionKnowledge vision;
@@ -31,7 +32,7 @@ public class Condition_CanBeSeen : ActionNode
         //Do line casts from all of the agents that I can see - excluding agents, can I be seen by any of them? 
         foreach(BaseAgent agent in visibleAgents)
         {
-            bool canBeSeen = Physics.Linecast(Owner.transform.position, agent.transform.position, ~checkExcludeLayer);
+            bool canBeSeen = !Physics.Linecast(Owner.transform.position, agent.transform.position, ~checkExcludeLayer);
             if (canBeSeen)
             {
                 return NodeStatus.Success;

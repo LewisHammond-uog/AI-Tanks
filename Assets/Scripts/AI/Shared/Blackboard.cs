@@ -5,5 +5,5 @@ using UnityEngine;
 [System.Serializable]
 public class Blackboard
 {
-    public Vector3 test;
+    public List<CoverPoint> validCoverPoints; //List of cover points that this agent can go to
 }
