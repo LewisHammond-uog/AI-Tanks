@@ -32,9 +32,15 @@ public class Action_EvaluateCoverPoints : ActionNode
         
         //Store the best cover point so far
         CoverPoint bestCoverPoint = null;
+        float bestCoverPointVal = Mathf.NegativeInfinity;
         foreach (CoverPoint coverPoint in Blackboard.validCoverPoints)
         {
-            ScoreCoverPoint(coverPoint);
+            float score = ScoreCoverPoint(coverPoint);
+            if (score > bestCoverPointVal)
+            {
+                bestCoverPoint = coverPoint;
+                bestCoverPointVal = score;
+            }
         }
         //todo - save cover point on blackboard
         //todo - return success if there is a good cover point (min threshold?)
