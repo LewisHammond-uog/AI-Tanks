@@ -25,7 +25,8 @@ public class TurretMovement : MonoBehaviour
 
     private void Start()
     {
-        turretLookPoint = transform.forward;
+        turretLookPoint = transform.right;
+        useTurretLookPoint = true;
     }
     
     private void Update()
@@ -36,13 +37,23 @@ public class TurretMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets the difference in angle between the current turret look a point and the turret target
+    /// </summary>
+    /// <returns></returns>
+    public float GetAngleToTurretTarget()
+    {
+        return Vector3.Angle(turretLookPoint, transform.forward);
+    }
+
     //Rotate the turret towards the turrget look at point
     private void RotateTurretToTargetPoint(float deltaTime)
     {
+        Vector3 targetDirection = turretLookPoint - transform.position;
         float stepThisFrame = turretRotationSpeed * deltaTime;
         //Calculate new direction this frame
         Vector3 newDirection =
-            Vector3.RotateTowards(transform.forward, turretLookPoint, stepThisFrame, 0f);
+            Vector3.RotateTowards(transform.forward, targetDirection, stepThisFrame, 0f).normalized;
         //Change rotation of turret
         transform.rotation = Quaternion.LookRotation(newDirection);
     }
