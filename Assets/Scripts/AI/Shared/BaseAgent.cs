@@ -18,7 +18,8 @@ namespace AI
     public class BaseAgent : MonoBehaviour
     {
         //My Team
-        private AiTeam myTeam { set; get; }
+        [SerializeField] private AiTeam myTeam;
+        public AiTeam Team => myTeam;
 
         //List of all AI spawned
         private static List<BaseAgent> allAgents = new List<BaseAgent>();
@@ -71,7 +72,7 @@ namespace AI
             //Loop and pickout agents from a team
             foreach(BaseAgent agent in allAgents)
             {
-                if(agent.myTeam == team)
+                if(agent.Team == team)
                 {
                     agents.Add(agent);
                 }

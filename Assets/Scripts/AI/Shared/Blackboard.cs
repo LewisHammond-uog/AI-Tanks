@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using AI;
 using UnityEngine;
 
 [System.Serializable]
@@ -10,5 +11,8 @@ public class Blackboard
     public CoverPoint bestCoverPoint; //The best cover point that we have found
 
     [Header("Flee")] 
-    public Vector3 fleeDirection;
+    public Vector3 fleeDirection; //Direction to run away from enemies close by
+
+    [Header("Attack")] 
+    public BaseAgent bestEnemyToAttack; //Best enemy that we can currently attack
 }
