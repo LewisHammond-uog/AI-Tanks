@@ -1,7 +1,9 @@
-﻿using AI.BehaviourTrees.BaseTypes;
+using System.Collections;
+using System.Collections.Generic;
+using AI.BehaviourTrees.BaseTypes;
 using UnityEngine;
 
-public class Action_EvaluateCoverPoints : ActionNode
+public class Action_EvalCoverPoints : ActionNode
 {
     //Layer mask to not check when seeing if a cover point is visible
     [Header("Collisions")]
@@ -13,37 +15,47 @@ public class Action_EvaluateCoverPoints : ActionNode
 
     [Tooltip("Amount of score to deduct if this cover point is visible")] 
     [SerializeField] private float visibleScoreDeduction = 350f;
+
+    [Tooltip("The minimum score to allow a valid 'best' cover point")]
+    [SerializeField] private float minValidCoverPointScore = 500f;
+        
+    //Score to deduct from when determining cover point
+    private const float baseScore = 1000;
     
     protected override NodeStatus Update_Internal()
     {
         //Check if cover points on the blackboard are valid
-        if (Blackboard.validCoverPoints == null || Blackboard.validCoverPoints.Count > 0)
+        if (Blackboard.validCoverPoints == null || Blackboard.validCoverPoints.Count == 0)
         {
             return NodeStatus.Fail;
-        }
-        
-        //If there is only 1 cover point then it must be the best
-        if (Blackboard.validCoverPoints.Count == 1)
-        {
-            //todo get best cover point
-            return NodeStatus.Success;
         }
         
         
         //Store the best cover point so far
         CoverPoint bestCoverPoint = null;
-        float bestCoverPointVal = Mathf.NegativeInfinity;
+        float bestCoverPointScore = Mathf.NegativeInfinity;
         foreach (CoverPoint coverPoint in Blackboard.validCoverPoints)
         {
             float score = ScoreCoverPoint(coverPoint);
-            if (score > bestCoverPointVal)
+            if (score > bestCoverPointScore)
             {
                 bestCoverPoint = coverPoint;
-                bestCoverPointVal = score;
+                bestCoverPointScore = score;
             }
         }
-        //todo - save cover point on blackboard
-        //todo - return success if there is a good cover point (min threshold?)
+        
+        //Check we have a cover point over the minimum threshold so that we can't
+        //choose a stupid cover point
+        if (bestCoverPointScore >= minValidCoverPointScore)
+        {
+            Blackboard.bestCoverPoint = bestCoverPoint;
+            return NodeStatus.Success;
+        }
+        else
+        {
+            Blackboard.bestCoverPoint = null;
+            return NodeStatus.Fail;
+        }
     }
 
     /// <summary>
@@ -53,7 +65,6 @@ public class Action_EvaluateCoverPoints : ActionNode
     /// <returns>Score of given cover point</returns>
     private float ScoreCoverPoint(CoverPoint coverPoint)
     {
-        const float baseScore = 1000;
         float totalScore = baseScore;
         
         //If the cover point is not valid then we cannot score it
@@ -66,7 +77,7 @@ public class Action_EvaluateCoverPoints : ActionNode
         totalScore -= Mathf.Pow(Vector3.Distance(Owner.transform.position, coverPoint.transform.position), distancePower);
         
         //If the cover can be see then decrease score because it likley can be seen by the enemy
-        if (Physics.Linecast(Owner.transform.position, coverPoint.transform.position, ~collisionCheckIgnoreLayer))
+        if (!Physics.Linecast(Owner.transform.position, coverPoint.transform.position, ~collisionCheckIgnoreLayer))
         {
             totalScore -= visibleScoreDeduction;
         }
