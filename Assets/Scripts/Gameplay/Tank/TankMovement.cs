@@ -75,7 +75,7 @@ public class TankMovement : MonoBehaviour
     /// </summary>
     /// <param name="threshold">Allowable distance to the destination to determine as reached</param>
     /// <returns>If we are at the destination</returns>
-    public bool IsAtDestination(float threshold = 1)
+    public bool IsAtDestination(float threshold = 2f)
     {
         return Vector3.Distance(transform.position, movementAgent.destination) <= threshold;
     }

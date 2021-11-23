@@ -24,6 +24,12 @@ namespace Sensors.Editor
         private void OnSceneGUI()
         {
             visionComponent = target as VisionKnowledge;
+            if (visionComponent.showVisionCones == false)
+            {
+                return;
+            }
+            
+            
             visionObject = visionComponent.gameObject;
             if (!visionComponent || !visionObject)
             {

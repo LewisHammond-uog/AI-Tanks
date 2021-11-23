@@ -12,6 +12,10 @@ using UnityEngine;
 /// </summary>
 public class VisionKnowledge : MonoBehaviour
 {
+    #if UNITY_EDITOR
+    public bool showVisionCones = false;
+    #endif
+    
     //Array of vision cone settings to use to create vision cones
     [SerializeField] private VisionConeSettings[] visionConesSettings;
     public IEnumerable<VisionConeSettings> VisionConeSettings => visionConesSettings;
@@ -22,7 +26,7 @@ public class VisionKnowledge : MonoBehaviour
     //Dictonary of objects seen by the vision cones and their awareness level
                         //Object, Awareness
     private Dictionary<BaseAgent, float> knownAgentAwarenessMap;
-
+    
     // Start is called before the first frame update
     void Start()
     {
