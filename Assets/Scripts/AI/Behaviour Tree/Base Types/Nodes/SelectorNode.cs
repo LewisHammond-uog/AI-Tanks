@@ -46,7 +46,7 @@ namespace AI.BehaviourTrees.BaseTypes {
             }
 
             //If next node is null then we are at the end of the list - success! otherwise keep running
-            return currentNode == null ? NodeStatus.Success : NodeStatus.Running;
+            return currentNode == null ? NodeStatus.Fail : NodeStatus.Running;
         }
 
     }
