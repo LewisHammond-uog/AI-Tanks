@@ -37,7 +37,7 @@ namespace AI
             MovementCompoent = GetComponent<TankMovement>();
             ShootingComponent = GetComponent<TankShooting>();
             TurretComponent = GetComponentInChildren<TurretMovement>();
-            VisionKnowledgeComponent = GetComponent<VisionKnowledge>();
+            VisionKnowledgeComponent = GetComponentInChildren<VisionKnowledge>();
             HealthComponent = GetComponent<TankHealth>();
         }
 

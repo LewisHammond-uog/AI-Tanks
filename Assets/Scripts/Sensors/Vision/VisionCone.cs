@@ -32,8 +32,7 @@ namespace Sensors.Vision
         public void CalculateVisibleTargets()
         {
             visibleAgents.Clear();
-        
-            //todo layermask is wrong
+            
             //Get all of the agents within a sphere
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, coneSettings.ViewRadius, coneSettings.LayerMask);
             if (hitColliders.Length == 0)

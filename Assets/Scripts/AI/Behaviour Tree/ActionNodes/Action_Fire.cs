@@ -11,8 +11,11 @@ public class Action_Fire : ActionNode
         {
             return NodeStatus.Fail;
         }
+
+        Vector3 enemyPosition = Blackboard.bestEnemyToAttack.transform.position;
+        //Fire
+        Owner.ShootingComponent.Fire(CalculateLaunchVelocity(enemyPosition));
         
-        Owner.ShootingComponent.Fire(CalculateLaunchVelocity(Blackboard.bestEnemyToAttack.transform.position));
         return NodeStatus.Success;
     }
 

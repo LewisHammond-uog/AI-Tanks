@@ -45,6 +45,7 @@ namespace AI.BehaviourTrees.ActionNodes
             
             //Set the best enemy to attack in the blackboard
             Blackboard.bestEnemyToAttack = agentBestScorePair.Key;
+
             return NodeStatus.Success;
         }
 
