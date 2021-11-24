@@ -53,11 +53,11 @@ namespace Sensors.Editor
         private void DrawVisionCone(GameObject fromObject, VisionConeSettings cone)
         {
             //Drag an arc from the left side of the view angle over to the right side of the view angle
-            Vector3 targetPosition = fromObject.transform.position;
+            Vector3 targetPosition = cone.ConeTransform.position;
             if (showCone)
             {
                 Handles.color = cone.drawColour;
-                Vector3 negHalfViewAngle = VisionCone.DirectionFromAngle(-cone.ViewAngle / 2, fromObject.transform.eulerAngles.y);
+                Vector3 negHalfViewAngle = VisionCone.DirectionFromAngle(-cone.ViewAngle / 2, cone.ConeTransform.eulerAngles.y);
 
                 Handles.DrawSolidArc(targetPosition, Vector3.up, negHalfViewAngle, cone.ViewAngle,
                     cone.ViewRadius);

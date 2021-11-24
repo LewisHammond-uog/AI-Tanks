@@ -23,6 +23,7 @@ namespace Sensors.Vision
         [SerializeField] private LayerMask targetLayerMask;
         
         //Transform to use for the view cone
+        [SerializeField] private Transform coneTransform;
         
         //Editor Only - Colour to display in the editor
         #if UNITY_EDITOR
@@ -47,5 +48,8 @@ namespace Sensors.Vision
 
         //Layer Mask of objects picked up by this cone
         public LayerMask LayerMask => targetLayerMask;
+        
+        //Transform to use for the vision cone
+        public Transform ConeTransform => coneTransform;
     }
 }

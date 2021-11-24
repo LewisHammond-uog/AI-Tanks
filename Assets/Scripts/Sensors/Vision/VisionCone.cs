@@ -34,7 +34,7 @@ namespace Sensors.Vision
             visibleAgents.Clear();
             
             //Get all of the agents within a sphere
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, coneSettings.ViewRadius, coneSettings.LayerMask);
+            Collider[] hitColliders = Physics.OverlapSphere(coneSettings.ConeTransform.position, coneSettings.ViewRadius, coneSettings.LayerMask);
             if (hitColliders.Length == 0)
             {
                 return;
@@ -52,14 +52,14 @@ namespace Sensors.Vision
                 }
 
                 //Check we are inside view cone - angle to target it within viewAngle/2
-                Vector3 directionToTarget = (hitGO.transform.position - transform.position).normalized;
+                Vector3 directionToTarget = (hitGO.transform.position - coneSettings.ConeTransform.position).normalized;
                 float halfViewAngle = coneSettings.ViewAngle * 0.5f;
-                float angleToObject = Vector3.Angle(transform.forward, directionToTarget);
+                float angleToObject = Vector3.Angle(coneSettings.ConeTransform.forward, directionToTarget);
                 if (angleToObject < halfViewAngle)
                 {
                     //Check that there is nothing obscuring out view
                     RaycastHit hit;
-                    if (!Physics.Linecast(transform.position, hitGO.transform.position, out hit, ~coneSettings.LayerMask))
+                    if (!Physics.Linecast(coneSettings.ConeTransform.position, hitGO.transform.position, out hit, ~coneSettings.LayerMask))
                     {
                         if (hitGO.TryGetComponent<BaseAgent>(out BaseAgent agent))
                         {
