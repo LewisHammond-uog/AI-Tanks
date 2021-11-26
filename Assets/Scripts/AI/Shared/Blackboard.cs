@@ -15,4 +15,11 @@ public class Blackboard
 
     [Header("Attack")] 
     public BaseAgent bestEnemyToAttack; //Best enemy that we can currently attack
+    
+    [Header("Seek")]
+    public Vector3 lastSeenEnemyPosition; //Last position that we saw the enemy at - only updated after we can't see an enemy
+
+    [Header("Wander")] 
+    public CoverPoint targetCoverPoint; //Cover point that we are currently working towards
+    public Vector3 randomWanderPos; //Random position on the navmesh to wander to
 }

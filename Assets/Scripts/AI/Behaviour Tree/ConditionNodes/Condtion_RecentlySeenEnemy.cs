@@ -12,13 +12,6 @@ public class Condtion_RecentlySeenEnemy : ActionNode
     
     protected override NodeStatus Update_Internal()
     {
-        //Make sure that we have no visible agents - fail if we have one
-        int visibleAgentCount = Owner.VisionKnowledgeComponent.GetVisibleAgents().Count();
-        if (visibleAgentCount == 0)
-        {
-            return NodeStatus.Fail;
-        }
-        
         //Get the last seen agent position
         Tuple<Vector3?, float> lastSeenAgentPosTime = Owner.VisionKnowledgeComponent.GetLastSeenAgentPosition();
         Vector3? lastSeenPosition = lastSeenAgentPosTime.Item1;
@@ -35,6 +28,8 @@ public class Condtion_RecentlySeenEnemy : ActionNode
             return NodeStatus.Fail;
         }
 
+        Blackboard.lastSeenEnemyPosition = (Vector3)lastSeenPosition;
+        
         return NodeStatus.Success;
     }
 }

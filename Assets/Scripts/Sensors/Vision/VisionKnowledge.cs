@@ -58,6 +58,7 @@ public class VisionKnowledge : MonoBehaviour
     {
         UpdateVisionCones();
         TickDownKnowledge();
+        UpdateLastSeen();
     }
 
     /// <summary>
@@ -90,7 +91,6 @@ public class VisionKnowledge : MonoBehaviour
                     knownAgentAwarenessMap.Add(agent, visionCone.coneSettings.Weight);
                 }
             }
-            
         }
     }
     
@@ -101,23 +101,43 @@ public class VisionKnowledge : MonoBehaviour
     {
         const float tickDownPerSecond = 0.1f;
         //Remove from the list
-        foreach (BaseAgent agentsInKnowlageMap in knownAgentAwarenessMap.Keys.ToList())
+        foreach (BaseAgent agent in knownAgentAwarenessMap.Keys.ToList())
         {
-            BaseAgent currentAgent = agentsInKnowlageMap;
-            knownAgentAwarenessMap[currentAgent] -= tickDownPerSecond * Time.deltaTime;
+            knownAgentAwarenessMap[agent] -= tickDownPerSecond * Time.deltaTime;
             
             //If we have 0 or less awareness then we do not perceive this enemy anymore
-            if (knownAgentAwarenessMap[currentAgent] <= 0)
+            if (knownAgentAwarenessMap[agent] <= 0)
             {
-                knownAgentAwarenessMap.Remove(currentAgent);
-            }
-            
-            //If there are now agents left in the map then store this as the last known agent position
-            if (knownAgentAwarenessMap.Count == 0)
-            {
-                lastKnownAgentPos = new Tuple<Vector3?, float>(currentAgent.transform.position, Time.timeSinceLevelLoad);
+                knownAgentAwarenessMap.Remove(agent);
             }
         }
+    }
+
+    /// <summary>
+    /// Update the last seen agent position
+    /// Determined by the 'most' seen agent - if we can see any at all
+    /// </summary>
+    private void UpdateLastSeen()
+    {
+        //If there are no agents visible then we cannot update
+        if (knownAgentAwarenessMap.Count == 0)
+        {
+            return;
+        }
+        
+        //Find the most seen agents
+        KeyValuePair<BaseAgent, float> mostSeenAgentVis = new KeyValuePair<BaseAgent, float>(null, Mathf.NegativeInfinity); //Pair of the most seen agent and it's visibility
+        foreach (KeyValuePair<BaseAgent,float> agentTimePair in knownAgentAwarenessMap)
+        {
+            if (agentTimePair.Value > mostSeenAgentVis.Value)
+            {
+                mostSeenAgentVis = agentTimePair;
+            }
+        }
+        
+        //Store the most seen agents position and now as the time we last saw it
+        lastKnownAgentPos =
+            new Tuple<Vector3?, float>(mostSeenAgentVis.Key.transform.position, Time.timeSinceLevelLoad);
     }
 
     /// <summary>
@@ -125,12 +145,6 @@ public class VisionKnowledge : MonoBehaviour
     /// </summary>
     public Tuple<Vector3?, float> GetLastSeenAgentPosition()
     {
-        if (knownAgentAwarenessMap.Count > 0)
-        {
-            Debug.LogWarning("Trying to access last seen agent position while we are still aware of agent position. " +
-                             "Consider checking for visible agents before this");
-        }
-
         return lastKnownAgentPos;
     }
 
