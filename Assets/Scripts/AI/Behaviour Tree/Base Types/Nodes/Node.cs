@@ -12,6 +12,10 @@ namespace AI.BehaviourTrees.BaseTypes
 
         public bool IsRunning { get; private set; }
         
+        //If this node should always be checked when a child of a composite node
+        [SerializeField] private bool alwaysCheck = false;
+        public bool AlwaysCheck => alwaysCheck;
+        
         //Event for node status update
         public delegate void NodeUpdateEvent(in NodeStatus currentStatus);
         

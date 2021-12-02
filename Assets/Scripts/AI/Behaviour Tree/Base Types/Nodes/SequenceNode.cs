@@ -19,6 +19,12 @@ namespace AI.BehaviourTrees.BaseTypes
 
         protected override NodeStatus Update_Internal()
         {
+            //Check the always check nodes - if one fails then we should abort this selector
+            if (CheckAlwaysCheckNodes() == NodeStatus.Fail)
+            {
+                return NodeStatus.Fail;
+            }
+            
             //Execute Child report back it's status
             NodeStatus nodeResult = currentNode.Update();
             switch (nodeResult)
