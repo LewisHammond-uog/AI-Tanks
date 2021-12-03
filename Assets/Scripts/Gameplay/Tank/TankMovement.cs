@@ -3,17 +3,28 @@ using UnityEngine.AI;
 
 public class TankMovement : MonoBehaviour
 {
-    [SerializeField] private float speed = 12f;                 // How fast the tank moves forward and back.
-    [SerializeField] private float turnSpeed = 180f;            // How fast the tank turns in degrees per second.
-    [SerializeField] private float acceleration = 0.5f; //How fast the tank accelerates
-
     private Rigidbody m_Rigidbody;              // Reference used to move the tank.
     
     private NavMeshAgent movementAgent; //Navmesh Agent used for Navigation
 
-    public float Speed => movementAgent.velocity.magnitude;
-    
-    
+    public float Speed => movementAgent ? movementAgent.velocity.magnitude : 0f;
+
+    public Vector3? Destination
+    {
+        get
+        {
+            if (movementAgent)
+            {
+                return movementAgent.destination;
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+
+
     private void Awake ()
     {
         m_Rigidbody = GetComponent<Rigidbody> ();
@@ -28,11 +39,6 @@ public class TankMovement : MonoBehaviour
     {
         //Stop Navmesh Agent
         movementAgent.isStopped = true;
-        
-        //Set the navmesh agents values as determined by the tank movement feilds
-        movementAgent.speed = speed;
-        movementAgent.angularSpeed = turnSpeed;
-        movementAgent.acceleration = acceleration;
         
         // When the tank is turned on, make sure it's not kinematic.
         m_Rigidbody.isKinematic = false;
@@ -63,5 +69,15 @@ public class TankMovement : MonoBehaviour
 
         return didSet;
     }
-    
+
+    /// <summary>
+    /// Check if the movement agent has reached its destination
+    /// </summary>
+    /// <param name="threshold">Allowable distance to the destination to determine as reached</param>
+    /// <returns>If we are at the destination</returns>
+    public bool IsAtDestination(float threshold = 2f)
+    {
+        return Vector3.Distance(transform.position, movementAgent.destination) <= threshold;
+    }
+
 }

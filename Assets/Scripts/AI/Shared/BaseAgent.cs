@@ -1,25 +1,84 @@
-﻿using System;
-using Codice.CM.Client.Differences;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Complete;
 using UnityEngine;
 
 namespace AI
 {
+    public enum AiTeam
+    {
+        Red,
+        Blue
+    }
+
+
     /// <summary>
     /// Base class of agent used for shared functions between both types of AI
     /// </summary>
     public class BaseAgent : MonoBehaviour
     {
+        //My Team
+        [SerializeField] private AiTeam myTeam;
+        public AiTeam Team => myTeam;
+
+        //List of all AI spawned
+        private static List<BaseAgent> allAgents = new List<BaseAgent>();
+
         //Components
         public TankMovement MovementCompoent { get; private set; }
         public TankShooting ShootingComponent { get; private set; }
         public TurretMovement TurretComponent { get; private set; }
+        public VisionKnowledge VisionKnowledgeComponent { get; private set; }
+        public TankHealth HealthComponent { get; private set; }
+
 
         private void Awake()
         {
             MovementCompoent = GetComponent<TankMovement>();
             ShootingComponent = GetComponent<TankShooting>();
             TurretComponent = GetComponentInChildren<TurretMovement>();
+            VisionKnowledgeComponent = GetComponentInChildren<VisionKnowledge>();
+            HealthComponent = GetComponent<TankHealth>();
+        }
+
+        private void Start()
+        {
+            //Add to the AI List
+            allAgents.Add(this);
+        }
+
+        private void OnDestroy()
+        {
+            //Remove this AI
+            allAgents.Remove(this);
+        }
+
+        /// <summary>
+        /// Get all of the AI Agents
+        /// </summary>
+        /// <returns>IEnumerable of AI Agents</returns>
+        public static IEnumerable<BaseAgent> GetAllAgents()
+        {
+            return allAgents;
+        }
+
+        /// <summary>
+        /// Get all of the AI agents on a given team
+        /// </summary>
+        /// <returns>IEnumerable of AI Agents</returns>
+        public static IEnumerable<BaseAgent> GetAgentsOfTeam(AiTeam team)
+        {
+            List<BaseAgent> agents = new List<BaseAgent>();
+            //Loop and pickout agents from a team
+            foreach(BaseAgent agent in allAgents)
+            {
+                if(agent.Team == team)
+                {
+                    agents.Add(agent);
+                }
+            }
+
+            return agents;
         }
     }
 }

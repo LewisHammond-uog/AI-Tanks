@@ -15,11 +15,19 @@ namespace AI.BehaviourTrees.BaseTypes
         {
             currentNodeIndex = 0;
             currentNode = children[currentNodeIndex];
+            
+            //Update if we have any always check nodes
+            CollectAlwaysCheckNodes();
         }
 
         protected override NodeStatus Update_Internal()
         {
-            //todo - just make a while loop?
+            //Check the always check nodes - if one fails then we should abort this selector
+            if (CheckAlwaysCheckNodes() == NodeStatus.Fail)
+            {
+                return NodeStatus.Fail;
+            }
+            
             //Execute Child report back it's status
             NodeStatus nodeResult = currentNode.Update();
             switch (nodeResult)
@@ -37,9 +45,8 @@ namespace AI.BehaviourTrees.BaseTypes
                     return NodeStatus.Fail;
             }
             
-            //If next node is null then we are at the end of the linked list - success! otherwise keep running
+            //If next node is null then we are at the end of the list - success! otherwise keep running
             return currentNode == null ? NodeStatus.Success : NodeStatus.Running;
-
         }
 
         protected override void OnExitNode()

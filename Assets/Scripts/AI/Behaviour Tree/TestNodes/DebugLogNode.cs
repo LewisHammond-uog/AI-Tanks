@@ -9,7 +9,7 @@ namespace AI.BehaviourTrees.TestNodes
         
         protected override void OnEnterNode()
         {
-            Debug.Log($"OnStart {message}");
+           
         }
 
         protected override NodeStatus Update_Internal()
@@ -20,7 +20,7 @@ namespace AI.BehaviourTrees.TestNodes
 
         protected override void OnExitNode()
         {
-            Debug.Log($"OnExit {message}"); 
+
         }
     }
 }

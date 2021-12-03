@@ -21,7 +21,7 @@ namespace Sensors.Vision
         private List<BaseAgent> visibleAgents;
         public IEnumerable<BaseAgent> VisibleAgents => visibleAgents;
 
-        private void Start()
+        private void Awake()
         {
             visibleAgents = new List<BaseAgent>();
         }
@@ -32,9 +32,9 @@ namespace Sensors.Vision
         public void CalculateVisibleTargets()
         {
             visibleAgents.Clear();
-        
+            
             //Get all of the agents within a sphere
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, coneSettings.ViewAngle, coneSettings.LayerMask);
+            Collider[] hitColliders = Physics.OverlapSphere(coneSettings.ConeTransform.position, coneSettings.ViewRadius, coneSettings.LayerMask);
             if (hitColliders.Length == 0)
             {
                 return;
@@ -52,12 +52,14 @@ namespace Sensors.Vision
                 }
 
                 //Check we are inside view cone - angle to target it within viewAngle/2
-                Vector3 directionToTarget = (hitGO.transform.position - transform.position).normalized;
-                float halfViewAngle = coneSettings.LayerMask * 0.5f;
-                if (Vector3.Angle(transform.forward, directionToTarget) < halfViewAngle)
+                Vector3 directionToTarget = (hitGO.transform.position - coneSettings.ConeTransform.position).normalized;
+                float halfViewAngle = coneSettings.ViewAngle * 0.5f;
+                float angleToObject = Vector3.Angle(coneSettings.ConeTransform.forward, directionToTarget);
+                if (angleToObject < halfViewAngle)
                 {
                     //Check that there is nothing obscuring out view
-                    if (!Physics.Linecast(transform.position, hitGO.transform.position, ~coneSettings.LayerMask))
+                    RaycastHit hit;
+                    if (!Physics.Linecast(coneSettings.ConeTransform.position, hitGO.transform.position, out hit, ~coneSettings.LayerMask))
                     {
                         if (hitGO.TryGetComponent<BaseAgent>(out BaseAgent agent))
                         {
