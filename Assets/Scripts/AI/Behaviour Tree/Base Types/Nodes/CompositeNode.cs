@@ -15,6 +15,20 @@ namespace AI.BehaviourTrees.BaseTypes
         [SerializeField] protected List<Node> alwaysCheckNodes = new List<Node>();
 
         /// <summary>
+        /// Creates the list of nodes to always check
+        /// </summary>
+        protected void CollectAlwaysCheckNodes()
+        {
+            foreach (Node child in children)
+            {
+                if (child.AlwaysCheck && !alwaysCheckNodes.Contains(child))
+                {
+                    alwaysCheckNodes.Add(child);
+                }
+            }
+        }
+
+        /// <summary>
         /// Check all of the nodes that we should always check, returning success if they all passed
         /// and fail if one is failed or is "running"
         /// </summary>
@@ -57,11 +71,6 @@ namespace AI.BehaviourTrees.BaseTypes
         {
             children ??= new List<Node>();
             children.Add(node);
-
-            if (node.AlwaysCheck)
-            {
-                alwaysCheckNodes.Add(node);   
-            }
         }
 
         /// <summary>
@@ -72,11 +81,6 @@ namespace AI.BehaviourTrees.BaseTypes
         {
             children ??= new List<Node>();
             children.Remove(node);
-            
-            if(alwaysCheckNodes.Contains(node))
-            {
-                alwaysCheckNodes.Remove(node);
-            }
         }
 
         /// <summary>

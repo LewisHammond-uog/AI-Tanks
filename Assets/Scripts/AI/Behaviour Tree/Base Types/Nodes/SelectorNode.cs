@@ -15,6 +15,8 @@ namespace AI.BehaviourTrees.BaseTypes {
             {
                 currentNode = children[currentNodeIndex];
             }
+            
+            CollectAlwaysCheckNodes();
         }
 
         protected override void OnExitNode()

@@ -15,6 +15,9 @@ namespace AI.BehaviourTrees.BaseTypes
         {
             currentNodeIndex = 0;
             currentNode = children[currentNodeIndex];
+            
+            //Update if we have any always check nodes
+            CollectAlwaysCheckNodes();
         }
 
         protected override NodeStatus Update_Internal()
