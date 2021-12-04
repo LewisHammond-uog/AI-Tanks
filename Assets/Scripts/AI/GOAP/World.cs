@@ -2,14 +2,14 @@ namespace AI.GOAP
 {
     public class World
     {
-        private WorldStates worldStates;
+        private States worldStates;
         
         public World()
         {
-            worldStates = new WorldStates();
+            worldStates = new States();
         }
 
-        public WorldStates GetWorldStates()
+        public States GetWorldStates()
         {
             return worldStates;
         }

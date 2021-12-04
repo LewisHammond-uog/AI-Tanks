@@ -2,13 +2,13 @@ using System.Collections.Generic;
 
 namespace AI.GOAP
 {
-    public class WorldStates
+    public class States
     {
-        private Dictionary<string, object> worldStates;
+        private Dictionary<string, object> states;
 
-        public WorldStates()
+        public States()
         {
-            worldStates = new Dictionary<string, object>();
+            states = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -18,7 +18,7 @@ namespace AI.GOAP
         /// <returns>If this object has this state</returns>
         public bool HasState(string key)
         {
-            return worldStates.ContainsKey(key);
+            return states.ContainsKey(key);
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace AI.GOAP
         /// <param name="value">Value of the state</param>
         public void AddState(string key, object value)
         {
-            worldStates?.Add(key, value);
+            states?.Add(key, value);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace AI.GOAP
         {
             if (HasState(key))
             {
-                worldStates[key] = value;
+                states[key] = value;
             }
             else
             {
@@ -55,9 +55,9 @@ namespace AI.GOAP
         /// <param name="key"></param>
         public void RemoveState(string key)
         {
-            if (worldStates.ContainsKey(key))
+            if (states.ContainsKey(key))
             {
-                worldStates.Remove(key);
+                states.Remove(key);
             }
         }
         
@@ -68,7 +68,7 @@ namespace AI.GOAP
         /// <returns>Value stored in key, null if key does't exist</returns>
         public object GetStateValue(string key)
         {
-            return worldStates.ContainsKey(key) ? worldStates[key] : null;
+            return states.ContainsKey(key) ? states[key] : null;
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace AI.GOAP
         /// <returns></returns>
         public Dictionary<string, object> GetStates()
         {
-            return worldStates;
+            return states;
         }
     }
 }
