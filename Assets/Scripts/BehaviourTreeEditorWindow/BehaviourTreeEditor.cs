@@ -1,6 +1,6 @@
 using System;
+using AI.BehaviourTree.BaseTypes;
 using AI.BehaviourTrees;
-using AI.BehaviourTrees.BaseTypes;
 using BehaviourTreeEditorWindow;
 using UnityEditor;
 using UnityEngine;

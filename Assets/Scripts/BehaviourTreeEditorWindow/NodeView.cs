@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
-using AI.BehaviourTrees.BaseTypes;
+using AI.BehaviourTree.BaseTypes;
+using AI.BehaviourTree.BaseTypes.Nodes;
 using BehaviourTreeEditorWindow;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using GraphNode = UnityEditor.Experimental.GraphView.Node;
-using BTNode = AI.BehaviourTrees.BaseTypes.Node;
+using BTNode = AI.BehaviourTree.BaseTypes.Nodes.Node;
 
 
 //Visual represnetation of a Behaviour Tree node in the BehaviourTreeView
