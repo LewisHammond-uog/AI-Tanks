@@ -13,13 +13,44 @@ namespace AI.GOAP.Planner
             public float Cost { get; }
             public Dictionary<string, bool> State { get; }
             public Action Action { get; }
-
-            public Node(Node parent, float cost, Dictionary<string, bool> allStates, Action action)
+            
+            /// <summary>
+            /// Create a node in the planner graph
+            /// </summary>
+            /// <param name="parent">Parent node</param>
+            /// <param name="cost">Cost of this node</param>
+            /// <param name="allStates">All states to add to this node</param>
+            /// <param name="action">Action that this node represents</param>
+            public Node(Node parent, float cost, IDictionary<string, bool> allStates, Action action)
             {
                 this.Parent = parent;
                 this.Cost = cost;
                 this.State = new Dictionary<string, bool>(allStates);
                 this.Action = action;
+            }
+
+            /// <summary>
+            /// Create anode in the planner graph
+            /// </summary>
+            /// <param name="parent">Parent Node</param>
+            /// <param name="cost">Cost of this node</param>
+            /// <param name="world">World that this node exists within</param>
+            /// <param name="agentBeliefs">Beliefs of the agent that is using this plan</param>
+            /// <param name="action">Action that this node represents</param>>
+            public Node(Node parent, float cost, World world, States agentBeliefs, Action action)
+            {
+                this.Parent = parent;
+                this.Cost = cost;
+                this.State = new Dictionary<string, bool>(world.GetWorldStates().GetStates());
+                this.Action = action;
+                
+                //Add agentBeliefs to state
+                if (agentBeliefs == null) return;
+                foreach (KeyValuePair<string, bool> belief in agentBeliefs.GetStates())
+                {
+                    State.Add(belief.Key, belief.Value);
+                }
+
             }
         }
     }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AI.GOAP.Agent;
 using UnityEngine;
 
 namespace AI.GOAP

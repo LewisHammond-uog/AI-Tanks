@@ -1,19 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using AI.GOAP.Agent;
 using UnityEngine;
-using AI.GOAP.Planner;
 
-namespace AI.GOAP
+namespace AI.GOAP.Agent
 {
     public abstract class GOAPAgent : BaseAgent
     {
         [SerializeField] private List<Action> actions = new List<Action>();
         private Dictionary<SubGoal, int> goals = new Dictionary<SubGoal, int>();
 
+        //States that are local to this agent
+        private States agentBeliefs;
+        
+        //Planner and the action queue that we will execute
         private Planner.Planner planner;
         private Queue<Action> actionQueue;
+        
+        //The current goal and action of this agent
         private Action currentAction;
         private SubGoal currentGoal;
 
@@ -24,6 +27,9 @@ namespace AI.GOAP
             //Collect all of the actions that are components of the object and feed that to the action list
             Action[] actionsOnObject = GetComponents<Action>();
             actions = actionsOnObject.ToList();
+
+            //Create the agent beleilfs
+            agentBeliefs = new States();
             
             //Set the owner of each action
             SetActionOwners();
@@ -35,6 +41,8 @@ namespace AI.GOAP
             if (currentAction != null)
             {
                 Action.ActionState actionState = currentAction.Perform();
+                //Set our current action to null after we have completed a action or
+                //reset the goal if we have failed
                 if (actionState == Action.ActionState.Success)
                 {
                     currentAction = null;
@@ -63,6 +71,33 @@ namespace AI.GOAP
             {
                 CreatePlan();
             }
+        }
+
+        /// <summary>
+        /// Add a belief to this agent
+        /// </summary>
+        public void AddBelief(string key, bool value)
+        {
+            agentBeliefs.AddState(key, value);
+        }
+
+        /// <summary>
+        /// Modify a belief on this agent
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public void ModifyBelief(string key, bool value)
+        {
+            agentBeliefs.SetStateValue(key, value);
+        }
+
+        /// <summary>
+        /// Remove a belief from this agent
+        /// </summary>
+        /// <param name="key"></param>
+        public void RemoveBelief(string key)
+        {
+            agentBeliefs.RemoveState(key);
         }
 
         /// <summary>
@@ -117,7 +152,7 @@ namespace AI.GOAP
             //Try and plan our goals in priority order
             foreach (KeyValuePair<SubGoal,int> goalPriorityPair in sortedGoals)
             {
-                actionQueue = planner.Plan(actions, goalPriorityPair.Key.SubGoals, null, World.GetInstance());
+                actionQueue = planner.Plan(actions, goalPriorityPair.Key.SubGoals, agentBeliefs, World.GetInstance());
                 if (actionQueue != null)
                 {
                     currentGoal = goalPriorityPair.Key;

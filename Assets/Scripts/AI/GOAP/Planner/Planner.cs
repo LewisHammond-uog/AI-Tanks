@@ -7,13 +7,13 @@ namespace AI.GOAP.Planner
 { 
     public partial class Planner
     {
-        
         /// <summary>
         /// Create a plan
         /// </summary>
-        /// <param name="actions"></param>
-        /// <param name="goal"></param>
-        /// <param name="world"></param>
+        /// <param name="actions">List of actions that can be perfomed in the plan</param>
+        /// <param name="goal">Goal that this agent wants to plan to execute</param>
+        /// <param name="agentStates">Beliefs of the agent that is using this plan</param>
+        /// <param name="world">World that this plan is being executed in</param>
         /// <returns></returns>
         public Queue<Action> Plan(List<Action> actions, Dictionary<string, bool> goal, States agentStates, World world)
         {
@@ -29,9 +29,9 @@ namespace AI.GOAP.Planner
 
             //Create the start of the tree with an entry node
             List<Node> leaves = new List<Node>();
-            Node start = new Node(null, 0, world.GetWorldStates().GetStates(), null);
+            Node start = new Node(null, 0, world, agentStates, null);
 
-            bool success = BuildGraph(start, leaves, actions, goal);
+            bool success = BuildGraph(start, leaves, usableActions, goal);
 
             if (!success)
             {
