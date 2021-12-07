@@ -10,7 +10,7 @@ namespace AI.GOAP
     public abstract class GOAPAgent : BaseAgent
     {
         [SerializeField] private List<Action> actions = new List<Action>();
-        public Dictionary<SubGoal, int> goals = new Dictionary<SubGoal, int>();
+        private Dictionary<SubGoal, int> goals = new Dictionary<SubGoal, int>();
 
         private Planner.Planner planner;
         private Queue<Action> actionQueue;
@@ -63,9 +63,18 @@ namespace AI.GOAP
             {
                 CreatePlan();
             }
-            
-            //If we have actions to run then run them
+        }
 
+        /// <summary>
+        /// Add a Goal to the agent
+        /// </summary>
+        /// <param name="key">They key for this goal</param>
+        /// <param name="value">Value for the goal to be achived</param>
+        /// <param name="priority">The priority for this goal to be completed</param>
+        /// <param name="removeOnComplete">If this goal should be removed when completed</param>
+        public void AddGoal(string key, bool value, int priority, bool removeOnComplete = false)
+        {
+            goals.Add(new SubGoal(key, value, removeOnComplete), priority);
         }
 
         /// <summary>

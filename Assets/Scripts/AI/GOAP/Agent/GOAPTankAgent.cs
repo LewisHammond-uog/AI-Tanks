@@ -4,7 +4,7 @@
     {
         private void Start()
         {
-            goals.Add(new SubGoal("isAtEdge", true, false), 5);
+            AddGoal("isAtEdge", true, 5);
         }
     }
 }
