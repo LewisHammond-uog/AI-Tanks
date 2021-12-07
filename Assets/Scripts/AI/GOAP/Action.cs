@@ -35,8 +35,17 @@ namespace AI.GOAP
         /// <returns></returns>
         public bool IsAchievableGiven(Dictionary<string, object> conditions)
         {
-            //Need to loop the condtiions in this dictonary and then check that it contains all of
-            //the keys in the pre condtions
+            //Check all this actions precondtions - if they are all in the conditions dictonary supplied then this
+            //action is achiveable given those condtions
+            foreach (KeyValuePair<string,object> pCondition in preconditionsDictonary)
+            {
+                if (!conditions.ContainsKey(pCondition.Key))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public abstract bool PrePerform();
