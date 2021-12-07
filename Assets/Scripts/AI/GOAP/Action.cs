@@ -11,7 +11,8 @@ namespace AI.GOAP
         //Preconditions that must be fulfilled for out action to take place
         [SerializeField] private State[] preconditions;
         //Effects that happen once this action is completed
-        [field: SerializeField] public State[] Effects { get; }
+        [SerializeField] private State[] effects;
+        public State[] Effects => effects;
 
         //Property to get the preconditions as a dictonary
         private Dictionary<string, object> preconditionsDictonary => State.AsDictionary(preconditions);
@@ -20,6 +21,45 @@ namespace AI.GOAP
         //States local to the agent that is executing this action   
         private States agentStates;
 
+        //Is this action running?
+        private bool isRunning;
+        
+        //Running properties
+        public enum ActionState
+        {
+            Fail,
+            Success,
+            Running
+        }
+
+        /// <summary>
+        /// Perform this action
+        /// </summary>
+        /// <returns></returns>
+        public ActionState Perform()
+        {
+            if (!isRunning)
+            {
+                if (!PrePerform())
+                {
+                    return ActionState.Fail;
+                }
+                isRunning = true;
+            }
+
+            ActionState state = Perform_Internal();
+
+            //If we have completed the action then return success
+            if (state == ActionState.Success)
+            {
+                PostPerform();
+                isRunning = false;
+            }
+
+            return state;
+        }
+        
+        
         /// <summary>
         /// Is this action achievable in the current world and agent states?
         /// </summary>
@@ -48,8 +88,9 @@ namespace AI.GOAP
             return true;
         }
 
-        public abstract bool PrePerform();
-        public abstract bool PostPerform();
+        protected abstract bool PrePerform();
+        protected abstract ActionState Perform_Internal();
+        protected abstract bool PostPerform();
 
     } 
 }

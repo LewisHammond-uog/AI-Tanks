@@ -10,6 +10,7 @@ namespace AI.GOAP
         public string key;
         public object value;
 
+
         /// <summary>
         /// Get a IEnumerable of States as a Dictonary
         /// </summary>
