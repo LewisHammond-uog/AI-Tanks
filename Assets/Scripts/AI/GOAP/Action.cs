@@ -5,6 +5,9 @@ namespace AI.GOAP
 {
     public abstract class Action : MonoBehaviour
     {
+        //Owner of this action
+        public GOAPAgent Owner { get; private set; }
+        
         [SerializeField] private string name = "Untitled action";
         [field: SerializeField] public float Cost { get; } = 1.0f;
 
@@ -15,8 +18,8 @@ namespace AI.GOAP
         public State[] Effects => effects;
 
         //Property to get the preconditions as a dictonary
-        private Dictionary<string, object> preconditionsDictonary => State.AsDictionary(preconditions);
-        private Dictionary<string, object> effectsDictonary => State.AsDictionary(Effects);
+        private Dictionary<string, bool> preconditionsDictonary => State.AsDictionary(preconditions);
+        private Dictionary<string, bool> effectsDictonary => State.AsDictionary(Effects);
 
         //States local to the agent that is executing this action   
         private States agentStates;
@@ -58,7 +61,15 @@ namespace AI.GOAP
 
             return state;
         }
-        
+
+        /// <summary>
+        /// Set the owner of this action
+        /// </summary>
+        /// <param name="ownerAgent"></param>
+        public void SetOwner(GOAPAgent ownerAgent)
+        {
+            Owner = ownerAgent;
+        }
         
         /// <summary>
         /// Is this action achievable in the current world and agent states?
@@ -73,11 +84,11 @@ namespace AI.GOAP
         /// Is this action achievable given the current world and agents states plus additonally supplied conditions
         /// </summary>
         /// <returns></returns>
-        public bool IsAchievableGiven(Dictionary<string, object> conditions)
+        public bool IsAchievableGiven(Dictionary<string, bool> conditions)
         {
             //Check all this actions precondtions - if they are all in the conditions dictonary supplied then this
             //action is achiveable given those condtions
-            foreach (KeyValuePair<string,object> pCondition in preconditionsDictonary)
+            foreach (KeyValuePair<string,bool> pCondition in preconditionsDictonary)
             {
                 if (!conditions.ContainsKey(pCondition.Key))
                 {

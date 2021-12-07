@@ -15,7 +15,7 @@ namespace AI.GOAP.Planner
         /// <param name="goal"></param>
         /// <param name="world"></param>
         /// <returns></returns>
-        public Queue<Action> Plan(List<Action> actions, Dictionary<string, object> goal, States agentStates, World world)
+        public Queue<Action> Plan(List<Action> actions, Dictionary<string, bool> goal, States agentStates, World world)
         {
             //Check what actions are currently achiveable
             List<Action> usableActions = new List<Action>();
@@ -81,7 +81,7 @@ namespace AI.GOAP.Planner
         /// <param name="actions">Action that this graph can use</param>
         /// <param name="goal">The goal that this graph should statisfy - dictonary of states</param>
         /// <returns></returns>
-        private bool BuildGraph(Node parent, List<Node> leaves, List<Action> actions, Dictionary<string, object> goal)
+        private bool BuildGraph(Node parent, List<Node> leaves, List<Action> actions, Dictionary<string, bool> goal)
         {
             bool foundPath = false;
             foreach (Action action in actions)
@@ -89,7 +89,7 @@ namespace AI.GOAP.Planner
                 if (!action.IsAchievableGiven(parent.State)) continue;
                 
                 //Add the effects of the current action to the current state
-                Dictionary<string, object> currentState = new Dictionary<string, object>(parent.State);
+                Dictionary<string, bool> currentState = new Dictionary<string, bool>(parent.State);
                 foreach (State effect in action.Effects)
                 {
                     if (!currentState.ContainsKey(effect.key))
@@ -129,7 +129,7 @@ namespace AI.GOAP.Planner
             List<Action> actionSubset = new List<Action>(actions);
             if (actionSubset.Contains(actionToRemove))
             {
-                actions.Remove(actionToRemove);
+                actionSubset.Remove(actionToRemove);
             }
             return actionSubset;
         }
@@ -140,10 +140,10 @@ namespace AI.GOAP.Planner
         /// <param name="goal">Goal to statisfy</param>
         /// <param name="currentState">State to check</param>
         /// <returns>If goal is statisified</returns>
-        private bool IsGoalAchieved(Dictionary<string, object> goal, Dictionary<string, object> currentState)
+        private bool IsGoalAchieved(Dictionary<string, bool> goal, Dictionary<string, bool> currentState)
         {
             //Check if the current state contains all of the effects that the goal requires
-            foreach (KeyValuePair<string,object> state in goal)
+            foreach (KeyValuePair<string,bool> state in goal)
             {
                 if (!currentState.ContainsKey(state.Key))
                 {

@@ -2,10 +2,9 @@
 {
     public class GOAPTankAgent : GOAPAgent
     {
-        public void Awake()
+        private void Start()
         {
-            base.Awake();
-            goals.Add(new SubGoal("isAlive", null, false), 5);
+            goals.Add(new SubGoal("isAtEdge", true, false), 5);
         }
     }
 }

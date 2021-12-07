@@ -32,7 +32,7 @@ namespace AI
         public TankHealth HealthComponent { get; private set; }
 
 
-        private void Awake()
+        public virtual void Awake()
         {
             MovementCompoent = GetComponent<TankMovement>();
             ShootingComponent = GetComponent<TankShooting>();

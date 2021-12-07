@@ -8,7 +8,7 @@ namespace AI.GOAP
     public class State
     {
         public string key;
-        public object value;
+        public bool value;
 
 
         /// <summary>
@@ -16,7 +16,7 @@ namespace AI.GOAP
         /// </summary>
         /// <param name="collection"></param>
         /// <returns>Dictonary of keys and values of the IEnumerable of states</returns>
-        public static Dictionary<string, object> AsDictionary(IEnumerable<State> collection)
+        public static Dictionary<string, bool> AsDictionary(IEnumerable<State> collection)
         {
             return collection.ToDictionary(state => state.key, state => state.value);
         }

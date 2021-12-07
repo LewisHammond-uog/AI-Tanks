@@ -11,14 +11,14 @@ namespace AI.GOAP.Planner
         {
             public Node Parent { get; }
             public float Cost { get; }
-            public Dictionary<string, object> State { get; }
+            public Dictionary<string, bool> State { get; }
             public Action Action { get; }
 
-            public Node(Node parent, float cost, Dictionary<string, object> allStates, Action action)
+            public Node(Node parent, float cost, Dictionary<string, bool> allStates, Action action)
             {
                 this.Parent = parent;
                 this.Cost = cost;
-                this.State = new Dictionary<string, object>(allStates);
+                this.State = new Dictionary<string, bool>(allStates);
                 this.Action = action;
             }
         }

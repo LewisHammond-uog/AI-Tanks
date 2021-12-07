@@ -4,11 +4,11 @@ namespace AI.GOAP
 {
     public class States
     {
-        private Dictionary<string, object> states;
+        private Dictionary<string, bool> states;
 
         public States()
         {
-            states = new Dictionary<string, object>();
+            states = new Dictionary<string, bool>();
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace AI.GOAP
         /// </summary>
         /// <param name="key">Key of the state</param>
         /// <param name="value">Value of the state</param>
-        public void AddState(string key, object value)
+        public void AddState(string key, bool value)
         {
             states?.Add(key, value);
         }
@@ -37,7 +37,7 @@ namespace AI.GOAP
         /// </summary>
         /// <param name="key">Key of item to change</param>
         /// <param name="value">Value to update to</param>
-        public void SetStateValue(string key, object value)
+        public void SetStateValue(string key, bool value)
         {
             if (HasState(key))
             {
@@ -66,16 +66,16 @@ namespace AI.GOAP
         /// </summary>
         /// <param name="key"></param>
         /// <returns>Value stored in key, null if key does't exist</returns>
-        public object GetStateValue(string key)
+        public bool GetStateValue(string key)
         {
-            return states.ContainsKey(key) ? states[key] : null;
+            return states[key];
         }
 
         /// <summary>
         /// Get all of the world states
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, object> GetStates()
+        public Dictionary<string, bool> GetStates()
         {
             return states;
         }

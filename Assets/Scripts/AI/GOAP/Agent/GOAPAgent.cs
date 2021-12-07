@@ -17,11 +17,16 @@ namespace AI.GOAP
         private Action currentAction;
         private SubGoal currentGoal;
 
-        public void Awake()
+        public override void Awake()
         {
+            base.Awake();
+            
             //Collect all of the actions that are components of the object and feed that to the action list
             Action[] actionsOnObject = GetComponents<Action>();
             actions = actionsOnObject.ToList();
+            
+            //Set the owner of each action
+            SetActionOwners();
         }
 
         private void Update()
@@ -63,6 +68,16 @@ namespace AI.GOAP
 
         }
 
+        /// <summary>
+        /// Set the owner of all of the acitons
+        /// </summary>
+        private void SetActionOwners()
+        {
+            foreach (Action action in actions)
+            {
+                action.SetOwner(this);
+            }
+        }
         
         /// <summary>
         /// Reset the current goal
@@ -79,14 +94,8 @@ namespace AI.GOAP
         }
 
         /// <summary>
-        /// Check if the current goal is completed
+        /// Create a plan for this agent to follow with the set goals
         /// </summary>
-        private bool IsGoalComplete()
-        {
-            //If the action queue is not null but has 0 elements
-            return actionQueue is {Count: 0} && currentAction != null;
-        }
-
         private void CreatePlan()
         {
             planner = new Planner.Planner();
@@ -106,6 +115,15 @@ namespace AI.GOAP
                     break;
                 }
             }
+        }
+        
+        /// <summary>
+        /// Check if the current goal is completed
+        /// </summary>
+        private bool IsGoalComplete()
+        {
+            //If the action queue is not null but has 0 elements
+            return actionQueue is {Count: 0} && currentAction != null;
         }
     }
 }
