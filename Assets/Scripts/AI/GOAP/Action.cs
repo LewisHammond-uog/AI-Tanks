@@ -6,16 +6,16 @@ namespace AI.GOAP
     public abstract class Action : MonoBehaviour
     {
         [SerializeField] private string name = "Untitled action";
-        [SerializeField] private float cost = 1.0f;
-        
+        [field: SerializeField] public float Cost { get; } = 1.0f;
+
         //Preconditions that must be fulfilled for out action to take place
         [SerializeField] private State[] preconditions;
         //Effects that happen once this action is completed
-        [SerializeField] private State[] effects;
+        [field: SerializeField] public State[] Effects { get; }
 
         //Property to get the preconditions as a dictonary
         private Dictionary<string, object> preconditionsDictonary => State.AsDictionary(preconditions);
-        private Dictionary<string, object> effectsDictonary => State.AsDictionary(effects);
+        private Dictionary<string, object> effectsDictonary => State.AsDictionary(Effects);
 
         //States local to the agent that is executing this action   
         private States agentStates;

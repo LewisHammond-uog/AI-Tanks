@@ -3,8 +3,14 @@ namespace AI.GOAP
     public class World
     {
         private States worldStates;
+        private static World instance;
+
+        public static World GetInstance()
+        {
+            return instance ??= new World();
+        }
         
-        public World()
+        private World()
         {
             worldStates = new States();
         }
