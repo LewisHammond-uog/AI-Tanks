@@ -1,14 +1,17 @@
 using System.Collections.Generic;
 
-namespace AI.GOAP
+namespace AI.GOAP.States
 {
-    public class States
+    /// <summary>
+    /// Class to represent a collection of states that an agent, or the world, would have
+    /// </summary>
+    public class StateCollection
     {
-        private Dictionary<string, bool> states;
+        private Dictionary<string, object> states;
 
-        public States()
+        public StateCollection()
         {
-            states = new Dictionary<string, bool>();
+            states = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -66,7 +69,7 @@ namespace AI.GOAP
         /// </summary>
         /// <param name="key"></param>
         /// <returns>Value stored in key, null if key does't exist</returns>
-        public bool GetStateValue(string key)
+        public object GetStateValue(string key)
         {
             return states[key];
         }
@@ -75,7 +78,7 @@ namespace AI.GOAP
         /// Get all of the world states
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, bool> GetStates()
+        public Dictionary<string, object> GetStates()
         {
             return states;
         }

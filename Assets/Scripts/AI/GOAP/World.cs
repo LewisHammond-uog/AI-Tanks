@@ -1,8 +1,10 @@
+using AI.GOAP.States;
+
 namespace AI.GOAP
 {
     public class World
     {
-        private States worldStates;
+        private StateCollection worldStates;
         private static World instance;
 
         public static World GetInstance()
@@ -12,10 +14,10 @@ namespace AI.GOAP
         
         private World()
         {
-            worldStates = new States();
+            worldStates = new StateCollection();
         }
 
-        public States GetWorldStates()
+        public StateCollection GetWorldStates()
         {
             return worldStates;
         }

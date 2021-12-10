@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AI.GOAP.Actions;
+using AI.GOAP.Goals;
+using AI.GOAP.States;
 using UnityEngine;
 
 namespace AI.GOAP.Agent
@@ -7,10 +10,10 @@ namespace AI.GOAP.Agent
     public abstract class GOAPAgent : BaseAgent
     {
         [SerializeField] private List<Action> actions = new List<Action>();
-        private Dictionary<SubGoal, int> goals = new Dictionary<SubGoal, int>();
+        private readonly Dictionary<Goal, int> goals = new Dictionary<Goal, int>();
 
         //States that are local to this agent
-        private States agentBeliefs;
+        private StateCollection agentBeliefs;
         
         //Planner and the action queue that we will execute
         private Planner.Planner planner;
@@ -18,7 +21,7 @@ namespace AI.GOAP.Agent
         
         //The current goal and action of this agent
         private Action currentAction;
-        private SubGoal currentGoal;
+        private Goal currentGoal;
 
         public override void Awake()
         {
@@ -29,7 +32,7 @@ namespace AI.GOAP.Agent
             actions = actionsOnObject.ToList();
 
             //Create the agent beleilfs
-            agentBeliefs = new States();
+            agentBeliefs = new StateCollection();
             
             //Set the owner of each action
             SetActionOwners();
@@ -103,13 +106,11 @@ namespace AI.GOAP.Agent
         /// <summary>
         /// Add a Goal to the agent
         /// </summary>
-        /// <param name="key">They key for this goal</param>
-        /// <param name="value">Value for the goal to be achived</param>
+        /// <param name="goal">Goal to add</param>
         /// <param name="priority">The priority for this goal to be completed</param>
-        /// <param name="removeOnComplete">If this goal should be removed when completed</param>
-        public void AddGoal(string key, bool value, int priority, bool removeOnComplete = false)
+        public void AddGoal(Goal goal, int priority)
         {
-            goals.Add(new SubGoal(key, value, removeOnComplete), priority);
+            goals.Add(goal, priority);
         }
 
         /// <summary>
@@ -145,12 +146,12 @@ namespace AI.GOAP.Agent
             planner = new Planner.Planner();
                 
             //Sort our goals
-            IOrderedEnumerable<KeyValuePair<SubGoal, int>> sortedGoals = from entry in goals
+            IOrderedEnumerable<KeyValuePair<Goal, int>> sortedGoals = from entry in goals
                 orderby entry.Value descending
                 select entry;
 
             //Try and plan our goals in priority order
-            foreach (KeyValuePair<SubGoal,int> goalPriorityPair in sortedGoals)
+            foreach (KeyValuePair<Goal,int> goalPriorityPair in sortedGoals)
             {
                 actionQueue = planner.Plan(actions, goalPriorityPair.Key.SubGoals, agentBeliefs, World.GetInstance());
                 if (actionQueue != null)

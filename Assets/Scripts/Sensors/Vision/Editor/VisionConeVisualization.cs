@@ -17,7 +17,7 @@ namespace Sensors.Editor
 
         private bool showCone = true;
         private bool showRadius = false;
-        private bool showTraceToVisibleTargets = true;
+        //private bool showTraceToVisibleTargets = true;
 
         private VisionKnowledge visionComponent;
         private GameObject visionObject;

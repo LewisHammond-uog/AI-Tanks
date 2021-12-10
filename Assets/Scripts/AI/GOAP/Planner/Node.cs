@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using AI.GOAP.Actions;
+using AI.GOAP.States;
 
 namespace AI.GOAP.Planner
 {
@@ -11,7 +13,7 @@ namespace AI.GOAP.Planner
         {
             public Node Parent { get; }
             public float Cost { get; }
-            public Dictionary<string, bool> State { get; }
+            public Dictionary<string, object> State { get; }
             public Action Action { get; }
             
             /// <summary>
@@ -21,11 +23,11 @@ namespace AI.GOAP.Planner
             /// <param name="cost">Cost of this node</param>
             /// <param name="allStates">All states to add to this node</param>
             /// <param name="action">Action that this node represents</param>
-            public Node(Node parent, float cost, IDictionary<string, bool> allStates, Action action)
+            public Node(Node parent, float cost, IDictionary<string, object> allStates, Action action)
             {
                 this.Parent = parent;
                 this.Cost = cost;
-                this.State = new Dictionary<string, bool>(allStates);
+                this.State = new Dictionary<string, object>(allStates);
                 this.Action = action;
             }
 
@@ -37,16 +39,16 @@ namespace AI.GOAP.Planner
             /// <param name="world">World that this node exists within</param>
             /// <param name="agentBeliefs">Beliefs of the agent that is using this plan</param>
             /// <param name="action">Action that this node represents</param>>
-            public Node(Node parent, float cost, World world, States agentBeliefs, Action action)
+            public Node(Node parent, float cost, World world, StateCollection agentBeliefs, Action action)
             {
                 this.Parent = parent;
                 this.Cost = cost;
-                this.State = new Dictionary<string, bool>(world.GetWorldStates().GetStates());
+                this.State = new Dictionary<string, object>(world.GetWorldStates().GetStates());
                 this.Action = action;
                 
                 //Add agentBeliefs to state
                 if (agentBeliefs == null) return;
-                foreach (KeyValuePair<string, bool> belief in agentBeliefs.GetStates())
+                foreach (KeyValuePair<string, object> belief in agentBeliefs.GetStates())
                 {
                     State.Add(belief.Key, belief.Value);
                 }

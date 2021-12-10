@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using AI.GOAP.States;
 using UnityEngine;
 using UnityEngine.Analytics;
+using Action = AI.GOAP.Actions.Action;
 
 namespace AI.GOAP.Planner
 { 
@@ -15,7 +17,7 @@ namespace AI.GOAP.Planner
         /// <param name="agentStates">Beliefs of the agent that is using this plan</param>
         /// <param name="world">World that this plan is being executed in</param>
         /// <returns></returns>
-        public Queue<Action> Plan(List<Action> actions, Dictionary<string, bool> goal, States agentStates, World world)
+        public Queue<Action> Plan(List<Action> actions, Dictionary<string, object> goal, StateCollection agentStates, World world)
         {
             //Check what actions are currently achiveable
             List<Action> usableActions = new List<Action>();
@@ -81,7 +83,7 @@ namespace AI.GOAP.Planner
         /// <param name="actions">Action that this graph can use</param>
         /// <param name="goal">The goal that this graph should statisfy - dictonary of states</param>
         /// <returns></returns>
-        private bool BuildGraph(Node parent, List<Node> leaves, List<Action> actions, Dictionary<string, bool> goal)
+        private bool BuildGraph(Node parent, List<Node> leaves, List<Action> actions, Dictionary<string, object> goal)
         {
             bool foundPath = false;
             foreach (Action action in actions)
@@ -89,7 +91,7 @@ namespace AI.GOAP.Planner
                 if (!action.IsAchievableGiven(parent.State)) continue;
                 
                 //Add the effects of the current action to the current state
-                Dictionary<string, bool> currentState = new Dictionary<string, bool>(parent.State);
+                Dictionary<string, object> currentState = new Dictionary<string, object>(parent.State);
                 foreach (State effect in action.Effects)
                 {
                     if (!currentState.ContainsKey(effect.key))
@@ -140,10 +142,10 @@ namespace AI.GOAP.Planner
         /// <param name="goal">Goal to statisfy</param>
         /// <param name="currentState">State to check</param>
         /// <returns>If goal is statisified</returns>
-        private bool IsGoalAchieved(Dictionary<string, bool> goal, Dictionary<string, bool> currentState)
+        private bool IsGoalAchieved(Dictionary<string, object> goal, Dictionary<string, object> currentState)
         {
             //Check if the current state contains all of the effects that the goal requires
-            foreach (KeyValuePair<string,bool> state in goal)
+            foreach (KeyValuePair<string,object> state in goal)
             {
                 if (!currentState.ContainsKey(state.Key))
                 {
