@@ -11,7 +11,6 @@ namespace AI
         Blue
     }
 
-
     /// <summary>
     /// Base class of agent used for shared functions between both types of AI
     /// </summary>
@@ -79,6 +78,54 @@ namespace AI
             }
 
             return agents;
+        }
+        
+        /// <summary>
+        /// Determine the best enemy for this agent to attack based on vision knowlage
+        /// </summary>
+        public BaseAgent DetermineBestEnemyToAttack()
+        {
+            //Loop all of the visible enemies - if they are on the enemy team then give them a score
+            //store the best scoring enemy to shoot at
+            KeyValuePair<BaseAgent, float> agentBestScorePair =
+                new KeyValuePair<BaseAgent, float>(null, float.NegativeInfinity);
+            foreach (BaseAgent agent in VisionKnowledgeComponent.GetVisibleAgents())
+            {
+                //If we are the same team then don't give us a score
+                if (agent.Team == Team) continue;
+                
+                float score = ScoreEnemy(agent);
+                if (score > agentBestScorePair.Value)
+                {
+                    agentBestScorePair = new KeyValuePair<BaseAgent, float>(agent, score);
+                }
+            }
+
+            return agentBestScorePair.Key;
+        }
+        
+        /// <summary>
+        /// Score an enemy agent based on a number of factors
+        /// </summary>
+        /// <returns></returns>
+        private float ScoreEnemy(BaseAgent enemyAgent)
+        {
+            const float baseScore = 1000f;
+            float totalScore = baseScore;
+
+            if (enemyAgent == null)
+            {
+                return float.NegativeInfinity;
+            }
+            
+            //Evaluate Distance
+            const float distancePower = 1.1f;
+            totalScore -= Mathf.Pow(Vector3.Distance(transform.position, enemyAgent.transform.position), distancePower);
+            
+            //Evaluate Health - get health as a percentage
+            totalScore -= enemyAgent.HealthComponent.m_CurrentHealth / enemyAgent.HealthComponent.m_StartingHealth * 100;
+
+            return totalScore;
         }
     }
 }

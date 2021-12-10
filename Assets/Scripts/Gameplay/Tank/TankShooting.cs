@@ -1,4 +1,5 @@
 ﻿using System;
+using Complete;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,7 @@ public class TankShooting : MonoBehaviour
 
     //Public property for getting the position from the tank that we fire from
     public Transform FireTransform => m_FireTransform;
-    
+
     //Local peak of the arc when firing a bullet
     //Esentailly how high do you want the bullet to go in its arc
     public const float fireArcPeak = 2.5f;
@@ -28,7 +29,7 @@ public class TankShooting : MonoBehaviour
         //Allow fire straight away
         lastFireTime = Time.timeSinceLevelLoad - timeBetweenShots;
     }
-    
+
     /// <summary>
     /// Is this tank allowed to fire?
     /// </summary>

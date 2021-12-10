@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,11 @@ namespace AI.GOAP
                 typedValue = value;
                 this.value = value;
             }
+        }
+
+        private void OnValidate()
+        {
+            TypedValue = typedValue;
         }
     }
 }

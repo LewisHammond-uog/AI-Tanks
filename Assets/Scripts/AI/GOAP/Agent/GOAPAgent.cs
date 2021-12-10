@@ -36,11 +36,23 @@ namespace AI.GOAP.Agent
             agentBeliefs = new StateCollection();
             
             //Set the owner of each action
-            SetActionOwners();
+            SetupActions();
         }
 
         private void Update()
         {
+            //If the action queue is empty (and not null) then we have completed the goal
+            if (IsGoalComplete())
+            {
+                ResetGoal(true);
+            }
+            
+            //Set the next action if required
+            if (actionQueue != null && actionQueue.Count > 0 & currentAction == null)
+            {
+                currentAction = actionQueue.Dequeue();
+            }
+
             //Execute Action
             if (currentAction != null)
             {
@@ -55,18 +67,7 @@ namespace AI.GOAP.Agent
                     ResetGoal(false);
                 }
             }
-            
-            //Set the next action if required
-            if (actionQueue != null && actionQueue.Count > 0)
-            {
-                currentAction = actionQueue.Dequeue();
-            }
 
-            //If the action queue is empty (and not null) then we have completed the goal
-            if (IsGoalComplete())
-            {
-                ResetGoal(true);
-            }
         }
 
         private void LateUpdate()
@@ -137,11 +138,15 @@ namespace AI.GOAP.Agent
         /// <summary>
         /// Set the owner of all of the acitons
         /// </summary>
-        private void SetActionOwners()
+        private void SetupActions()
         {
+            //Create a blackboard
+            Blackboard agentBlackboard = new Blackboard();
+            
             foreach (Action action in actions)
             {
                 action.SetOwner(this);
+                action.Blackboard = agentBlackboard;
             }
         }
         
@@ -167,9 +172,7 @@ namespace AI.GOAP.Agent
             planner = new Planner.Planner();
                 
             //Sort our goals
-            IOrderedEnumerable<KeyValuePair<Goal, int>> sortedGoals = from entry in goals
-                orderby entry.Value descending
-                select entry;
+            IOrderedEnumerable<KeyValuePair<Goal, int>> sortedGoals = goals.OrderByDescending(entry => entry.Value);
 
             //Try and plan our goals in priority order
             foreach (KeyValuePair<Goal,int> goalPriorityPair in sortedGoals)
@@ -189,7 +192,7 @@ namespace AI.GOAP.Agent
         private bool IsGoalComplete()
         {
             //If the action queue is not null but has 0 elements
-            return actionQueue is {Count: 0} && currentAction != null;
+            return actionQueue is {Count: 0} && currentAction == null;
         }
     }
 }

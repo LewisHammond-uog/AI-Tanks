@@ -40,6 +40,10 @@ namespace AI.GOAP.Planner
                 Debug.Log("No Valid Plan");
                 return null;
             }
+            else
+            {
+                Debug.Log("Planned!");
+            }
 
             //Find the cheapest leaf
             Node cheapest = null;
@@ -89,6 +93,7 @@ namespace AI.GOAP.Planner
             foreach (Action action in actions)
             {
                 if (!action.IsAchievableGiven(parent.State)) continue;
+                
                 
                 //Add the effects of the current action to the current state
                 Dictionary<string, object> currentState = new Dictionary<string, object>(parent.State);
