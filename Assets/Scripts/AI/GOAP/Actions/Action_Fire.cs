@@ -22,15 +22,14 @@ namespace AI.GOAP.Actions
 
         protected override ActionState Perform_Internal()
         {
-            //Get enemy to attack
-            if (Blackboard.bestEnemyToAttack == null)
+            //Determine the enemy position default to a position 20 units away if we do not have one
+            Vector3 enemyPosition = transform.forward * 20f;
+            if (Blackboard?.bestEnemyToAttack)
             {
-                //Remove valid enemy state
-                Owner.RemoveBelief(hasValidEnemyState.key);
-                return ActionState.Fail;
+                enemyPosition = Blackboard.bestEnemyToAttack.transform.position;
             }
 
-            Vector3 enemyPosition = Blackboard.bestEnemyToAttack.transform.position;
+
             Owner.ShootingComponent.Fire(PhysicsHelpers.CalculateLaunchVelocity(enemyPosition, Owner.ShootingComponent.FireTransform));
             return ActionState.Success;
         }

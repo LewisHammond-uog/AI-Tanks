@@ -21,6 +21,7 @@ namespace AI.GOAP
         {
             return collection.ToDictionary(state => state.key, state => state.value);
         }
+
     }
 
     public abstract class StateWithType<T> : State
@@ -34,11 +35,28 @@ namespace AI.GOAP
                 typedValue = value;
                 this.value = value;
             }
+            get => typedValue;
         }
 
         private void OnValidate()
         {
             TypedValue = typedValue;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((StateWithType<T>) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (base.GetHashCode() * 397) ^ EqualityComparer<T>.Default.GetHashCode(typedValue);
+            }
         }
     }
 }

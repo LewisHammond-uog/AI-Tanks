@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using AI.GOAP.Agent;
 using AI.GOAP.States;
@@ -96,6 +97,25 @@ namespace AI.GOAP.Actions
             foreach (KeyValuePair<string,object> pCondition in PreconditionsDictonary)
             {
                 if (!conditions.ContainsKey(pCondition.Key))
+                {
+                    return false;
+                }
+
+                //Compare the values of the object types
+                bool valuesAreNotEqual = false;
+                if (pCondition.Value is IComparable)
+                {
+                    int boolCompareResults =
+                        ((IComparable) pCondition.Value).CompareTo((IComparable) conditions[pCondition.Key]);
+                    //If there are no differences then they are equal
+                    if (boolCompareResults != 0)
+                    {
+                        valuesAreNotEqual = true;
+                    }
+                }
+                
+                bool containsKey = conditions.ContainsKey(pCondition.Key);
+                if (containsKey && valuesAreNotEqual)
                 {
                     return false;
                 }
