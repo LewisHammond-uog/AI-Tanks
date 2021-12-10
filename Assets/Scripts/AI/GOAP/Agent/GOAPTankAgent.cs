@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AI.GOAP.Goals;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace AI.GOAP.Agent
 
         private void Start()
         {
-            
+            AddGoal(agentGoals[0], int.MaxValue);
         }
     }
 }

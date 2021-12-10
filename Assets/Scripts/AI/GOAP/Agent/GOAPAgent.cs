@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using AI.GOAP.Actions;
 using AI.GOAP.Goals;
@@ -79,9 +80,17 @@ namespace AI.GOAP.Agent
         /// <summary>
         /// Add a belief to this agent
         /// </summary>
-        public void AddBelief(string key, bool value)
+        public void AddBelief(string key, object value)
         {
             agentBeliefs.AddState(key, value);
+        }
+
+        /// <summary>
+        /// Add a belief to this agent
+        /// </summary>
+        public void AddBelief(State belief)
+        {
+            agentBeliefs.AddState(belief.key, belief.value);
         }
 
         /// <summary>
@@ -89,9 +98,21 @@ namespace AI.GOAP.Agent
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public void ModifyBelief(string key, bool value)
+        public void ModifyBelief(string key, object value)
         {
             agentBeliefs.SetStateValue(key, value);
+        }
+        
+        /// <summary>
+        /// Remove a belief after a given time
+        /// </summary>
+        /// <param name="key">Belief</param>
+        /// <param name="afterTime">Time to wait</param>
+        /// <returns></returns>
+        public IEnumerator RemoveBeliefAfterTime(string key, float afterTime)
+        {
+            yield return new WaitForSeconds(afterTime);
+            agentBeliefs.RemoveState(key);
         }
 
         /// <summary>

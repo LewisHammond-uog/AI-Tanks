@@ -29,9 +29,16 @@ namespace AI.GOAP.States
         /// </summary>
         /// <param name="key">Key of the state</param>
         /// <param name="value">Value of the state</param>
-        public void AddState(string key, bool value)
+        public void AddState(string key, object value)
         {
-            states?.Add(key, value);
+            if (!states.ContainsKey(key))
+            {
+                states?.Add(key, value);
+            }
+            else
+            {
+                SetStateValue(key, value);
+            }
         }
 
         /// <summary>
@@ -40,9 +47,9 @@ namespace AI.GOAP.States
         /// </summary>
         /// <param name="key">Key of item to change</param>
         /// <param name="value">Value to update to</param>
-        public void SetStateValue(string key, bool value)
+        public void SetStateValue(string key, object value)
         {
-            if (HasState(key))
+            if (states.ContainsKey(key))
             {
                 states[key] = value;
             }
