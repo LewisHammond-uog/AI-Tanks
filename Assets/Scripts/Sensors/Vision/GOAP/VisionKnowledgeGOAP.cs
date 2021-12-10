@@ -20,7 +20,7 @@ namespace Sensors.Vision.GOAP
             base.Update();
             
             //If we have an enemy that we can see then update property
-            owner.ModifyBelief("CanSeeEnemy", GetVisibleAgents().Any());
+            owner.ModifyBelief("CanSeeEnemy", GetVisibleAgents().Any(agent => agent.Team != owner.Team));
         }
     }
 }

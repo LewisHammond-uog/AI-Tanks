@@ -12,7 +12,8 @@ namespace AI.GOAP.Actions
         protected GOAPAgent Owner { get; private set; }
         
         [SerializeField] private string actionName = "Untitled action";
-        [field: SerializeField] public float Cost { get; } = 1.0f;
+        [SerializeField] private float cost = 1.0f;
+        public float Cost => cost;
 
         //Preconditions that must be fulfilled for out action to take place
         [SerializeField] private State[] preconditions;

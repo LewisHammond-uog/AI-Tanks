@@ -21,7 +21,9 @@ namespace AI.BehaviourTrees.ActionNodes
             {
                 return NodeStatus.Fail;
             }
-
+            
+            //Update the blackboard
+            Blackboard.bestEnemyToAttack = bestEnemy;
 
             return NodeStatus.Success;
         }
