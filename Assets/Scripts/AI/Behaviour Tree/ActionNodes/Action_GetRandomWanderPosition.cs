@@ -12,34 +12,11 @@ public class Action_GetRandomWanderPosition : ActionNode
     
     protected override NodeStatus Update_Internal()
     {
-        if (GetRandomPointOnNavMesh(out Blackboard.randomWanderPos))
+        if (Owner.GetRandomPointOnNavMesh(out Blackboard.randomWanderPos, wanderRadius))
         {
             return NodeStatus.Success;
         }
 
         return NodeStatus.Fail;
-    }
-
-    /// <summary>
-    /// Get a random point on the Navmesh
-    /// </summary>
-    /// <param name="randomPos">[OUT] Random Position on the NavMesh</param>
-    /// <returns>If position was on the navmesh/returns>
-    private bool GetRandomPointOnNavMesh(out Vector3 randomPos)
-    {
-        //Determine Random Point
-        Vector3 randomDirection = Random.insideUnitSphere * wanderRadius;
-        randomDirection += Owner.transform.position;
-        
-        //See if it is on the navmesh
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(randomDirection, out hit, wanderRadius, 1))
-        {
-            randomPos = hit.position;
-            return true;
-        }
-
-        randomPos = Vector3.zero;
-        return false;
     }
 }

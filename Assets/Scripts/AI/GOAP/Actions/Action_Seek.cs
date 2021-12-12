@@ -13,10 +13,10 @@ namespace AI.GOAP.Actions
             if (Owner.VisionKnowledgeComponent && Owner.VisionKnowledgeComponent.GetLastSeenAgentPosition().Item1 != null)
             {
                 Blackboard.lastSeenEnemyPosition = (Vector3)Owner.VisionKnowledgeComponent.GetLastSeenAgentPosition().Item1;
-                Owner.RemoveBelief(validLKPState.key);
             }
             else
             {
+                Owner.RemoveBelief(validLKPState.key);
                 return false;
             }
             

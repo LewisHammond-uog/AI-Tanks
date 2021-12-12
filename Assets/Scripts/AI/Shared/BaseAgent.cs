@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Complete;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace AI
 {
@@ -126,6 +127,30 @@ namespace AI
             totalScore -= enemyAgent.HealthComponent.m_CurrentHealth / enemyAgent.HealthComponent.m_StartingHealth * 100;
 
             return totalScore;
+        }
+
+        /// <summary>
+        /// Get a random point on the Navmesh
+        /// </summary>
+        /// <param name="randomPos">[OUT] Random Position on the NavMesh</param>
+        /// <param name="wanderRadius">Radius to search</param>
+        /// <returns>If position was on the navmesh</returns>
+        public bool GetRandomPointOnNavMesh(out Vector3 randomPos, float wanderRadius)
+        {
+            //Determine Random Point
+            Vector3 randomDirection = Random.insideUnitSphere * wanderRadius;
+            randomDirection += transform.position;
+        
+            //See if it is on the navmesh
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomDirection, out hit, wanderRadius, 1))
+            {
+                randomPos = hit.position;
+                return true;
+            }
+
+            randomPos = Vector3.zero;
+            return false;
         }
     }
 }

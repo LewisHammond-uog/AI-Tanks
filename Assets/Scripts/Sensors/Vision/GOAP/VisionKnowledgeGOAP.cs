@@ -36,7 +36,7 @@ namespace Sensors.Vision.GOAP
         private bool IsLKPValid(Tuple<Vector3?, float> lkpPair)
         {
             float timeSinceLastSeen = Time.timeSinceLevelLoad - lkpPair.Item2;
-            return !(timeSinceLastSeen > allowedLKPTime);
+            return !(timeSinceLastSeen > allowedLKPTime) && lkpPair.Item1 != null;
         }
     }
 }
