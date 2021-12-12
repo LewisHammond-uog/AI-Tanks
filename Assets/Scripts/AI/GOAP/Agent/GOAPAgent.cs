@@ -76,6 +76,12 @@ namespace AI.GOAP.Agent
             {
                 CreatePlan();
             }
+            
+            //If we don't have a valid plan then stop the agent
+            if (currentGoal == null)
+            {
+                MovementCompoent.SetDestination(transform.position, true);
+            }
         }
 
         /// <summary>

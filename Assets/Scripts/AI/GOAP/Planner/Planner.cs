@@ -34,15 +34,9 @@ namespace AI.GOAP.Planner
             Node start = new Node(null, 0, world, agentStates, null);
 
             bool success = BuildGraph(start, leaves, usableActions, goal);
-
             if (!success)
             {
-                Debug.Log("No Valid Plan");
                 return null;
-            }
-            else
-            {
-                Debug.Log("Planned!");
             }
 
             //Find the cheapest leaf

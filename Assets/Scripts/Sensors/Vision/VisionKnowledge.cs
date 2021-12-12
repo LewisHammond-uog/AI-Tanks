@@ -57,8 +57,8 @@ public class VisionKnowledge : MonoBehaviour
 
     protected virtual void Update()
     {
-        UpdateVisionCones();
         TickDownKnowledge();
+        UpdateVisionCones();
         UpdateLastSeen();
     }
 
@@ -100,7 +100,7 @@ public class VisionKnowledge : MonoBehaviour
     /// </summary>
     private void TickDownKnowledge()
     {
-        const float tickDownPerSecond = 0.1f;
+        const float tickDownPerSecond = 0.2f;
         //Remove from the list
         foreach (BaseAgent agent in knownAgentAwarenessMap.Keys.ToList())
         {
