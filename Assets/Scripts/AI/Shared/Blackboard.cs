@@ -15,6 +15,7 @@ public class Blackboard
 
     [Header("Attack")] 
     public BaseAgent bestEnemyToAttack; //Best enemy that we can currently attack
+    public Vector3? flankPosition; //Position to flank to (only used by GOAP)
     
     [Header("Seek")]
     public Vector3 lastSeenEnemyPosition; //Last position that we saw the enemy at - only updated after we can't see an enemy

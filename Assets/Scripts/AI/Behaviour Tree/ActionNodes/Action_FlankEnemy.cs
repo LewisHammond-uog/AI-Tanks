@@ -8,7 +8,8 @@ public class Action_FlankEnemy : ActionNode
     [SerializeField] private float farProjectDistance = 10f;
     
     [Tooltip("Distance to project backwards when trying to project the enemy back vector at a close distance")]
-    [SerializeField] private float closeProjectDistance = 10f;
+    [SerializeField] private float closeProjectDistance = 2f;
+    
     protected override NodeStatus Update_Internal()
     {
         //Check we have a valid enemy
