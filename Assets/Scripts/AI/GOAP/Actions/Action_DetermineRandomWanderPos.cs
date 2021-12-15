@@ -2,7 +2,7 @@
 
 namespace AI.GOAP.Actions
 {
-    public class Action_DetermineWanderPos : Action
+    public class Action_DetermineRandomWanderPos : Action
     {
 
         [Header("State")] 

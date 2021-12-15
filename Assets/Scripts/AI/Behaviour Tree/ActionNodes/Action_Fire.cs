@@ -14,6 +14,7 @@ public class Action_Fire : ActionNode
         }
 
         Vector3 enemyPosition = Blackboard.bestEnemyToAttack.transform.position;
+        
         //Fire
         Owner.ShootingComponent.Fire(PhysicsHelpers.CalculateLaunchVelocity(enemyPosition, Owner.ShootingComponent.FireTransform));
         
