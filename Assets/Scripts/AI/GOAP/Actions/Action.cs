@@ -22,8 +22,8 @@ namespace AI.GOAP.Actions
         public State[] Effects => effects;
 
         //Property to get the preconditions as a dictonary
-        private Dictionary<string, object> PreconditionsDictonary => State.AsDictionary(preconditions);
-        private Dictionary<string, object> EffectsDictonary => State.AsDictionary(Effects);
+        private Dictionary<string, object> preconditionsDictonary;
+        private Dictionary<string, object> effectsDictonary;
 
         //States local to the agent that is executing this action   
         private StateCollection agentStates;
@@ -40,6 +40,23 @@ namespace AI.GOAP.Actions
             Fail,
             Success,
             Running
+        }
+
+        private void Start()
+        {
+            //Add all precondtions and effects to dictonary
+            preconditionsDictonary = new Dictionary<string, object>();
+            foreach (State precondition in preconditions)
+            {
+                preconditionsDictonary.Add(precondition.key, precondition.value);
+            }
+
+            effectsDictonary = new Dictionary<string, object>();
+            foreach (State effect in effects)
+            {
+                effectsDictonary.Add(effect.key, effect.value);
+            }
+
         }
 
         /// <summary>
@@ -95,7 +112,7 @@ namespace AI.GOAP.Actions
         {
             //Check all this actions precondtions - if they are all in the conditions dictonary supplied then this
             //action is achiveable given those condtions
-            foreach (KeyValuePair<string,object> pCondition in PreconditionsDictonary)
+            foreach (KeyValuePair<string,object> pCondition in preconditionsDictonary)
             {
                 if (!conditions.ContainsKey(pCondition.Key))
                 {

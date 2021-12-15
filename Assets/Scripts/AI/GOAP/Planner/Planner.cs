@@ -87,8 +87,7 @@ namespace AI.GOAP.Planner
             foreach (Action action in actions)
             {
                 if (!action.IsAchievableGiven(parent.State)) continue;
-                
-                
+
                 //Add the effects of the current action to the current state
                 Dictionary<string, object> currentState = new Dictionary<string, object>(parent.State);
                 foreach (State effect in action.Effects)
