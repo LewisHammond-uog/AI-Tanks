@@ -221,5 +221,12 @@ namespace AI.GOAP.Agent
             //If the action queue is not null but has 0 elements
             return actionQueue is {Count: 0} && currentAction == null;
         }
+
+        public override void ResetTank()
+        {
+            base.ResetTank();
+            //Reset all of our beliefs
+            agentBeliefs.Reset();
+        }
     }
 }

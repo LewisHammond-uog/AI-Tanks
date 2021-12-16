@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Complete;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace AI
 {
@@ -55,6 +57,14 @@ namespace AI
         {
             //Remove this AI
             allAgents.Remove(this);
+        }
+
+        /// <summary>
+        /// Reset the tank
+        /// </summary>
+        public virtual void ResetTank()
+        {
+            VisionKnowledgeComponent.ResetVision();
         }
 
         /// <summary>

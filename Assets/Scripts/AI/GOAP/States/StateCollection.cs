@@ -101,5 +101,13 @@ namespace AI.GOAP.States
         {
             return states;
         }
+
+        /// <summary>
+        /// Resets all states
+        /// </summary>
+        public void Reset()
+        {
+            states.Clear();
+        }
     }
 }

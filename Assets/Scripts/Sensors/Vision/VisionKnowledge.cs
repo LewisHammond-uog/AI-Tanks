@@ -181,8 +181,13 @@ public class VisionKnowledge : MonoBehaviour
 
         return visibleAgentsOverThreshold;
     }
-    
 
-
+    /// <summary>
+    /// Reset our vision, removing all visible agents
+    /// </summary>
+    public void ResetVision()
+    {
+        knownAgentAwarenessMap?.Clear();
+    }
 }
 
