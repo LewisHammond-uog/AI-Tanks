@@ -86,8 +86,6 @@
 
 .node {
     min-width: 150px;
-    -unity-font: url('Library/unity default resources');
-    -unity-font-style: normal;
 }
 
 #title {

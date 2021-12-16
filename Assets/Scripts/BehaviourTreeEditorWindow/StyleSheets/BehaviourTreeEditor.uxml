@@ -7,11 +7,11 @@
         <ui:VisualElement name="LeftPanel">
             <SplitView orientation="Vertical" fixed-pane-initial-dimension="300">
                 <ui:VisualElement name="inspector-contatiner">
-                    <ui:Label text="Node Inspector" display-tooltip-when-elided="true" name="inspector-title" style="-unity-font: url(&apos;/Assets/Fonts/Bowlby_One/ArialUnicodeMS.ttf&apos;);" />
+                    <ui:Label text="Node Inspector" display-tooltip-when-elided="true" name="inspector-title" />
                     <InspectorView />
                 </ui:VisualElement>
                 <ui:VisualElement name="backboard-container">
-                    <ui:Label text="Blackboard Inspector" display-tooltip-when-elided="true" name="blackboard-title" style="-unity-font: url(&apos;/Assets/Fonts/Bowlby_One/ArialUnicodeMS.ttf&apos;);" />
+                    <ui:Label text="Blackboard Inspector" display-tooltip-when-elided="true" name="blackboard-title" />
                     <ui:IMGUIContainer />
                 </ui:VisualElement>
             </SplitView>
