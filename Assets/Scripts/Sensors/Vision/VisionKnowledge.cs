@@ -32,6 +32,14 @@ public class VisionKnowledge : MonoBehaviour
     //Last known position of last know agent with the time of last seen
     private Tuple<Vector3?, float> lastKnownAgentPos;
     
+    //Owner agent of this component
+    private BaseAgent owner;
+    
+    private void Awake()
+    {
+        owner = GetComponent<BaseAgent>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,6 +87,12 @@ public class VisionKnowledge : MonoBehaviour
 
             foreach (BaseAgent agent in visionCone.VisibleAgents)
             {
+                //Don't add agent if they are on the same team
+                if (agent.Team == owner.Team)
+                {
+                    continue;
+                }
+                
                 //Check if agent already exists in map then choose the higher awareness level - deals with
                 //if we are in multiple vision cones at once
                 if (knownAgentAwarenessMap.ContainsKey(agent))
