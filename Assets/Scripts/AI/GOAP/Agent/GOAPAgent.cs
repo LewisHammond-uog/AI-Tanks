@@ -19,6 +19,8 @@ namespace AI.GOAP.Agent
         //Planner and the action queue that we will execute
         private Planner.Planner planner;
         private Queue<Action> actionQueue;
+        private bool isPlanning; //Is planning currently in progress?
+        private bool newPlanRequired; //Do we need to create a new plan?
         
         //The current goal and action of this agent
         private Action currentAction;
@@ -27,6 +29,8 @@ namespace AI.GOAP.Agent
         public override void Awake()
         {
             base.Awake();
+
+            planner = new Planner.Planner();
             
             //Collect all of the actions that are components of the object and feed that to the action list
             Action[] actionsOnObject = GetComponents<Action>();
@@ -72,9 +76,9 @@ namespace AI.GOAP.Agent
 
         private void LateUpdate()
         {
-            if (planner == null || actionQueue == null)
+            if (isPlanning == false && (actionQueue == null || newPlanRequired))
             {
-                CreatePlan();
+                StartCoroutine(CreatePlan());
             }
             
             //If we don't have a valid plan then stop the agent
@@ -175,16 +179,19 @@ namespace AI.GOAP.Agent
             {
                 goals.Remove(currentGoal);
             }
-            planner = null;
+
+            newPlanRequired = true;
         }
 
         /// <summary>
         /// Create a plan for this agent to follow with the set goals
+        /// Coroutine - only one plan is checked per frame
         /// </summary>
-        private void CreatePlan()
+        private IEnumerator CreatePlan()
         {
-            planner = new Planner.Planner();
-                
+            isPlanning = true;
+            newPlanRequired = false;
+
             //Sort our goals
             IOrderedEnumerable<KeyValuePair<Goal, int>> sortedGoals = goals.OrderByDescending(entry => entry.Value);
 
@@ -199,7 +206,11 @@ namespace AI.GOAP.Agent
                     currentAction = actionQueue.Dequeue();
                     break;
                 }
+
+                yield return null;
             }
+
+            isPlanning = false;
         }
         
         /// <summary>
