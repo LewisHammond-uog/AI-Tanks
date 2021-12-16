@@ -50,7 +50,8 @@ namespace AI.GOAP.Actions
             }
             
             //Check if we are at destination
-            return Owner.MovementCompoent.IsAtDestination() ? ActionState.Success : ActionState.Running;
+            const float distanceThreshold = 0.2f;
+            return Owner.MovementCompoent.IsAtDestination(distanceThreshold) ? ActionState.Success : ActionState.Running;
         }
 
         protected override bool PostPerform()
