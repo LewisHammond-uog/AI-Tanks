@@ -6,6 +6,7 @@ using AI;
 using Sensors;
 using Sensors.Vision;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 /// <summary>
 /// Component that combines all of the vision component of an agent in to a centeral repositiory
@@ -54,10 +55,10 @@ public class VisionKnowledge : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected virtual void Update()
     {
-        UpdateVisionCones();
         TickDownKnowledge();
+        UpdateVisionCones();
         UpdateLastSeen();
     }
 
@@ -99,7 +100,7 @@ public class VisionKnowledge : MonoBehaviour
     /// </summary>
     private void TickDownKnowledge()
     {
-        const float tickDownPerSecond = 0.1f;
+        const float tickDownPerSecond = 0.2f;
         //Remove from the list
         foreach (BaseAgent agent in knownAgentAwarenessMap.Keys.ToList())
         {
@@ -166,5 +167,8 @@ public class VisionKnowledge : MonoBehaviour
 
         return visibleAgentsOverThreshold;
     }
+    
+
+
 }
 

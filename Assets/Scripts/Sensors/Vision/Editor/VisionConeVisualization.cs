@@ -1,6 +1,7 @@
 ﻿using System;
 using AI;
 using Sensors.Vision;
+using Sensors.Vision.GOAP;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace Sensors.Editor
     /// <summary>
     /// Custom Editor of Vision Cone so we we can do debug visalizations
     /// </summary>
-    [CustomEditor(typeof(VisionKnowledge))]
+    [CustomEditor(typeof(VisionKnowledge), true)]
     public class VisionConeVisualization : UnityEditor.Editor
     {
         //Store refrences to seralized properties in the Vision Cone component
@@ -17,7 +18,7 @@ namespace Sensors.Editor
 
         private bool showCone = true;
         private bool showRadius = false;
-        private bool showTraceToVisibleTargets = true;
+        //private bool showTraceToVisibleTargets = true;
 
         private VisionKnowledge visionComponent;
         private GameObject visionObject;

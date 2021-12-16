@@ -139,7 +139,7 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
         }
         
         //Update the blackboard display by getting the blackboard as a serialzed object
-        if (tree)
+        if (tree != null)
         {
             const string blackboardPropertyName = "selfBlackboard";
             treeAsSerializedObject = new SerializedObject(tree);
