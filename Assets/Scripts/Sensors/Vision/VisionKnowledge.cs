@@ -188,6 +188,8 @@ public class VisionKnowledge : MonoBehaviour
     public void ResetVision()
     {
         knownAgentAwarenessMap?.Clear();
+        //Clear LKP
+        lastKnownAgentPos = new Tuple<Vector3?, float>(null, -Mathf.NegativeInfinity);
     }
 }
 
