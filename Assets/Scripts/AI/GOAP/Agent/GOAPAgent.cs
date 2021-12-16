@@ -132,6 +132,14 @@ namespace AI.GOAP.Agent
         }
 
         /// <summary>
+        /// Check if this agent has a belief
+        /// </summary>
+        public bool HasBelief(State belief)
+        {
+            return agentBeliefs.HasState(belief.key, belief.value);
+        }
+
+        /// <summary>
         /// Add a Goal to the agent
         /// </summary>
         /// <param name="goal">Goal to add</param>
@@ -187,6 +195,8 @@ namespace AI.GOAP.Agent
                 if (actionQueue != null)
                 {
                     currentGoal = goalPriorityPair.Key;
+                    //Start the first action in the queue
+                    currentAction = actionQueue.Dequeue();
                     break;
                 }
             }

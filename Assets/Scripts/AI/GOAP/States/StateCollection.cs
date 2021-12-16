@@ -23,6 +23,18 @@ namespace AI.GOAP.States
         {
             return states.ContainsKey(key);
         }
+        
+        //Check if this object has a given state and value
+        public bool HasState(string key, object value)
+        {
+            //Check if we have this state
+            if (states.TryGetValue(key, out object stateValue))
+            {
+                //Check if state values are the same
+                return State.AreValuesEqual(value, stateValue);
+            }
+            return false;
+        }
 
         /// <summary>
         /// Add a state to be managed by this class

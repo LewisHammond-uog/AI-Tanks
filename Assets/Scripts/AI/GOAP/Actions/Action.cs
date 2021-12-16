@@ -77,7 +77,7 @@ namespace AI.GOAP.Actions
             ActionState state = Perform_Internal();
 
             //If we have completed the action then return success
-            if (state == ActionState.Success)
+            if (state == ActionState.Success || state == ActionState.Fail)
             {
                 PostPerform();
                 isRunning = false;
@@ -118,7 +118,8 @@ namespace AI.GOAP.Actions
                 {
                     return false;
                 }
-
+                
+                //todo replace state comparision
                 //Compare the values of the object types
                 bool valuesAreNotEqual = false;
                 if (pCondition.Value is IComparable)

@@ -92,7 +92,7 @@ namespace AI.GOAP.Planner
                 Dictionary<string, object> currentState = new Dictionary<string, object>(parent.State);
                 foreach (State effect in action.Effects)
                 {
-                    if (!currentState.ContainsKey(effect.key))
+                    if (!currentState.TryGetValue(effect.key, out _))
                     {
                         currentState.Add(effect.key, effect.value);
                     }

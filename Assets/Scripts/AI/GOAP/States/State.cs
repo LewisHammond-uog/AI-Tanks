@@ -22,6 +22,28 @@ namespace AI.GOAP
             return collection.ToDictionary(state => state.key, state => state.value);
         }
 
+        /// <summary>
+        /// Checks if two object state values are equal
+        /// </summary>
+        /// <param name="val1">Value 1</param>
+        /// <param name="val2">Value 2</param>
+        /// <returns></returns>
+        public static bool AreValuesEqual(object val1, object val2)
+        {
+            if (val1 is IComparable)
+            {
+                int boolCompareResults =
+                    ((IComparable) val1).CompareTo((IComparable) val2);
+                //If there are no differences then they are equal
+                if (boolCompareResults != 0)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
     }
 
     public abstract class StateWithType<T> : State
