@@ -19,7 +19,11 @@ namespace AI
     {
         //My Team
         [SerializeField] private AiTeam myTeam;
-        public AiTeam Team => myTeam;
+        public AiTeam Team
+        {
+            get => myTeam;
+            set => myTeam = value;
+        }
 
         //List of all AI spawned
         private static List<BaseAgent> allAgents = new List<BaseAgent>();

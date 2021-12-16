@@ -1,4 +1,5 @@
 ﻿using System;
+using AI;
 using UnityEngine;
 
 namespace Complete
@@ -13,22 +14,23 @@ namespace Complete
 
         public Color m_PlayerColor;                             // This is the color this tank will be tinted.
         public Transform m_SpawnPoint;                          // The position and direction the tank will have when it spawns.
+        [SerializeField] public GameObject tankPrefab;         //Prefab for the tank
+        [SerializeField] public AiTeam aiTeam;                  //Team
         [HideInInspector] public int m_PlayerNumber;            // This specifies which player this the manager for.
         [HideInInspector] public string m_ColoredPlayerText;    // A string that represents the player with their number colored to match their tank.
         [HideInInspector] public GameObject m_Instance;         // A reference to the instance of the tank when it is created.
         [HideInInspector] public int m_Wins;                    // The number of wins this player has so far.
         
 
-        private TankMovement m_Movement;                        // Reference to tank's movement script, used to disable and enable control.
-        private TankShooting m_Shooting;                        // Reference to tank's shooting script, used to disable and enable control.
+        private BaseAgent agent;                        // Reference to tank's movement script, used to disable and enable control.
         private GameObject m_CanvasGameObject;                  // Used to disable the world space UI during the Starting and Ending phases of each round.
 
 
         public void Setup ()
         {
             // Get references to the components.
-            m_Movement = m_Instance.GetComponent<TankMovement> ();
-            m_Shooting = m_Instance.GetComponent<TankShooting> ();
+            agent = m_Instance.GetComponent<BaseAgent> ();
+            agent.Team = aiTeam;
             m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas> ().gameObject;
 
             // Create a string using the correct color that says 'PLAYER 1' etc based on the tank's color and the player's number.
@@ -49,8 +51,7 @@ namespace Complete
         // Used during the phases of the game where the player shouldn't be able to control their tank.
         public void DisableControl ()
         {
-            m_Movement.enabled = false;
-            m_Shooting.enabled = false;
+            agent.enabled = false;
 
             m_CanvasGameObject.SetActive (false);
         }
@@ -59,8 +60,7 @@ namespace Complete
         // Used during the phases of the game where the player should be able to control their tank.
         public void EnableControl ()
         {
-            m_Movement.enabled = true;
-            m_Shooting.enabled = true;
+            agent.enabled = true;
 
             m_CanvasGameObject.SetActive (true);
         }
