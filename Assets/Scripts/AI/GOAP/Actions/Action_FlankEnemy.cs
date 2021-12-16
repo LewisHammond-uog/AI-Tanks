@@ -31,7 +31,6 @@ namespace AI.GOAP.Actions
             //Check that we cannot fire, if we can then we should abort this plan
             if (Owner.HasBelief(canFireState))
             {
-                Debug.Log("Aborting due to CanFire");
                 return ActionState.Fail;
             }
             
