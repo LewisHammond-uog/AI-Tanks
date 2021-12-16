@@ -35,7 +35,7 @@ public class VisionKnowledge : MonoBehaviour
     //Owner agent of this component
     private BaseAgent owner;
     
-    private void Awake()
+    protected virtual void Awake()
     {
         owner = GetComponent<BaseAgent>();
     }

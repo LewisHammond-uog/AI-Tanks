@@ -34,10 +34,12 @@ namespace AI.GOAP.Actions
                 //Project the flee direction, see if we can go far, then less far
                 if (Owner.MovementCompoent.SetDestination(Blackboard.fleeDirection * farProjectDistance, true))
                 {
+                    positionSet = true;
                     return ActionState.Running;
                 }
                 else if (Owner.MovementCompoent.SetDestination(Blackboard.fleeDirection * closeProjectDistance, true))
                 {
+                    positionSet = true;
                     return ActionState.Running;
                 }
                 else

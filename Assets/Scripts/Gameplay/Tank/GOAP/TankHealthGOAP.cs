@@ -14,6 +14,7 @@ namespace Complete.GOAP
         
         protected override void Awake()
         {
+            base.Awake();
             owner = GetComponent<GOAPAgent>();
         }
         

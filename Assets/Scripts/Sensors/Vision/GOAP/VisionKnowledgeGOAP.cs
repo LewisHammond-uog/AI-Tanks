@@ -12,8 +12,9 @@ namespace Sensors.Vision.GOAP
         //Time that a LKP is valid for
         [SerializeField] private float allowedLKPTime = 5f;
         
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             owner = GetComponent<GOAPAgent>();
         }
 
