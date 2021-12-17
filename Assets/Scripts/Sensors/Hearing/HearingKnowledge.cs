@@ -17,12 +17,12 @@ namespace Sensors.Hearing
         //Dictonary of sounds and their perceived volumes
         private Dictionary<SoundDrop, float> soundVolumeMap;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             soundVolumeMap = new Dictionary<SoundDrop, float>();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             CheckForSounds();
         }
@@ -71,7 +71,7 @@ namespace Sensors.Hearing
         private float CalculateHearingPercentage(Vector3 soundPosition)
         {
             float distanceToSound = Vector3.Distance(transform.position, soundPosition);
-            return Mathf.InverseLerp(0, hearingRadius, distanceToSound);
+            return Mathf.InverseLerp(hearingRadius, 0, distanceToSound);
         }
 
         /// <summary>
