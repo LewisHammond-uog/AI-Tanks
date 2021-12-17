@@ -13,7 +13,7 @@ namespace AI.GOAP.Actions
             //Update seek position based on last seen
             if (Owner.VisionKnowledgeComponent && Owner.VisionKnowledgeComponent.GetLastSeenAgentPosition().Item1 != null)
             {
-                Blackboard.lastSeenEnemyPosition = (Vector3)Owner.VisionKnowledgeComponent.GetLastSeenAgentPosition().Item1;
+                Blackboard.investigatePosition = (Vector3)Owner.VisionKnowledgeComponent.GetLastSeenAgentPosition().Item1;
             }
             else
             {
@@ -22,7 +22,7 @@ namespace AI.GOAP.Actions
             }
             
             //Set Turret to look at LKP
-            Owner.TurretComponent.SetTurretLookTarget(Blackboard.lastSeenEnemyPosition);
+            Owner.TurretComponent.SetTurretLookTarget(Blackboard.investigatePosition);
             
             return true;
         }
@@ -30,7 +30,7 @@ namespace AI.GOAP.Actions
         protected override ActionState Perform_Internal()
         {
             //Move to LKP
-            if (!Owner.MovementCompoent.SetDestination(Blackboard.lastSeenEnemyPosition, true))
+            if (!Owner.MovementCompoent.SetDestination(Blackboard.investigatePosition, true))
             {
                 return ActionState.Fail;
             }

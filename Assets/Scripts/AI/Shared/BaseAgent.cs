@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Complete;
+using Sensors.Hearing;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -35,6 +36,7 @@ namespace AI
         public TankShooting ShootingComponent { get; private set; }
         public TurretMovement TurretComponent { get; private set; }
         public VisionKnowledge VisionKnowledgeComponent { get; private set; }
+        public HearingKnowledge HearingKnowledgeComponent { get; private set; }
         public TankHealth HealthComponent { get; private set; }
 
 
@@ -44,6 +46,7 @@ namespace AI
             ShootingComponent = GetComponent<TankShooting>();
             TurretComponent = GetComponentInChildren<TurretMovement>();
             VisionKnowledgeComponent = GetComponentInChildren<VisionKnowledge>();
+            HearingKnowledgeComponent = GetComponentInChildren<HearingKnowledge>();
             HealthComponent = GetComponent<TankHealth>();
         }
 

@@ -29,7 +29,7 @@ public class Condtion_RecentlySeenEnemy : ActionNode
             return NodeStatus.Fail;
         }
 
-        Blackboard.lastSeenEnemyPosition = (Vector3)lastSeenPosition;
+        Blackboard.investigatePosition = (Vector3)lastSeenPosition;
         
         return NodeStatus.Success;
     }
