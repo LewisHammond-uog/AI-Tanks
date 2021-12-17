@@ -46,7 +46,6 @@ public class CoverPoint : MonoBehaviour
             if (movementComp.Speed < maxSpeed)
             {
                 healthComp.IncreaseHealth(healPerSecond * Time.deltaTime);
-                Debug.Log("Healing!");
             }
         }
     }

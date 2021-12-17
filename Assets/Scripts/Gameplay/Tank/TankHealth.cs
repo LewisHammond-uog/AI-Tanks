@@ -66,6 +66,8 @@ namespace Complete
         public void IncreaseHealth(float increase)
         {
             m_CurrentHealth = Mathf.Clamp(m_CurrentHealth + increase, 0, maxHealth);
+            // Change the UI elements appropriately.
+            SetHealthUI ();
         }
 
 
