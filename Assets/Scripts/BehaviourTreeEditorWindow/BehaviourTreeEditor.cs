@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using AI.BehaviourTree.BaseTypes;
 using AI.BehaviourTrees;
@@ -159,3 +160,4 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
         inspectorView.UpdateSelection(nodeView);
     }
 }
+#endif

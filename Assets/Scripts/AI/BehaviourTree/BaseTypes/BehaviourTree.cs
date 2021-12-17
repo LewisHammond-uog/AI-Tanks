@@ -100,15 +100,17 @@ namespace AI.BehaviourTree.BaseTypes
             
             //Set the node properties and give it a GUID to be a unique indenifier
             node.name = nodeType.Name;
-            node.guid = GUID.Generate().ToString();
+            node.guid = System.Guid.NewGuid().ToString();
             AllTreeNodes.Add(node);
 
             //Add this as a sub asset of the tree asset
+            #if UNITY_EDITOR
             if (!Application.isPlaying)
             {
                 AssetDatabase.AddObjectToAsset(node, this);
                 AssetDatabase.SaveAssets();
             }
+            #endif
 
             return node;
         }
@@ -127,8 +129,10 @@ namespace AI.BehaviourTree.BaseTypes
             
             //Remove node from our refrence list and remove it as sub asset
             AllTreeNodes.Remove(node);
+            #if UNITY_EDITOR
             AssetDatabase.RemoveObjectFromAsset(node);
             AssetDatabase.SaveAssets();
+            #endif
         }
 
         /// <summary>
