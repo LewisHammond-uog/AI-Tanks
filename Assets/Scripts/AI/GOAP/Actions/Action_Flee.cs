@@ -11,6 +11,9 @@ namespace AI.GOAP.Actions
         [Tooltip("Distance to project the flee direction when attemping to project it close")]
         [SerializeField] private float closeProjectDistance = 2f;
         
+        //Check for if we can shoot to abort this state
+        [SerializeField] private State canFireState;
+        
         //Have we already set a position on this node runthrough?
         private bool positionSet;
         
@@ -29,7 +32,11 @@ namespace AI.GOAP.Actions
 
         protected override ActionState Perform_Internal()
         {
-            //
+            //Check that we cannot fire, if we can then we should abort this plan
+            if (Owner.HasBelief(canFireState))
+            {
+                return ActionState.Fail;
+            }
             
             
             if (positionSet == false)
