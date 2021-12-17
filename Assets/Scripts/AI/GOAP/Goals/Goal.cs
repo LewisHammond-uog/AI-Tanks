@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AI.GOAP.Actions;
 using UnityEngine;
 
 namespace AI.GOAP.Goals
@@ -11,7 +12,7 @@ namespace AI.GOAP.Goals
 
         //If this goal should be removed from the agent when it is complete
         [SerializeField] private bool removeOnComplete;
-
+        
         public Dictionary<string, object> SubGoals => State.AsDictionary(goalStates);
         public bool RemoveOnComplete => removeOnComplete;
 

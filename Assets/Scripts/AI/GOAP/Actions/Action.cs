@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using AI.GOAP.Agent;
+using AI.GOAP.Goals;
 using AI.GOAP.States;
 using UnityEngine;
 
@@ -10,8 +11,10 @@ namespace AI.GOAP.Actions
     {
         //Owner of this action
         protected GOAPAgent Owner { get; private set; }
-        
-        [SerializeField] private string actionName = "Untitled action";
+
+        //List of actions that this goal contributes to
+        [SerializeField] private List<Goal> contributesToGoals;
+        public List<Goal> ContributesToGoals => contributesToGoals;
         [SerializeField] private float cost = 1.0f;
         public float Cost => cost;
 
