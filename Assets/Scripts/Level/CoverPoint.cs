@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Complete;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -19,6 +20,11 @@ public class CoverPoint : MonoBehaviour
     //List of all cover points in the level
     private static readonly List<CoverPoint> AllCoverPoints = new List<CoverPoint>();
     
+    //Health heal rate
+    [SerializeField] private float healPerSecond = 0.2f;
+    //Maximum speed to allow healing
+    [SerializeField] private float maxSpeed = 2f;
+
     private void Awake()
     {
         //Add to cover points
@@ -29,6 +35,20 @@ public class CoverPoint : MonoBehaviour
     {
         //Remove from cover points
         AllCoverPoints.Remove(this);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        //OnTrigger, if we are stopped then increase our health
+        if (other.gameObject.TryGetComponent(out TankHealth healthComp) && 
+            other.gameObject.TryGetComponent(out TankMovement movementComp))
+        {
+            if (movementComp.Speed < maxSpeed)
+            {
+                healthComp.IncreaseHealth(healPerSecond * Time.deltaTime);
+                Debug.Log("Healing!");
+            }
+        }
     }
 
     /// <summary>

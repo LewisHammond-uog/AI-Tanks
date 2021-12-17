@@ -6,6 +6,7 @@ namespace Complete
     public class TankHealth : MonoBehaviour
     {
         public float m_StartingHealth = 100f;               // The amount of health each tank starts with.
+        [SerializeField] private float maxHealth = 100f;    //The max health for this tank
         public Slider m_Slider;                             // The slider to represent how much health the tank currently has.
         public Image m_FillImage;                           // The image component of the slider.
         public Color m_FullHealthColor = Color.green;       // The color the health bar will be when on full health.
@@ -55,6 +56,16 @@ namespace Complete
             {
                 OnDeath ();
             }
+        }
+
+        
+        /// <summary>
+        /// Increase the amount of health this agent has
+        /// </summary>
+        /// <param name="increase">Amount in increase health by</param>
+        public void IncreaseHealth(float increase)
+        {
+            m_CurrentHealth = Mathf.Clamp(m_CurrentHealth + increase, 0, maxHealth);
         }
 
 

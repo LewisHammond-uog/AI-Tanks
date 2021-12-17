@@ -29,6 +29,9 @@ namespace AI.GOAP.Actions
 
         protected override ActionState Perform_Internal()
         {
+            //
+            
+            
             if (positionSet == false)
             {
                 //Project the flee direction, see if we can go far, then less far
@@ -50,7 +53,7 @@ namespace AI.GOAP.Actions
             }
             
             //Check if we are at destination
-            const float distanceThreshold = 0.2f;
+            const float distanceThreshold = 0.5f;
             return Owner.MovementCompoent.IsAtDestination(distanceThreshold) ? ActionState.Success : ActionState.Running;
         }
 
