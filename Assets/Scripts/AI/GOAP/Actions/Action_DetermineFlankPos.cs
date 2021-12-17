@@ -33,7 +33,7 @@ namespace AI.GOAP.Actions
 
         protected override ActionState Perform_Internal()
         {
-            Transform enemyTransform = Blackboard.bestEnemyToAttack.transform;
+            Transform enemyTransform = Blackboard.bestEnemyToAttack.TurretComponent.transform;
             Vector3 enemyPos = enemyTransform.position;
             Vector3 enemyBackwards = -enemyTransform.forward;
 

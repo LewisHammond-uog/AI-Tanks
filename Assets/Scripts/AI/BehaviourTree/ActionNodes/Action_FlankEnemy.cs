@@ -20,14 +20,14 @@ namespace AI.BehaviourTree.ActionNodes
                 return NodeStatus.Fail;
             }
 
-            Transform enemyTransform = Blackboard.bestEnemyToAttack.transform;
+            Transform enemyTransform = Blackboard.bestEnemyToAttack.TurretComponent.transform;
             Vector3 enemyPos = enemyTransform.position;
             Vector3 enemyBackwards = -enemyTransform.forward;
 
-            if (Owner.MovementCompoent.SetDestination(enemyPos + (enemyBackwards * closeProjectDistance), true))
+            if (Owner.MovementCompoent.SetDestination(enemyPos + (enemyBackwards * farProjectDistance), true))
             {
                 return NodeStatus.Success;
-            }else if (Owner.MovementCompoent.SetDestination(enemyPos + (enemyBackwards * farProjectDistance), true))
+            }else if (Owner.MovementCompoent.SetDestination(enemyPos + (enemyBackwards * closeProjectDistance), true))
             {
                 return NodeStatus.Success;
             }
