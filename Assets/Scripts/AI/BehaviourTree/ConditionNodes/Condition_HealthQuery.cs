@@ -37,7 +37,5 @@ public class Condition_HealthQuery : ActionNode
             default:
                 return NodeStatus.Fail;
         }
-
-        return NodeStatus.Fail;
     }
 }
