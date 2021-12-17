@@ -12,6 +12,8 @@ namespace AI.GOAP.Actions
         
         protected override bool PrePerform()
         {
+            //Set Turret to look forwards
+            Owner.TurretComponent.SetTurretLookTarget(Blackboard.randomWanderPos);
             return true;
         }
 

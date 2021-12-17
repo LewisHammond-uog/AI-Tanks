@@ -11,30 +11,42 @@ public class TurretMovement : MonoBehaviour
         set => turretRotationSpeed = Mathf.Max(value, 0f);
     }
 
-    private bool useTurretLookPoint; //If we should be using the last set look point 
-    private Vector3 turretLookPoint; //Point for the turret to look at
-    public Vector3 TurretLookAtPoint
-    {
-        set
-        {
-            //Sanitize input to only use Y vector component
-            useTurretLookPoint = true;
-            turretLookPoint = new Vector3(value.x, 0, value.z);
-        }
-    }
+    //Transform used when we don't have another transform target to look at (i.e a vector)
+    [SerializeField] private Transform turretDummyTransform;
+    
+    private Transform turretLookPoint; //Point for the turret to look at
 
     private void Start()
     {
-        turretLookPoint = transform.right;
-        useTurretLookPoint = true;
+        turretLookPoint = transform;
     }
     
     private void Update()
     {
-        if (useTurretLookPoint)
+        if (turretLookPoint)
         {
             RotateTurretToTargetPoint(Time.deltaTime);
         }
+    }
+
+    /// <summary>
+    /// Set the turret look at target
+    /// </summary>
+    /// <param name="targetTransform">Transform to look at</param>
+    public void SetTurretLookTarget(Transform targetTransform)
+    {
+        turretLookPoint = targetTransform;
+    }
+
+    /// <summary>
+    /// Set the turret look at target
+    /// </summary>
+    /// <param name="targetPosition">Position to look at</param>
+    public void SetTurretLookTarget(Vector3 targetPosition)
+    {
+        //Set the dummy transform to our position and look at that
+        turretDummyTransform.position = targetPosition;
+        SetTurretLookTarget(turretDummyTransform);
     }
 
     /// <summary>
@@ -43,14 +55,15 @@ public class TurretMovement : MonoBehaviour
     /// <returns></returns>
     public float GetAngleToTurretTarget()
     {
-        Vector3 targetDirection = turretLookPoint - transform.position;
-        return Vector3.Angle(targetDirection, transform.forward);
+        Transform turretTransform = transform;
+        Vector3 targetDirection = turretLookPoint.position - turretTransform.position;
+        return Vector3.Angle(targetDirection, turretTransform.forward);
     }
 
     //Rotate the turret towards the turrget look at point
     private void RotateTurretToTargetPoint(float deltaTime)
     {
-        Vector3 targetDirection = turretLookPoint - transform.position;
+        Vector3 targetDirection = turretLookPoint.position - transform.position;
         float stepThisFrame = turretRotationSpeed * deltaTime;
         //Calculate new direction this frame
         Vector3 newDirection =

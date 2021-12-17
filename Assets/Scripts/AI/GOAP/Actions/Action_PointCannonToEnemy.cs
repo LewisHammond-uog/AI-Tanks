@@ -38,7 +38,7 @@ namespace AI.GOAP.Actions
             //Set to rotate the turret towards the enemy
             if (!setToRotate)
             {
-                Owner.TurretComponent.TurretLookAtPoint = Blackboard.bestEnemyToAttack.transform.position;
+                Owner.TurretComponent.SetTurretLookTarget(Blackboard.bestEnemyToAttack.transform);
                 setToRotate = true;
             }
         

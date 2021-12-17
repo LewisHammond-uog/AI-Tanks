@@ -55,8 +55,9 @@ namespace AI.BehaviourTree.ActionNodes
             if (moveToPos == null || (moveToPos != null && moveToPos != currentPatrolTargetPosition ))
             {
                 moveToPos = (Vector3)currentPatrolTargetPosition;
+                Owner.TurretComponent.SetTurretLookTarget((Vector3)moveToPos);
             }
-
+            
             //Do Movement
             NodeStatus movementResult = base.Update_Internal();
         

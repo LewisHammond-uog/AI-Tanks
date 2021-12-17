@@ -9,6 +9,7 @@ namespace AI.GOAP.Actions
         
         protected override bool PrePerform()
         {
+            
             //Update seek position based on last seen
             if (Owner.VisionKnowledgeComponent && Owner.VisionKnowledgeComponent.GetLastSeenAgentPosition().Item1 != null)
             {
@@ -19,6 +20,9 @@ namespace AI.GOAP.Actions
                 Owner.RemoveBelief(validLKPState.key);
                 return false;
             }
+            
+            //Set Turret to look at LKP
+            Owner.TurretComponent.SetTurretLookTarget(Blackboard.lastSeenEnemyPosition);
             
             return true;
         }

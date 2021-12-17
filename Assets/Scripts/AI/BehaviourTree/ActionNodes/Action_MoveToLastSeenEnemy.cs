@@ -1,5 +1,6 @@
 ﻿
 using AI.BehaviourTree.BaseTypes;
+using UnityEngine;
 
 namespace AI.BehaviourTree.ActionNodes
 {
@@ -8,6 +9,12 @@ namespace AI.BehaviourTree.ActionNodes
     /// </summary>
     public class Action_MoveToLastSeenEnemy : Action_MoveToPosition
     {
+        protected override void OnEnterNode()
+        {
+            base.OnEnterNode();
+            Owner.TurretComponent.SetTurretLookTarget(Blackboard.lastSeenEnemyPosition);
+        }
+
         protected override NodeStatus Update_Internal()
         {
             //Set the move to position and then call base movement
