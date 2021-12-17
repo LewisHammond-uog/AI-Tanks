@@ -16,7 +16,16 @@ namespace Sensors.Hearing
         
         //Dictonary of sounds and their perceived volumes
         private Dictionary<SoundDrop, float> soundVolumeMap;
-        public Dictionary<SoundDrop, float> SoundsVolumeMap => soundVolumeMap;
+
+        protected virtual void Awake()
+        {
+            soundVolumeMap = new Dictionary<SoundDrop, float>();
+        }
+
+        protected virtual void Update()
+        {
+            CheckForSounds();
+        }
 
         /// <summary>
         /// Polls the world for sounds, seeing if we can hear any of them
@@ -62,7 +71,57 @@ namespace Sensors.Hearing
         private float CalculateHearingPercentage(Vector3 soundPosition)
         {
             float distanceToSound = Vector3.Distance(transform.position, soundPosition);
-            return Mathf.InverseLerp(0, hearingRadius, distanceToSound);
+            return Mathf.InverseLerp(hearingRadius, 0, distanceToSound);
         }
+
+        /// <summary>
+        /// Gets the most heard sound
+        /// </summary>
+        /// <returns></returns>
+        public SoundDrop GetMostHeardSound(float threshold = 0.2f)
+        {
+            //Find the most heard drop by looping the dictonary
+            SoundDrop drop = null;
+            float highestVolume = Mathf.NegativeInfinity;
+            foreach (KeyValuePair<SoundDrop,float> soundVolumePair in soundVolumeMap)
+            {
+                if (soundVolumePair.Value > highestVolume && soundVolumePair.Value > threshold)
+                {
+                    drop = soundVolumePair.Key;
+                    highestVolume = soundVolumePair.Value;
+                }
+            }
+
+            return drop;
+        }
+
+        /// <summary>
+        /// Get all of the heard sounds over a threshold
+        /// </summary>
+        /// <param name="threshold"></param>
+        /// <returns></returns>
+        public Dictionary<SoundDrop, float> GetHeardSounds(float threshold = 0.2f)
+        {
+            //Loop all of the heard sounds to check how much they can be heard
+            Dictionary<SoundDrop, float> soundsOverThreshold = new Dictionary<SoundDrop, float>();
+            foreach (KeyValuePair<SoundDrop,float> soundVolumePair in soundVolumeMap)
+            {
+                if (soundVolumePair.Value > threshold)
+                {
+                    soundsOverThreshold.Add(soundVolumePair.Key, soundVolumePair.Value);
+                }
+            }
+
+            return soundsOverThreshold;
+        }
+        
+        #if UNITY_EDITOR
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, hearingRadius);
+            Gizmos.color = Color.white;
+        }
+        #endif //UNITY_EDITOR
     }
 }

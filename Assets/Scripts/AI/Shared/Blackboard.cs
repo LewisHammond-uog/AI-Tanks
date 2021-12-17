@@ -18,7 +18,7 @@ public class Blackboard
     public Vector3? flankPosition; //Position to flank to (only used by GOAP)
     
     [Header("Seek")]
-    public Vector3 lastSeenEnemyPosition; //Last position that we saw the enemy at - only updated after we can't see an enemy
+    public Vector3 investigatePosition; //Last position that we saw the enemy at - only updated after we can't see an enemy
 
     [Header("Wander")] 
     public CoverPoint targetCoverPoint; //Cover point that we are currently working towards
