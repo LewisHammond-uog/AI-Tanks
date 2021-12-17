@@ -207,7 +207,7 @@ namespace AI.GOAP.Agent
                     break;
                 }
 
-                yield return new WaitForSecondsRealtime(1);
+                yield return null;
             }
 
             isPlanning = false;

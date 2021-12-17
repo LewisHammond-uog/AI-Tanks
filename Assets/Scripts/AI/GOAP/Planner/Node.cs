@@ -13,7 +13,7 @@ namespace AI.GOAP.Planner
         {
             public Node Parent { get; }
             public float Cost { get; }
-            //public Dictionary<string, object> State { get; }
+            public Dictionary<string, object> State { get; }
             public Action Action { get; }
             
             /// <summary>
@@ -27,7 +27,7 @@ namespace AI.GOAP.Planner
             {
                 this.Parent = parent;
                 this.Cost = cost;
-                this.State = null;
+                this.State = new Dictionary<string, object>(allStates);
                 this.Action = action;
             }
 
@@ -43,14 +43,14 @@ namespace AI.GOAP.Planner
             {
                 this.Parent = parent;
                 this.Cost = cost;
-                this.State = null;
+                this.State = new Dictionary<string, object>(world.GetWorldStates().GetStates());
                 this.Action = action;
                 
                 //Add agentBeliefs to state
                 if (agentBeliefs == null) return;
                 foreach (KeyValuePair<string, object> belief in agentBeliefs.GetStates())
                 {
-                    //State.Add(belief.Key, belief.Value);
+                    State.Add(belief.Key, belief.Value);
                 }
 
             }
