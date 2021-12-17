@@ -116,7 +116,7 @@ namespace Sensors.Hearing
         }
         
         #if UNITY_EDITOR
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, hearingRadius);
