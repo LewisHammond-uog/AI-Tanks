@@ -25,6 +25,9 @@ namespace AI.GOAP.Agent
         //The current goal and action of this agent
         private Action currentAction;
         private Goal currentGoal;
+        
+        //List of goals and actions that contribute to that goal
+        private Dictionary<Goal, List<Action>> actionsToAchieveGoals = new Dictionary<Goal, List<Action>>();
 
         public override void Awake()
         {
@@ -41,6 +44,11 @@ namespace AI.GOAP.Agent
             
             //Set the owner of each action
             SetupActions();
+        }
+
+        protected virtual void Start()
+        {
+            BuildActionList();
         }
 
         private void Update()
@@ -85,6 +93,30 @@ namespace AI.GOAP.Agent
             if (currentGoal == null)
             {
                 MovementCompoent.SetDestination(transform.position, true);
+            }
+        }
+
+        /// <summary>
+        /// Precomputes a list of actions that are used for each goal, based on the goals that they contribute to
+        /// </summary>
+        private void BuildActionList()
+        {
+            //Initialize the dictonary for all goals
+            foreach (Goal goal in goals.Keys)
+            {
+                actionsToAchieveGoals.Add(goal, new List<Action>());
+            }
+            
+            //Loop all of the goals and set actions to achive them
+            foreach (Goal goal in goals.Keys)
+            {
+                foreach (Action action in actions)
+                {
+                    if (action.ContributesToGoals.Contains(goal))
+                    {
+                        actionsToAchieveGoals[goal].Add(action);
+                    }
+                }
             }
         }
 
@@ -198,7 +230,7 @@ namespace AI.GOAP.Agent
             //Try and plan our goals in priority order
             foreach (KeyValuePair<Goal,int> goalPriorityPair in sortedGoals)
             {
-                actionQueue = planner.Plan(actions, goalPriorityPair.Key.SubGoals, agentBeliefs, World.GetInstance());
+                actionQueue = planner.Plan(actionsToAchieveGoals[goalPriorityPair.Key], goalPriorityPair.Key.SubGoals, agentBeliefs, World.GetInstance());
                 if (actionQueue != null)
                 {
                     currentGoal = goalPriorityPair.Key;

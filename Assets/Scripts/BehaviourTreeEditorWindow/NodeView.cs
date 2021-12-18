@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using System.Diagnostics;
 using AI.BehaviourTree.BaseTypes;
 using AI.BehaviourTree.BaseTypes.Nodes;
@@ -200,3 +201,4 @@ public sealed class NodeView : GraphNode
     }
 
 }
+#endif

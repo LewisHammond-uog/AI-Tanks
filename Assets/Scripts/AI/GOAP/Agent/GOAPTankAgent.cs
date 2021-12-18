@@ -10,7 +10,7 @@ namespace AI.GOAP.Agent
         [SerializeField] private List<Goal> agentGoals;
         [SerializeField] private List<State> startingState;
         
-        private void Start()
+        protected override void Start()
         {
             //Set goals - using the list to decrease the priority
             for (int i = 0; i < agentGoals.Count; i++)
@@ -27,6 +27,8 @@ namespace AI.GOAP.Agent
                 }
                 AddBelief(state);
             }
+            
+            base.Start();
         }
     }
 }

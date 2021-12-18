@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+#if UNITY_EDITOR
 public class InspectorView : VisualElement
 {
     //Factory that allows unity to see this Element
@@ -23,3 +24,4 @@ public class InspectorView : VisualElement
         Add(container);
     }
 }
+#endif

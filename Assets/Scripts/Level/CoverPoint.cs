@@ -69,6 +69,7 @@ public class CoverPoint : MonoBehaviour
     }
 
     //Draw debug gizmo. Ff any cover points are selected then draw all cover points
+    #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         //Render cover points if any cover point is selected
@@ -82,4 +83,5 @@ public class CoverPoint : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, CoverPointDrawRadius);
         Gizmos.color = Color.white;
     }
+    #endif
 }
