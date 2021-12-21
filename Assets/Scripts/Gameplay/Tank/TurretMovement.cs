@@ -56,14 +56,19 @@ public class TurretMovement : MonoBehaviour
     public float GetAngleToTurretTarget()
     {
         Transform turretTransform = transform;
-        Vector3 targetDirection = turretLookPoint.position - turretTransform.position;
+        //Santisze target position so that we don't rotate the turret vertically
+        Vector3 targetPosition =
+            new Vector3(turretLookPoint.position.x, transform.position.y, turretLookPoint.position.z);
+        Vector3 targetDirection = targetPosition - turretTransform.position;
         return Vector3.Angle(targetDirection, turretTransform.forward);
     }
 
     //Rotate the turret towards the turrget look at point
     private void RotateTurretToTargetPoint(float deltaTime)
     {
-        Vector3 targetDirection = turretLookPoint.position - transform.position;
+        //Santisze target position so that we don't rotate the turret vertically
+        Vector3 targetPos = new Vector3(turretLookPoint.position.x, transform.position.y, turretLookPoint.position.z);
+        Vector3 targetDirection = targetPos - transform.position;
         float stepThisFrame = turretRotationSpeed * deltaTime;
         //Calculate new direction this frame
         Vector3 newDirection =

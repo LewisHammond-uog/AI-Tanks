@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using AI;
 using UnityEditor;
 using UnityEngine;
 
@@ -28,7 +29,16 @@ namespace Sensors.Hearing
             yield return new WaitForSeconds(time);
             Destroy(gameObject);
         }
-        
+
+        private void OnTriggerEnter(Collider other)
+        {
+            //Destroy when an agent has touched us
+            if (other.TryGetComponent(out BaseAgent agent))
+            {
+                Destroy(gameObject);
+            }
+        }
+
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
