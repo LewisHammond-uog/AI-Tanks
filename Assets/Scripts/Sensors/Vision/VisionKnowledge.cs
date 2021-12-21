@@ -144,8 +144,8 @@ public class VisionKnowledge : MonoBehaviour
         {
             knownAgentAwarenessMap[agent] -= tickDownPerSecond * Time.deltaTime;
             
-            //If we have 0 or less awareness then we do not perceive this enemy anymore
-            if (knownAgentAwarenessMap[agent] <= 0)
+            //If we have 0 or less awareness then we do not perceive this enemy anymore or agent is dead
+            if (knownAgentAwarenessMap[agent] <= 0 || !agent.isActiveAndEnabled)
             {
                 knownAgentAwarenessMap.Remove(agent);
             }
