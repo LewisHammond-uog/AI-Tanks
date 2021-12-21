@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AI.Shared
+namespace AI.Shared.Blackboard
 {
     [System.Serializable]
     public class AgentBlackboard

@@ -5,6 +5,7 @@ using AI.GOAP.Actions;
 using AI.GOAP.Goals;
 using AI.GOAP.States;
 using AI.Shared;
+using AI.Shared.Blackboard;
 using UnityEngine;
 
 namespace AI.GOAP.Agent
