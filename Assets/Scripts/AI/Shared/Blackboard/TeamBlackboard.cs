@@ -12,6 +12,17 @@ namespace AI.Shared.Blackboard
 
         //Team that this blackboard is for
         public AiTeam Team { get; }
+
+        /// <summary>
+        /// Create a team blackboard for a given team
+        /// </summary>
+        /// <param name="team"></param>
+        public TeamBlackboard(AiTeam team)
+        {
+            this.Team = team;
+            entries = new List<Entry>();
+            entriesDictonary = new Dictionary<string, Entry>();
+        }
         
         /// <summary>
         /// Try and get an entry from the blackboard with a maximum age

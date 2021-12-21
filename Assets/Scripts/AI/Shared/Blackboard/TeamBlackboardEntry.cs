@@ -21,6 +21,7 @@ namespace AI.Shared.Blackboard
                 this.Key = key;
                 this.Value = value;
                 this.LastUpdateAgent = updateAgent;
+                this.Confidence = confidence;
 
                 this.LastUpdateTime = Time.realtimeSinceStartup;
             }
