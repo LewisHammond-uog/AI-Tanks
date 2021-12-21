@@ -59,6 +59,12 @@ namespace AI.GOAP.Actions
                 }
             }
             
+            //Look at enemy while fleeing
+            if (AgentBlackboard.bestEnemyToAttack)
+            {
+                Owner.TurretComponent.SetTurretLookTarget(AgentBlackboard.bestEnemyToAttack.transform);
+            }
+            
             //Check if we are at destination
             const float distanceThreshold = 0.5f;
             return Owner.MovementCompoent.IsAtDestination(distanceThreshold) ? ActionState.Success : ActionState.Running;

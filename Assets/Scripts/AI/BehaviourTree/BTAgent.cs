@@ -10,12 +10,7 @@ namespace AI.BehaviourTrees
 
         private void Start()
         {
-            //Clone the tree prefab so we have an unique instance that we can run
-            if (treePrefab != null)
-            {
-                RunningTree = treePrefab.Clone();
-                RunningTree.SetOwner(this);
-            }
+            InitTree();
         }
 
         private void Update()
@@ -24,6 +19,26 @@ namespace AI.BehaviourTrees
             {
                 RunningTree.Update();
             }
+        }
+
+        /// <summary>
+        /// Initalize the tree to run on this agent
+        /// </summary>
+        private void InitTree()
+        {
+            //Clone the tree prefab so we have an unique instance that we can run
+            if (treePrefab != null)
+            {
+                RunningTree = treePrefab.Clone();
+                RunningTree.SetOwner(this);
+            }
+        }
+
+        public override void ResetTank()
+        {
+            base.ResetTank();
+            Destroy(RunningTree);
+            InitTree();
         }
     }
 }
