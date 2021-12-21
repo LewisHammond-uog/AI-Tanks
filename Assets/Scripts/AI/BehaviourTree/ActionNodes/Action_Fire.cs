@@ -10,12 +10,12 @@ namespace AI.BehaviourTree.ActionNodes
     
         protected override NodeStatus Update_Internal()
         {
-            if (Blackboard.bestEnemyToAttack == null)
+            if (AgentBlackboard.bestEnemyToAttack == null)
             {
                 return NodeStatus.Fail;
             }
 
-            Vector3 enemyPosition = Blackboard.bestEnemyToAttack.transform.position;
+            Vector3 enemyPosition = AgentBlackboard.bestEnemyToAttack.transform.position;
             //Fire
             Owner.ShootingComponent.Fire(CalculateLaunchVelocity(enemyPosition));
         

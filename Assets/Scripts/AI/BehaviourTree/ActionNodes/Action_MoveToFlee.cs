@@ -26,14 +26,14 @@ namespace AI.BehaviourTree.ActionNodes
             if (positionSet == false)
             {
                 //Project the flee direction, see if we can go far, then less far
-                if (Owner.MovementCompoent.SetDestination(Blackboard.fleeDirection * farProjectDistance))
+                if (Owner.MovementCompoent.SetDestination(AgentBlackboard.fleeDirection * farProjectDistance))
                 {
-                    moveToPos = Owner.transform.position + Blackboard.fleeDirection * farProjectDistance;
+                    moveToPos = Owner.transform.position + AgentBlackboard.fleeDirection * farProjectDistance;
                     positionSet = true;
                 }
-                else if (Owner.MovementCompoent.SetDestination(Blackboard.fleeDirection * closeProjectDistance))
+                else if (Owner.MovementCompoent.SetDestination(AgentBlackboard.fleeDirection * closeProjectDistance))
                 {
-                    moveToPos = Owner.transform.position + Blackboard.fleeDirection * closeProjectDistance;
+                    moveToPos = Owner.transform.position + AgentBlackboard.fleeDirection * closeProjectDistance;
                     positionSet = true;
                 }
                 else

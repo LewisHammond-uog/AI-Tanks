@@ -26,7 +26,7 @@ namespace AI.BehaviourTree.ActionNodes
         protected override NodeStatus Update_Internal()
         {
             //Check if cover points on the blackboard are valid
-            if (Blackboard.validCoverPoints == null || Blackboard.validCoverPoints.Count == 0)
+            if (AgentBlackboard.validCoverPoints == null || AgentBlackboard.validCoverPoints.Count == 0)
             {
                 return NodeStatus.Fail;
             }
@@ -35,7 +35,7 @@ namespace AI.BehaviourTree.ActionNodes
             //Store the best cover point so far
             CoverPoint bestCoverPoint = null;
             float bestCoverPointScore = Mathf.NegativeInfinity;
-            foreach (CoverPoint coverPoint in Blackboard.validCoverPoints)
+            foreach (CoverPoint coverPoint in AgentBlackboard.validCoverPoints)
             {
                 float score = ScoreCoverPoint(coverPoint);
                 if (score > bestCoverPointScore)
@@ -49,12 +49,12 @@ namespace AI.BehaviourTree.ActionNodes
             //choose a stupid cover point
             if (bestCoverPointScore >= minValidCoverPointScore)
             {
-                Blackboard.bestCoverPoint = bestCoverPoint;
+                AgentBlackboard.bestCoverPoint = bestCoverPoint;
                 return NodeStatus.Success;
             }
             else
             {
-                Blackboard.bestCoverPoint = null;
+                AgentBlackboard.bestCoverPoint = null;
                 return NodeStatus.Fail;
             }
         }

@@ -34,12 +34,12 @@ namespace AI.BehaviourTree.ActionNodes
             //If we have a valid cover point then we have succeded
             if (coverPointsInRange.Count > 0)
             {
-                Blackboard.validCoverPoints = coverPointsInRange;
+                AgentBlackboard.validCoverPoints = coverPointsInRange;
                 return NodeStatus.Success;
             }
             else
             {
-                Blackboard.validCoverPoints = new List<CoverPoint>();
+                AgentBlackboard.validCoverPoints = new List<CoverPoint>();
                 return NodeStatus.Fail;
             }
         }

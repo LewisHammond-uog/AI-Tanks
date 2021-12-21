@@ -21,10 +21,10 @@ namespace AI.BehaviourTree.ActionNodes
         {
             //Build a distance sorted list of the cover points
             List<Tuple<CoverPoint, float>> coverPointDistanceList =
-                new List<Tuple<CoverPoint, float>>(Blackboard.validCoverPoints.Count);
+                new List<Tuple<CoverPoint, float>>(AgentBlackboard.validCoverPoints.Count);
 
             //Calculate the distances for each cover point
-            foreach (CoverPoint coverPoint in Blackboard.validCoverPoints)
+            foreach (CoverPoint coverPoint in AgentBlackboard.validCoverPoints)
             {
                 float distance = Vector3.Distance(Owner.transform.position, coverPoint.transform.position);
                 coverPointDistanceList.Add(new Tuple<CoverPoint, float>(coverPoint, distance));

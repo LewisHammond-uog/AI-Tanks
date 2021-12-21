@@ -8,14 +8,14 @@ namespace AI.BehaviourTree.ActionNodes
         protected override void OnEnterNode()
         {
             base.OnEnterNode();
-            Owner.TurretComponent.SetTurretLookTarget(Blackboard.bestCoverPoint.transform);
+            Owner.TurretComponent.SetTurretLookTarget(AgentBlackboard.bestCoverPoint.transform);
         }
 
         protected override NodeStatus Update_Internal()
         {
             //Get the best cover position and set that as where we want to move to
             //allow Action_MoveToPosition to handle the rest
-            moveToPos = Blackboard.bestCoverPoint.transform.position;
+            moveToPos = AgentBlackboard.bestCoverPoint.transform.position;
             return base.Update_Internal();
         }
     }

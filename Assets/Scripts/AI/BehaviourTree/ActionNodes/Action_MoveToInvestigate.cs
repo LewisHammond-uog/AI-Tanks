@@ -12,13 +12,13 @@ namespace AI.BehaviourTree.ActionNodes
         protected override void OnEnterNode()
         {
             base.OnEnterNode();
-            Owner.TurretComponent.SetTurretLookTarget(Blackboard.investigatePosition);
+            Owner.TurretComponent.SetTurretLookTarget(AgentBlackboard.investigatePosition);
         }
 
         protected override NodeStatus Update_Internal()
         {
             //Set the move to position and then call base movement
-            moveToPos = Blackboard.investigatePosition;
+            moveToPos = AgentBlackboard.investigatePosition;
             return base.Update_Internal();
         }
     }

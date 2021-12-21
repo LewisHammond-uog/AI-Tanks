@@ -37,7 +37,7 @@ namespace AI.BehaviourTree.BaseTypes
             
             //Create a blackboard and set it in the child nodes
             selfBlackboard = new AgentBlackboard();
-            TraverseChildNodes(rootNode, node => { node.Blackboard = selfBlackboard; });
+            TraverseChildNodes(rootNode, node => { node.AgentBlackboard = selfBlackboard; });
         }
         
         public NodeStatus Update()
@@ -88,7 +88,7 @@ namespace AI.BehaviourTree.BaseTypes
         {
             //Set the newOwner of all the child nodes
             TraverseChildNodes(rootNode, node => { node.Owner = newOwner; });
-            TraverseChildNodes(rootNode, node => { node.Blackboard = selfBlackboard; });
+            TraverseChildNodes(rootNode, node => { node.AgentBlackboard = selfBlackboard; });
         }
         
         public Node CreateNode(System.Type nodeType)

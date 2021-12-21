@@ -10,7 +10,7 @@ namespace AI.BehaviourTree.ActionNodes
         protected override void OnEnterNode()
         {
             base.OnEnterNode();
-            Blackboard.bestEnemyToAttack = null;
+            AgentBlackboard.bestEnemyToAttack = null;
         }
 
         protected override NodeStatus Update_Internal()
@@ -24,7 +24,7 @@ namespace AI.BehaviourTree.ActionNodes
             }
             
             //Update the blackboard
-            Blackboard.bestEnemyToAttack = bestEnemy;
+            AgentBlackboard.bestEnemyToAttack = bestEnemy;
 
             return NodeStatus.Success;
         }

@@ -38,6 +38,10 @@ public class VisionKnowledge : MonoBehaviour
     //Cahce blackboard for this agent
     private TeamBlackboard teamBlackboard;
     
+    //Static defines for the keys used to update the team blackboard
+    public const string SeenAgentKey = "SeenAgentPosition";
+    public const string LastKnownPosKey = "LastSeenAgentPos";
+    
     protected virtual void Awake()
     {
         owner = GetComponent<BaseAgent>();
@@ -85,9 +89,8 @@ public class VisionKnowledge : MonoBehaviour
         //if we have a last seen agent then update with that
         if (mostSeenAgent != null)
         {
-            const string seenAgentKey = "SeenAgentPosition";
             Vector3 seenAgentPosition = mostSeenAgent.transform.position;
-            teamBlackboard.TryAddOrUpdateEntry(seenAgentKey, seenAgentPosition, owner, seenAgentConfidence);
+            teamBlackboard.TryAddOrUpdateEntry(SeenAgentKey, seenAgentPosition, owner, seenAgentConfidence);
         }
     }
 
@@ -177,8 +180,7 @@ public class VisionKnowledge : MonoBehaviour
             new Tuple<Vector3?, float>(lastSeenPos, Time.timeSinceLevelLoad);
         
         //Update the team blackboard with this infomation
-        const string lastKnownPosKey = "LastSeenAgentPos";
-        teamBlackboard.TryAddOrUpdateEntry(lastKnownPosKey, lastSeenPos, owner);
+        teamBlackboard.TryAddOrUpdateEntry(LastKnownPosKey, lastSeenPos, owner);
     }
 
     /// <summary>
