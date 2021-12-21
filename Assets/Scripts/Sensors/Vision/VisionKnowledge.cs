@@ -229,13 +229,21 @@ public class VisionKnowledge : MonoBehaviour
     }
 
     /// <summary>
+    /// Invalidate the last known position
+    /// </summary>
+    public void InvalidateLKP()
+    {
+        //Clear LKP
+        lastKnownAgentPos = new Tuple<Vector3?, float>(null, -Mathf.NegativeInfinity);
+    }
+
+    /// <summary>
     /// Reset our vision, removing all visible agents
     /// </summary>
     public void ResetVision()
     {
         knownAgentAwarenessMap?.Clear();
-        //Clear LKP
-        lastKnownAgentPos = new Tuple<Vector3?, float>(null, -Mathf.NegativeInfinity);
+        InvalidateLKP();
     }
 }
 

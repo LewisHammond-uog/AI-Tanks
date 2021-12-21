@@ -98,7 +98,6 @@ public class TankMovement : MonoBehaviour
                 //Stuck - reset
                 Vector3 destination = movementAgent.destination;
                 movementAgent.ResetPath();
-                movementAgent.SetDestination(destination);
             }
         }
     }
