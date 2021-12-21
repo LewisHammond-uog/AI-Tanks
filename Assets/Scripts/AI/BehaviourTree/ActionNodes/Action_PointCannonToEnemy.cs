@@ -19,7 +19,7 @@ namespace AI.BehaviourTree.ActionNodes
         protected override NodeStatus Update_Internal()
         {
             //Set turret to look at enemy
-            turret.SetTurretLookTarget(Blackboard.bestEnemyToAttack.transform);
+            turret.SetTurretLookTarget(AgentBlackboard.bestEnemyToAttack.transform);
         
             //Check if we are within tolerance of looking at the enemy
             if (turret.GetAngleToTurretTarget() < aimTolerance)

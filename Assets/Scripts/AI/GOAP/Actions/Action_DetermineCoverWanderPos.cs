@@ -33,7 +33,7 @@ namespace AI.GOAP.Actions
             }
             
             //Set the cover point as the wander position and set owner knowing that it has a wander position
-            Blackboard.randomWanderPos = closestCoverPoint.transform.position;
+            AgentBlackboard.randomWanderPos = closestCoverPoint.transform.position;
             Owner.AddBelief(hasWanderPosState);
             return ActionState.Success;
         }

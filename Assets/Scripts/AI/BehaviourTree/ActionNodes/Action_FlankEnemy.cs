@@ -15,12 +15,12 @@ namespace AI.BehaviourTree.ActionNodes
         protected override NodeStatus Update_Internal()
         {
             //Check we have a valid enemy
-            if (!Blackboard.bestEnemyToAttack)
+            if (!AgentBlackboard.bestEnemyToAttack)
             {
                 return NodeStatus.Fail;
             }
 
-            Transform enemyTransform = Blackboard.bestEnemyToAttack.TurretComponent.transform;
+            Transform enemyTransform = AgentBlackboard.bestEnemyToAttack.TurretComponent.transform;
             Vector3 enemyPos = enemyTransform.position;
             Vector3 enemyBackwards = -enemyTransform.forward;
 

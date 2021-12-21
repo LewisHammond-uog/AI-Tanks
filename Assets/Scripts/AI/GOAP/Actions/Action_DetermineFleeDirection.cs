@@ -20,7 +20,7 @@ namespace AI.GOAP.Actions
                 return false;
             }
 
-            Blackboard.fleeDirection = Vector3.zero;
+            AgentBlackboard.fleeDirection = Vector3.zero;
             return true;
         }
 
@@ -44,7 +44,7 @@ namespace AI.GOAP.Actions
             Vector3 agentAvgDirection = (sumVector / visibleAgents.Count).normalized;
         
             //Go the other direction!
-            Blackboard.fleeDirection = -agentAvgDirection;
+            AgentBlackboard.fleeDirection = -agentAvgDirection;
             
             //Add Belief to agents
             Owner.AddBelief(hasFleeDirState);

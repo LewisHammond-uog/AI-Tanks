@@ -29,7 +29,7 @@ namespace AI.BehaviourTree.ActionNodes
             Vector3 agentAvgDirection = (sumVector / visibleAgents.Count).normalized;
         
             //Go the other direction!
-            Blackboard.fleeDirection = -agentAvgDirection;
+            AgentBlackboard.fleeDirection = -agentAvgDirection;
             return NodeStatus.Success;
         }
     }

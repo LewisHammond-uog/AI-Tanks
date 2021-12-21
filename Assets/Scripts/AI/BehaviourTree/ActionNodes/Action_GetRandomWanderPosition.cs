@@ -15,7 +15,7 @@ namespace AI.BehaviourTree.ActionNodes
     
         protected override NodeStatus Update_Internal()
         {
-            if (GetRandomPointOnNavMesh(out Blackboard.randomWanderPos))
+            if (GetRandomPointOnNavMesh(out AgentBlackboard.randomWanderPos))
             {
                 return NodeStatus.Success;
             }

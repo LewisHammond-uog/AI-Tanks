@@ -19,7 +19,7 @@ namespace AI.BehaviourTrees.ConditionNodes
             SoundDrop mostHeardSound = Owner.HearingKnowledgeComponent.GetMostHeardSound(hearingThreshold);
             if (mostHeardSound != null)
             {
-                Blackboard.investigatePosition = mostHeardSound.transform.position;
+                AgentBlackboard.investigatePosition = mostHeardSound.transform.position;
                 return NodeStatus.Success;
             }
 

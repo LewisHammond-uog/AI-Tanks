@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AI;
+using AI.Shared.Blackboard;
 using Sensors;
 using Sensors.Vision;
 using UnityEngine;
@@ -34,10 +35,17 @@ public class VisionKnowledge : MonoBehaviour
     
     //Owner agent of this component
     private BaseAgent owner;
+    //Cahce blackboard for this agent
+    protected TeamBlackboard teamBlackboard;
+    
+    //Static defines for the keys used to update the team blackboard
+    public const string SeenAgentKey = "SeenAgentPosition";
+    public const string LastKnownPosKey = "LastSeenAgentPos";
     
     protected virtual void Awake()
     {
         owner = GetComponent<BaseAgent>();
+        teamBlackboard = TeamBlackboardManager.GetBlackboard(owner.Team);
     }
 
     // Start is called before the first frame update
@@ -68,6 +76,22 @@ public class VisionKnowledge : MonoBehaviour
         TickDownKnowledge();
         UpdateVisionCones();
         UpdateLastSeen();
+        UpdateTeamBlackboard();
+    }
+
+    /// <summary>
+    /// Update the team blackboard with relevant infomation
+    /// </summary>
+    private void UpdateTeamBlackboard()
+    {
+        (BaseAgent mostSeenAgent, float seenAgentConfidence) = GetMostSeenAgent();
+        //If we have an agent that we can see update with this infomation, otherwise
+        //if we have a last seen agent then update with that
+        if (mostSeenAgent != null)
+        {
+            Vector3 seenAgentPosition = mostSeenAgent.transform.position;
+            teamBlackboard.TryAddOrUpdateEntry(SeenAgentKey, seenAgentPosition, owner, seenAgentConfidence);
+        }
     }
 
     /// <summary>
@@ -151,8 +175,30 @@ public class VisionKnowledge : MonoBehaviour
         }
         
         //Store the most seen agents position and now as the time we last saw it
+        Vector3 lastSeenPos = mostSeenAgentVis.Key.transform.position;
         lastKnownAgentPos =
-            new Tuple<Vector3?, float>(mostSeenAgentVis.Key.transform.position, Time.timeSinceLevelLoad);
+            new Tuple<Vector3?, float>(lastSeenPos, Time.timeSinceLevelLoad);
+        
+        //Update the team blackboard with this infomation
+        teamBlackboard.TryAddOrUpdateEntry(LastKnownPosKey, lastSeenPos, owner);
+    }
+
+    /// <summary>
+    /// Get the agent that we can see the most
+    /// </summary>
+    /// <returns></returns>
+    public Tuple<BaseAgent, float> GetMostSeenAgent()
+    {
+        //Search all of the seen agents and get the most seen one
+        Tuple<BaseAgent, float> mostSeen = new Tuple<BaseAgent, float>(null, Mathf.NegativeInfinity);
+        foreach (KeyValuePair<BaseAgent,float> agentAwarenessPair in knownAgentAwarenessMap)
+        {
+            if (agentAwarenessPair.Value > mostSeen.Item2)
+            {
+                mostSeen = new Tuple<BaseAgent, float>(agentAwarenessPair.Key, agentAwarenessPair.Value);
+            }
+        }
+        return mostSeen;
     }
 
     /// <summary>

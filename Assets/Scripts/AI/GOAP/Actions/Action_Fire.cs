@@ -24,9 +24,9 @@ namespace AI.GOAP.Actions
         {
             //Determine the enemy position default to a position 20 units away if we do not have one
             Vector3 enemyPosition = transform.forward * 20f;
-            if (Blackboard?.bestEnemyToAttack)
+            if (AgentBlackboard?.bestEnemyToAttack)
             {
-                enemyPosition = Blackboard.bestEnemyToAttack.transform.position;
+                enemyPosition = AgentBlackboard.bestEnemyToAttack.transform.position;
             }
 
 

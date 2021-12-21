@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using AI.GOAP.Agent;
 using AI.GOAP.Goals;
 using AI.GOAP.States;
+using AI.Shared;
+using AI.Shared.Blackboard;
 using UnityEngine;
 
 namespace AI.GOAP.Actions
@@ -35,7 +37,7 @@ namespace AI.GOAP.Actions
         private bool isRunning;
         
         //This actions blackboard
-        public Blackboard Blackboard { get; set; }
+        public AgentBlackboard AgentBlackboard { get; set; }
         
         //Running properties
         public enum ActionState

@@ -16,7 +16,7 @@ namespace AI.GOAP.Actions
             BaseAgent bestEnemy = Owner.DetermineBestEnemyToAttack();
             
             //Update the blackboard
-            Blackboard.bestEnemyToAttack = bestEnemy;
+            AgentBlackboard.bestEnemyToAttack = bestEnemy;
             
             //If we don't have a best agent (is null) then there were no agents on the other team, fail
             return bestEnemy == null ? ActionState.Fail : ActionState.Success;

@@ -17,7 +17,7 @@ namespace AI.GOAP.Actions
             hasSetFlankPos = false;
             
             //Check that we have a flank position
-            if (Blackboard.flankPosition == null)
+            if (AgentBlackboard.flankPosition == null)
             {
                 Owner.RemoveBelief(hasFlankPosState.key);
                 return false;
@@ -38,8 +38,8 @@ namespace AI.GOAP.Actions
             //Move to flank position if we haven't set it already
             if (!hasSetFlankPos)
             {
-                if (Blackboard.flankPosition != null)
-                    Owner.MovementCompoent.SetDestination((Vector3) Blackboard.flankPosition, true);
+                if (AgentBlackboard.flankPosition != null)
+                    Owner.MovementCompoent.SetDestination((Vector3) AgentBlackboard.flankPosition, true);
                 hasSetFlankPos = true;
             }
 

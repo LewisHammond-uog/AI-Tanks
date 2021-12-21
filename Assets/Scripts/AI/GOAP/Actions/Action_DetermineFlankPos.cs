@@ -21,19 +21,19 @@ namespace AI.GOAP.Actions
         protected override bool PrePerform()
         {
             //Check that we have a movement component and a enemy to flank
-            if (!Owner.MovementCompoent || !Blackboard?.bestEnemyToAttack)
+            if (!Owner.MovementCompoent || !AgentBlackboard?.bestEnemyToAttack)
             {
                 return false;
             }
 
-            Blackboard.flankPosition = null;
+            AgentBlackboard.flankPosition = null;
 
             return true;
         }
 
         protected override ActionState Perform_Internal()
         {
-            Transform enemyTransform = Blackboard.bestEnemyToAttack.TurretComponent.transform;
+            Transform enemyTransform = AgentBlackboard.bestEnemyToAttack.TurretComponent.transform;
             Vector3 enemyPos = enemyTransform.position;
             Vector3 enemyBackwards = -enemyTransform.forward;
 
@@ -44,12 +44,12 @@ namespace AI.GOAP.Actions
             if (Owner.MovementCompoent.SetDestination(farProjectPos))
             {
                 Owner.AddBelief(hasFlankPosState);
-                Blackboard.flankPosition = closeProjectPos;
+                AgentBlackboard.flankPosition = closeProjectPos;
                 return ActionState.Success;
             }else if (Owner.MovementCompoent.SetDestination(closeProjectPos))
             {
                 Owner.AddBelief(hasFlankPosState);
-                Blackboard.flankPosition = enemyPos + (enemyBackwards * farProjectDistance);
+                AgentBlackboard.flankPosition = enemyPos + (enemyBackwards * farProjectDistance);
                 return ActionState.Success;
             }
             else
