@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using AI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -18,10 +20,15 @@ namespace Complete
         private int m_RoundNumber;                  // Which round the game is currently on.
         private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
         private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
-        private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
-        private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
+        private AiTeam? m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
+        private AiTeam? m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
 
-
+        public Color blueTeamColour;
+        public Color redTeamColour;
+        
+        private int blueWins = 0;
+        private int redWins = 0;
+        
         private void Start()
         {
             // Create the delays so they only have to be made once.
@@ -121,7 +128,7 @@ namespace Complete
             m_MessageText.text = string.Empty;
 
             // While there is not one tank left...
-            while (!OneTankLeft())
+            while (!OneTeamLeft())
             {
                 // ... return on the next frame.
                 yield return null;
@@ -138,11 +145,14 @@ namespace Complete
             m_RoundWinner = null;
 
             // See if there is a winner now the round is over.
-            m_RoundWinner = GetRoundWinner ();
+            m_RoundWinner = GetWinningTeam ();
 
             // If there is a winner, increment their score.
             if (m_RoundWinner != null)
-                m_RoundWinner.m_Wins++;
+            {
+                redWins += m_RoundWinner == AiTeam.Red ? 1 : 0;
+                blueWins += m_RoundWinner == AiTeam.Blue ? 1 : 0;
+            }
 
             // Now the winner's score has been incremented, see if someone has one the game.
             m_GameWinner = GetGameWinner ();
@@ -157,34 +167,44 @@ namespace Complete
 
 
         // This is used to check if there is one or fewer tanks remaining and thus the round should end.
-        private bool OneTankLeft()
+        private bool OneTeamLeft()
         {
-            // Start the count of tanks left at zero.
-            int numTanksLeft = 0;
-
+            //Count number of red and blue tanks
+            int blueTanks = 0;
+            int redTanks = 0;
+            
             // Go through all the tanks...
             for (int i = 0; i < m_Tanks.Length; i++)
             {
                 // ... and if they are active, increment the counter.
                 if (m_Tanks[i].m_Instance.activeSelf)
-                    numTanksLeft++;
+                {
+                    if (m_Tanks[i].m_Instance.activeSelf &&  m_Tanks[i].m_Instance.TryGetComponent(out BaseAgent agent))
+                    {
+                        blueTanks += agent.Team == AiTeam.Blue ? 1 : 0;
+                        redTanks += agent.Team == AiTeam.Red ? 1 : 0;
+                    }
+                }
+                    
             }
 
             // If there are one or fewer tanks remaining return true, otherwise return false.
-            return numTanksLeft <= 1;
+            return blueTanks == 0 || redTanks == 0;
         }
         
         
         // This function is to find out if there is a winner of the round.
         // This function is called with the assumption that 1 or fewer tanks are currently active.
-        private TankManager GetRoundWinner()
+        private AiTeam? GetWinningTeam()
         {
             // Go through all the tanks...
             for (int i = 0; i < m_Tanks.Length; i++)
             {
                 // ... and if one of them is active, it is the winner so return it.
-                if (m_Tanks[i].m_Instance.activeSelf)
-                    return m_Tanks[i];
+                if (m_Tanks[i].m_Instance.activeSelf && m_Tanks[i].m_Instance.TryGetComponent(out BaseAgent agent))
+                {
+                    return agent.Team;
+                }
             }
 
             // If none of the tanks are active it is a draw so return null.
@@ -193,20 +213,37 @@ namespace Complete
 
 
         // This function is to find out if there is a winner of the game.
-        private TankManager GetGameWinner()
+        private AiTeam? GetGameWinner()
         {
-            // Go through all the tanks...
-            for (int i = 0; i < m_Tanks.Length; i++)
+            if (blueWins >= m_NumRoundsToWin)
             {
-                // ... and if one of them has enough rounds to win the game, return it.
-                if (m_Tanks[i].m_Wins == m_NumRoundsToWin)
-                    return m_Tanks[i];
+                return AiTeam.Blue;
+            }else if (redWins >= m_NumRoundsToWin)
+            {
+                return AiTeam.Red;
             }
 
             // If no tanks have enough rounds to win, return null.
             return null;
         }
 
+        private string GetTeamColouredText(AiTeam team)
+        {
+            Color color;
+            switch (team)
+            {
+                case AiTeam.Red:
+                    color = redTeamColour;
+                    break;
+                case AiTeam.Blue:
+                    color = blueTeamColour;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(team), team, null);
+            }
+            
+            return "<color=#" + ColorUtility.ToHtmlStringRGB(color) + ">"+ team.ToString().ToUpper() + " TEAM </color>";
+        }
 
         // Returns a string message to display at the end of each round.
         private string EndMessage()
@@ -216,20 +253,19 @@ namespace Complete
 
             // If there is a winner then change the message to reflect that.
             if (m_RoundWinner != null)
-                message = m_RoundWinner.m_ColoredPlayerText + " WINS THE ROUND!";
+                message = GetTeamColouredText((AiTeam)m_RoundWinner) + " WINS THE ROUND!";
 
             // Add some line breaks after the initial message.
             message += "\n\n\n\n";
 
-            // Go through all the tanks and add each of their scores to the message.
-            for (int i = 0; i < m_Tanks.Length; i++)
-            {
-                message += m_Tanks[i].m_ColoredPlayerText + ": " + m_Tanks[i].m_Wins + " WINS\n";
-            }
+            // Go through all the teams add each of their scores to the message.
+            message += GetTeamColouredText(AiTeam.Red) + ": " + redWins + " WINS\n";
+            message += GetTeamColouredText(AiTeam.Blue) + ": " + blueWins + " WINS\n";
+            
 
             // If there is a game winner, change the entire message to reflect that.
             if (m_GameWinner != null)
-                message = m_GameWinner.m_ColoredPlayerText + " WINS THE GAME!";
+                message = GetTeamColouredText((AiTeam)m_GameWinner) + " WINS THE GAME!";
 
             return message;
         }
@@ -240,7 +276,7 @@ namespace Complete
         {
             for (int i = 0; i < m_Tanks.Length; i++)
             {
-                m_Tanks[i].Reset();
+                Destroy(m_Tanks[i].m_Instance);
             }
         }
 
