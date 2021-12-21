@@ -276,7 +276,7 @@ namespace Complete
         {
             for (int i = 0; i < m_Tanks.Length; i++)
             {
-                Destroy(m_Tanks[i].m_Instance);
+                m_Tanks[i].Reset();
             }
         }
 
