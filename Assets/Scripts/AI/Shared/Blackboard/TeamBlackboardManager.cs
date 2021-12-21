@@ -31,5 +31,16 @@ namespace AI.Shared.Blackboard
             TeamBlackboards.Add(team, blackboard);
             return blackboard;
         }
+
+        /// <summary>
+        /// Reset all of the team blackboards
+        /// </summary>
+        public static void ResetAllBlackboards()
+        {
+            foreach (KeyValuePair<AiTeam,TeamBlackboard> teamBlackboard in TeamBlackboards)
+            {
+                teamBlackboard.Value.Reset();
+            }
+        }
     }
 }

@@ -99,6 +99,15 @@ namespace AI.Shared.Blackboard
         }
 
         /// <summary>
+        /// Reset the team blackboard
+        /// </summary>
+        public void Reset()
+        {
+            entries.Clear();
+            entriesDictonary.Clear();
+        }
+
+        /// <summary>
         /// Add or update an entry within the blackboard
         /// </summary>  
         /// <param name="key">Key of entry</param>

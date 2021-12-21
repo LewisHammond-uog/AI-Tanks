@@ -36,19 +36,35 @@ namespace Sensors.Vision.GOAP
             bool isLKPValid = IsLKPValid(agentLKPTime);
             goapOwner.ModifyBelief("RecentlySeenEnemy", isLKPValid);
             
-            //Update if our team has seen an enemy recently
-            goapOwner.ModifyBelief("TeamSeenEnemy", TeamSeenEnemy());
+            //Update if our team has seen an enemy recently, only update if we are not already in the area
+            const float localDistance = 5f; //distance to be considered already at the position
+            bool teamHasSeenEnemy = TeamSeenEnemy(out float distanceToEnemy);
+            goapOwner.ModifyBelief("TeamSeenEnemy", teamHasSeenEnemy && distanceToEnemy > localDistance);
         }
 
         /// <summary>
         /// Evalulate if our team has recently seen an enemy
         /// </summary>
         /// <returns></returns>
-        private bool TeamSeenEnemy()
+        private bool TeamSeenEnemy(out float distance)
         {
-            bool teamCurrentlySeeingEnemy = teamBlackboard.TryGetEntry(SeenAgentKey, allowedTeamKnowledgeTime, out _);
-            bool teamSeenEnemy = teamBlackboard.TryGetEntry(LastKnownPosKey, allowedTeamKnowledgeTime, out _);
-            return teamCurrentlySeeingEnemy || teamSeenEnemy;
+            TeamBlackboard.Entry blackboardEntry;
+            bool seenEnemy = false;
+            distance = float.PositiveInfinity;
+            
+            seenEnemy = teamBlackboard.TryGetEntry(SeenAgentKey, allowedTeamKnowledgeTime, out blackboardEntry);
+            if (blackboardEntry == null)
+            {
+                seenEnemy = teamBlackboard.TryGetEntry(LastKnownPosKey, allowedTeamKnowledgeTime, out blackboardEntry);
+            }
+
+            //If we had an entry record our distance to it
+            if (blackboardEntry != null)
+            {
+                distance = Vector3.Distance(transform.position, blackboardEntry.Value);
+            }
+            
+            return seenEnemy;
         }
 
         private bool IsLKPValid(Tuple<Vector3?, float> lkpPair)

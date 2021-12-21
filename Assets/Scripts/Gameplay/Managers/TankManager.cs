@@ -1,5 +1,6 @@
 ﻿using System;
 using AI;
+using AI.Shared.Blackboard;
 using UnityEngine;
 
 namespace Complete
@@ -71,6 +72,9 @@ namespace Complete
         {
             //Reset tank values
             agent.ResetTank();
+            
+            //Reset team blackboards
+            TeamBlackboardManager.ResetAllBlackboards();
 
             m_Instance.transform.position = m_SpawnPoint.position;
             m_Instance.transform.rotation = m_SpawnPoint.rotation;
