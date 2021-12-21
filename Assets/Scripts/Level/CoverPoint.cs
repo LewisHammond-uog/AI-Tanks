@@ -7,6 +7,7 @@ using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEngine.AI;
 #endif
 
 /// <summary>
@@ -70,6 +71,16 @@ public class CoverPoint : MonoBehaviour
 
     //Draw debug gizmo. Ff any cover points are selected then draw all cover points
     #if UNITY_EDITOR
+
+    private void OnValidate()
+    {
+        //Check that we are on the navmesh
+        if (!NavMesh.SamplePosition(transform.position, out _, 1f, NavMesh.AllAreas))
+        {
+            Debug.LogWarning($"Cover Point {name} is not on the navmesh consider moving it to a point that is");
+        }
+    }
+
     private void OnDrawGizmos()
     {
         //Render cover points if any cover point is selected
