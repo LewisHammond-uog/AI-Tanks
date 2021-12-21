@@ -37,7 +37,7 @@ namespace AI.GOAP.Actions
         private bool isRunning;
         
         //This actions blackboard
-        public AgentBlackboard Blackboard { get; set; }
+        public AgentBlackboard AgentBlackboard { get; set; }
         
         //Running properties
         public enum ActionState

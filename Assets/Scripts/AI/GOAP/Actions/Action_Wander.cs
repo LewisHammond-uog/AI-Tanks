@@ -13,16 +13,16 @@ namespace AI.GOAP.Actions
         protected override bool PrePerform()
         {
             //Set Turret to look forwards
-            Owner.TurretComponent.SetTurretLookTarget(Blackboard.randomWanderPos);
+            Owner.TurretComponent.SetTurretLookTarget(AgentBlackboard.randomWanderPos);
             return true;
         }
 
         protected override ActionState Perform_Internal()
         {
             //Set Destination if we don't already have it set
-            if (Owner.MovementCompoent.Destination != Blackboard.randomWanderPos)
+            if (Owner.MovementCompoent.Destination != AgentBlackboard.randomWanderPos)
             {
-                Owner.MovementCompoent.SetDestination(Blackboard.randomWanderPos, true);
+                Owner.MovementCompoent.SetDestination(AgentBlackboard.randomWanderPos, true);
             }
 
             return ActionState.Success;

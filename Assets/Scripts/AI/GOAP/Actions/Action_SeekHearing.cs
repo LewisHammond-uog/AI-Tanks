@@ -15,7 +15,7 @@ namespace AI.GOAP.Actions
             SoundDrop mostHeardSound = Owner.HearingKnowledgeComponent.GetMostHeardSound();
             if (Owner.HearingKnowledgeComponent && mostHeardSound != null)
             {
-                Blackboard.investigatePosition = mostHeardSound.transform.position;
+                AgentBlackboard.investigatePosition = mostHeardSound.transform.position;
                 Debug.Log("Investigating sound!");
             }else
             {
@@ -24,7 +24,7 @@ namespace AI.GOAP.Actions
             }
             
             //Set Turret to look at LKP
-            Owner.TurretComponent.SetTurretLookTarget(Blackboard.investigatePosition);
+            Owner.TurretComponent.SetTurretLookTarget(AgentBlackboard.investigatePosition);
             return true;
 
         }

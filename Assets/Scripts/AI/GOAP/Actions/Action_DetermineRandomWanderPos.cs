@@ -24,7 +24,7 @@ namespace AI.GOAP.Actions
             //Choose a random position on the nav mesh
             if (Owner.GetRandomPointOnNavMesh(out Vector3 randomPos, wanderRadius))
             {
-                Blackboard.randomWanderPos = randomPos;
+                AgentBlackboard.randomWanderPos = randomPos;
                 Owner.AddBelief(hasWanderPosState);
                 return ActionState.Success;
             }

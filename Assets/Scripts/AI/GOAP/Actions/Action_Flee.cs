@@ -20,7 +20,7 @@ namespace AI.GOAP.Actions
         protected override bool PrePerform()
         {
             //Check that we have a valid direction
-            if (Blackboard?.fleeDirection == Vector3.zero)
+            if (AgentBlackboard?.fleeDirection == Vector3.zero)
             {
                 return false;
             }
@@ -42,12 +42,12 @@ namespace AI.GOAP.Actions
             if (positionSet == false)
             {
                 //Project the flee direction, see if we can go far, then less far
-                if (Owner.MovementCompoent.SetDestination(Blackboard.fleeDirection * farProjectDistance, true))
+                if (Owner.MovementCompoent.SetDestination(AgentBlackboard.fleeDirection * farProjectDistance, true))
                 {
                     positionSet = true;
                     return ActionState.Running;
                 }
-                else if (Owner.MovementCompoent.SetDestination(Blackboard.fleeDirection * closeProjectDistance, true))
+                else if (Owner.MovementCompoent.SetDestination(AgentBlackboard.fleeDirection * closeProjectDistance, true))
                 {
                     positionSet = true;
                     return ActionState.Running;

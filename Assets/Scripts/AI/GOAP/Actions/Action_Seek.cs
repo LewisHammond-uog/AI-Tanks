@@ -8,7 +8,7 @@ namespace AI.GOAP.Actions
         protected override ActionState Perform_Internal()
         {
             //Move to LKP
-            if (!Owner.MovementCompoent.SetDestination(Blackboard.investigatePosition, true))
+            if (!Owner.MovementCompoent.SetDestination(AgentBlackboard.investigatePosition, true))
             {
                 return ActionState.Fail;
             }

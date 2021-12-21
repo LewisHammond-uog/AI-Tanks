@@ -16,7 +16,7 @@ namespace AI.GOAP.Actions
         protected override bool PrePerform()
         {
             //If we don't have an enemy to attack then fail
-            if (!Blackboard?.bestEnemyToAttack)
+            if (!AgentBlackboard?.bestEnemyToAttack)
             {
                 return false;
             }
@@ -38,7 +38,7 @@ namespace AI.GOAP.Actions
             //Set to rotate the turret towards the enemy
             if (!setToRotate)
             {
-                Owner.TurretComponent.SetTurretLookTarget(Blackboard.bestEnemyToAttack.transform);
+                Owner.TurretComponent.SetTurretLookTarget(AgentBlackboard.bestEnemyToAttack.transform);
                 setToRotate = true;
             }
         

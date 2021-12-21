@@ -15,7 +15,7 @@ namespace AI.GOAP.Actions
             Vector3? lastSeenAgent = Owner.VisionKnowledgeComponent.GetLastSeenAgentPosition().Item1;
             if (Owner.VisionKnowledgeComponent && lastSeenAgent != null)
             {
-                Blackboard.investigatePosition = (Vector3)Owner.VisionKnowledgeComponent.GetLastSeenAgentPosition().Item1;
+                AgentBlackboard.investigatePosition = (Vector3)Owner.VisionKnowledgeComponent.GetLastSeenAgentPosition().Item1;
             }else
             {
                 Owner.RemoveBelief(validLKPState.key);
@@ -23,7 +23,7 @@ namespace AI.GOAP.Actions
             }
 
             //Set Turret to look at LKP
-            Owner.TurretComponent.SetTurretLookTarget(Blackboard.investigatePosition);
+            Owner.TurretComponent.SetTurretLookTarget(AgentBlackboard.investigatePosition);
             
             return true;
 

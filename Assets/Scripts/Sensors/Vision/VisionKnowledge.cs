@@ -36,7 +36,7 @@ public class VisionKnowledge : MonoBehaviour
     //Owner agent of this component
     private BaseAgent owner;
     //Cahce blackboard for this agent
-    private TeamBlackboard teamBlackboard;
+    protected TeamBlackboard teamBlackboard;
     
     //Static defines for the keys used to update the team blackboard
     public const string SeenAgentKey = "SeenAgentPosition";

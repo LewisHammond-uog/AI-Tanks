@@ -198,7 +198,7 @@ namespace AI.GOAP.Agent
             foreach (Action action in actions)
             {
                 action.SetOwner(this);
-                action.Blackboard = agentBlackboard;
+                action.AgentBlackboard = agentBlackboard;
             }
         }
         
