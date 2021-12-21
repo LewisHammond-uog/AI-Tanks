@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class TankMovement : MonoBehaviour
@@ -41,12 +42,18 @@ public class TankMovement : MonoBehaviour
         
         // When the tank is turned on, make sure it's not kinematic.
         m_Rigidbody.isKinematic = false;
+
+        //Start coroutine to detect if we are stuck
+        StartCoroutine(SolveStuck());
     }
 
     private void OnDisable ()
     {
         // When the tank is turned off, set it to kinematic so it stops moving.
         m_Rigidbody.isKinematic = true;
+        
+        //Stop all coroutines
+        StopAllCoroutines();
     }
     
 
@@ -77,6 +84,23 @@ public class TankMovement : MonoBehaviour
     public bool IsAtDestination(float threshold = 2f)
     {
         return Vector3.Distance(transform.position, movementAgent.destination) <= threshold;
+    }
+
+    private IEnumerator SolveStuck()
+    {
+        YieldInstruction wait = new WaitForSeconds(1f);
+        while (true)
+        {
+            //Wait until we have zero veolcity and we should be going somewhere
+            yield return wait;
+            if (!movementAgent.pathPending && movementAgent.hasPath && movementAgent.velocity.sqrMagnitude == 0f)
+            {
+                //Stuck - reset
+                Vector3 destination = movementAgent.destination;
+                movementAgent.ResetPath();
+                movementAgent.SetDestination(destination);
+            }
+        }
     }
 
 }
