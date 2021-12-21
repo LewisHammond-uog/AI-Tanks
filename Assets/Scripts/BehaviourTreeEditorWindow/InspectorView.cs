@@ -19,9 +19,12 @@ public class InspectorView : VisualElement
         UnityEngine.Object.DestroyImmediate(nodeInspector);
         
         //Create an editor (inspector) of the properties expose on the node
-        nodeInspector = Editor.CreateEditor(nodeView.node);
-        IMGUIContainer container = new IMGUIContainer(nodeInspector.OnInspectorGUI);
-        Add(container);
+        if (nodeView != null)
+        {
+            nodeInspector = Editor.CreateEditor(nodeView.node);
+            IMGUIContainer container = new IMGUIContainer(nodeInspector.OnInspectorGUI);
+            Add(container);
+        }
     }
 }
 #endif

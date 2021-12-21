@@ -157,7 +157,10 @@ public class BehaviourTreeEditor : UnityEditor.EditorWindow
     private void OnNodeSelectionChanged(NodeView nodeView)
     {
         //Update the inspector view to show properties 
-        inspectorView.UpdateSelection(nodeView);
+        if (nodeView != null && treeView != null)
+        {
+            inspectorView.UpdateSelection(nodeView);
+        }
     }
 }
 #endif
