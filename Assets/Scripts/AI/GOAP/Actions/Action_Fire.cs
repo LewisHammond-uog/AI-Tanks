@@ -8,6 +8,10 @@ namespace AI.GOAP.Actions
         [SerializeField] private State canFireState;
         [SerializeField] private State hasValidEnemyState;
         
+        //Values for what range we can multiply the velocity by to add randomness to our firing
+        [SerializeField] private float minVelocityInfluence = 0.85f;
+        [SerializeField] private float maxVeolcityInfluence = 1.15f;
+        
         protected override bool PrePerform()
         {
             //Double check that we can fire
@@ -24,13 +28,18 @@ namespace AI.GOAP.Actions
         {
             //Determine the enemy position default to a position 20 units away if we do not have one
             Vector3 enemyPosition = transform.forward * 20f;
+            Vector3 enemyVelocity = Vector3.zero;
             if (AgentBlackboard?.bestEnemyToAttack)
             {
                 enemyPosition = AgentBlackboard.bestEnemyToAttack.transform.position;
+                enemyVelocity = AgentBlackboard.bestEnemyToAttack.MovementCompoent.Velocity;
             }
+            
+            //Calculate with velocity (and some added randomness)
+            float velocityInfluence = Random.Range(minVelocityInfluence, maxVeolcityInfluence);
+            Vector3 fireAtPos = enemyPosition + (enemyVelocity * velocityInfluence);
 
-
-            Owner.ShootingComponent.Fire(PhysicsHelpers.CalculateLaunchVelocity(enemyPosition, Owner.ShootingComponent.FireTransform));
+            Owner.ShootingComponent.Fire(PhysicsHelpers.CalculateLaunchVelocity(fireAtPos, Owner.ShootingComponent.FireTransform));
             return ActionState.Success;
         }
 

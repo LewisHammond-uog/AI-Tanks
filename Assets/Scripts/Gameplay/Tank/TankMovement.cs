@@ -9,6 +9,7 @@ public class TankMovement : MonoBehaviour
     private NavMeshAgent movementAgent; //Navmesh Agent used for Navigation
 
     public float Speed => movementAgent ? movementAgent.velocity.magnitude : 0f;
+    public Vector3 Velocity => movementAgent ? movementAgent.velocity : Vector3.zero;
 
     public Vector3? Destination
     {

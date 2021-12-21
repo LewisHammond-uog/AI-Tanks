@@ -7,7 +7,10 @@ namespace AI.BehaviourTree.ActionNodes
 {
     public class Action_Fire : ActionNode
     {
-    
+        //Values for what range we can multiply the velocity by to add randomness to our firing
+        [SerializeField] private float minVelocityInfluence = 0.85f;
+        [SerializeField] private float maxVeolcityInfluence = 1.15f;
+        
         protected override NodeStatus Update_Internal()
         {
             if (AgentBlackboard.bestEnemyToAttack == null)
@@ -16,8 +19,14 @@ namespace AI.BehaviourTree.ActionNodes
             }
 
             Vector3 enemyPosition = AgentBlackboard.bestEnemyToAttack.transform.position;
+            Vector3 enemyVelocity = AgentBlackboard.bestEnemyToAttack.MovementCompoent.Velocity;
+            
+            //Calculate with velocity (and some added randomness)
+            float velocityInfluence = Random.Range(minVelocityInfluence, maxVeolcityInfluence);
+            Vector3 fireAtPos = enemyPosition + (enemyVelocity * velocityInfluence);
+            
             //Fire
-            Owner.ShootingComponent.Fire(CalculateLaunchVelocity(enemyPosition));
+            Owner.ShootingComponent.Fire(CalculateLaunchVelocity(fireAtPos));
         
             return NodeStatus.Success;
         }
