@@ -32,6 +32,9 @@ namespace AI.BehaviourTree.ActionNodes
                 Owner.MovementCompoent.SetDestination((Vector3) moveToPos, startMovementOnRouteFound);
             }
         
+            //Look at move pos
+            Owner.TurretComponent.SetTurretLookTarget((Vector3)moveToPos);
+            
             //Check if we are at the destination, if we are then we succeded otherwise we are still running
             return Owner.MovementCompoent.IsAtDestination() ? NodeStatus.Success : NodeStatus.Running;
         }

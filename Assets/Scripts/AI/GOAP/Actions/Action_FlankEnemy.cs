@@ -42,6 +42,12 @@ namespace AI.GOAP.Actions
                     Owner.MovementCompoent.SetDestination((Vector3) AgentBlackboard.flankPosition, true);
                 hasSetFlankPos = true;
             }
+            
+            //Set to look at enemy
+            if (AgentBlackboard.bestEnemyToAttack)
+            {
+                Owner.TurretComponent.SetTurretLookTarget(AgentBlackboard.bestEnemyToAttack.transform);
+            }
 
             //If we are at the destination then return success otherwise running
             if (Owner.MovementCompoent.IsAtDestination())
