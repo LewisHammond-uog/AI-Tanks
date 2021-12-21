@@ -4,6 +4,7 @@ using System.Linq;
 using AI.GOAP.Actions;
 using AI.GOAP.Goals;
 using AI.GOAP.States;
+using AI.Shared;
 using UnityEngine;
 
 namespace AI.GOAP.Agent
@@ -191,7 +192,7 @@ namespace AI.GOAP.Agent
         private void SetupActions()
         {
             //Create a blackboard
-            Blackboard agentBlackboard = new Blackboard();
+            AgentBlackboard agentBlackboard = new AgentBlackboard();
             
             foreach (Action action in actions)
             {

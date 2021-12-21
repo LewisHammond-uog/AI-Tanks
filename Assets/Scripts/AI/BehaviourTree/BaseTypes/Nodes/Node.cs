@@ -1,4 +1,5 @@
 using AI.BehaviourTrees;
+using AI.Shared;
 using UnityEngine;
 
 namespace AI.BehaviourTree.BaseTypes.Nodes
@@ -6,7 +7,7 @@ namespace AI.BehaviourTree.BaseTypes.Nodes
     public abstract class Node : ScriptableObject
     {
         public BTAgent Owner { get; set; }
-        public Blackboard Blackboard { get; set; }
+        public AgentBlackboard Blackboard { get; set; }
 
         public bool IsRunning { get; private set; }
         
