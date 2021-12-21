@@ -261,6 +261,12 @@ namespace AI.GOAP.Agent
             base.ResetTank();
             //Reset all of our beliefs
             agentBeliefs.Reset();
+            
+            //Reset Plan finding
+            actionQueue = null;
+            isPlanning = false;
+            newPlanRequired = true;
+            StopAllCoroutines();
         }
     }
 }
