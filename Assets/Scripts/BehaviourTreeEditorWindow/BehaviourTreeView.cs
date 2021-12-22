@@ -153,15 +153,12 @@ public class BehaviourTreeView : GraphView
             endPort.node != startPort.node //Do not allow nodes to connect to themselves
         ).ToList();
     }
-
-    //todo change this to use search
+    
     //Override the default behabiour of the content menu (when you right click on the graph)
     //to show the nodes we can create
     public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
     {
         //base.BuildContextualMenu(evt);
-
-        //todo clean this up
         TypeCache.TypeCollection actionTypes = TypeCache.GetTypesDerivedFrom<BTNode>();
 
         foreach (Type type in actionTypes)

@@ -10,7 +10,6 @@ namespace AI.BehaviourTree.BaseTypes.Nodes
         //Connected Children of this node
         [SerializeField] protected List<Node> children = new List<Node>();
         //List of nodes that should always be checked when executing the composite
-        //todo convert to list of conditions if we implement them
         [SerializeField] protected List<Node> alwaysCheckNodes = new List<Node>();
 
         /// <summary>

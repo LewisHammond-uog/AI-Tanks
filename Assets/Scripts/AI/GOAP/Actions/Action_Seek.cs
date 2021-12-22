@@ -5,15 +5,11 @@ namespace AI.GOAP.Actions
 {
     public abstract class Action_Seek : Action
     {
-        //Is our destintation set?
-        private bool isDestSet = true;
-
         //Interupt if we can see an enemy
         [SerializeField] private State CanSeeEnemyState;
         
         protected override bool PrePerform()
         {
-            isDestSet = false;
             return true;
         }
 
@@ -32,7 +28,6 @@ namespace AI.GOAP.Actions
                 {
                     return ActionState.Fail;
                 }
-                isDestSet = true;
             }
             
             //If we are not at the destination then we are running
@@ -51,7 +46,6 @@ namespace AI.GOAP.Actions
             if (Owner.MovementCompoent.IsAtDestination())
             {
                 Owner.VisionKnowledgeComponent.InvalidateLKP();
-                Debug.Log("Is at Dest, Invalidating LKP");
             }
             
             

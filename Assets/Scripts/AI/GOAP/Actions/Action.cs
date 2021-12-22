@@ -124,7 +124,6 @@ namespace AI.GOAP.Actions
                     return false;
                 }
                 
-                //todo replace state comparision
                 //Compare the values of the object types
                 bool valuesAreNotEqual = false;
                 if (pCondition.Value is IComparable)

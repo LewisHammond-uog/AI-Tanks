@@ -16,7 +16,6 @@ namespace AI.GOAP.Actions
             if (Owner.HearingKnowledgeComponent && mostHeardSound != null)
             {
                 AgentBlackboard.investigatePosition = mostHeardSound.transform.position;
-                Debug.Log("Investigating sound!");
             }else
             {
                 Owner.RemoveBelief(validSoundState.key);

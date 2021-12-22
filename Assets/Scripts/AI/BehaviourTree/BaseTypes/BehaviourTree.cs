@@ -17,8 +17,7 @@ namespace AI.BehaviourTree.BaseTypes
         
         //Blackboard used for this tree instance
         public AgentBlackboard selfBlackboard;
-
-        //todo private this
+        
         public RootNode rootNode;
         public NodeStatus treeState;
 
