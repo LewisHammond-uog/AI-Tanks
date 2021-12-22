@@ -75,7 +75,7 @@ public class CoverPoint : MonoBehaviour
     private void OnValidate()
     {
         //Check that we are on the navmesh
-        if (!NavMesh.SamplePosition(transform.position, out _, 1f, NavMesh.AllAreas))
+        if (!NavMesh.SamplePosition(transform.position, out _, 1f, NavMesh.AllAreas) && isActiveAndEnabled)
         {
             Debug.LogWarning($"Cover Point {name} is not on the navmesh consider moving it to a point that is");
         }
